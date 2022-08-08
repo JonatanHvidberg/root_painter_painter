@@ -101,7 +101,7 @@ def test_ney_model(out_path):
 
     tiles= im_utils.get_tiles(image, in_tile_shape=(in_w, in_w, 4), out_tile_shape=(out_w, out_w))
 
-    print(tiles.shape)
+    print(np.shape.(tiles))
 
     segmented = model_utils.ensemble_segment([syncdir+project+'/models_models/000001_1659961126.pkl'], image, bs, in_w, out_w)
 
