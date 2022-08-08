@@ -27,6 +27,17 @@ def create_first_model_with_random_weights(model_dir):
     torch.save(model.state_dict(), model_path)
     model.cuda()
     return model
+
+def load_model(model_path):
+    model = UNetGNRes()
+    try:
+        model.load_state_dict(torch.load(model_path))
+        model = torch.nn.DataParallel(model)
+    except:
+        model = torch.nn.DataParallel(model)
+        model.load_state_dict(torch.load(model_path))
+    model.cuda()
+    return model
 '''
 ====================================================================================================
 '''
@@ -50,8 +61,8 @@ def image_and_segmentation(imageDir, imageSegDir):
             if (imageSeg[x][y][3] != 0):
                 imageVitSeg[x][y][3]=255
                 
-    print(np.shape(imageVitSeg))
-    pass
+    
+    return imageVitSeg
 
 def dif_seg_aaa(imageSegDir, imageValDir, imageSaveDir):
     imageSeg = imread(imageSegDir) #shut be models model segrigation /home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png
@@ -73,13 +84,52 @@ def dif_seg_aaa(imageSegDir, imageValDir, imageSaveDir):
     im_utils.save_then_move(imageSaveDir, imageValVal)
     pass
 
-def test_ney_model():
+def test_ney_model(out_path):
     #make model 
-    models=create_first_model_with_random_weights()
+    models=load_model(syncdir+project+'/models_models/000001_1659961126.pkl')
 
-    #get_tiles()
+    imagedir = syncdir+datasets+'/B1-1_000.jpg'
+    imageSegDir = syncdir+project+segmentations+ '/B1-1_000.png'
 
+    image = image_and_segmentation(imagedir,imageSegDir)
+
+    print(np.shape(image))
+
+    #load imig
+    #B9-1_002.png
+    #B1-1_000.png god
+
+    tiles= im_utils.get_tiles(image, in_tile_shape=(in_w, in_w, 4), out_tile_shape=(out_w, out_w))
+
+    print(tiles.shape)
+
+    segmented = model_utils.ensemble_segment([syncdir+project+'/models_models/000001_1659961126.pkl'], image, bs, in_w, out_w)
+
+
+    seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 4))
+    seg_alpha[segmented > 0] = [0, 1.0, 1.0, 0.7]
+
+    seg_alpha  = (seg_alpha * 255).astype(np.uint8)
+
+    im_utils.save_then_move(out_path, seg_alpha)
     pass
+
+'''
+Data
+'''
+in_w = 572
+out_w = 500
+mem_per_item = 3800000000
+total_mem = 0
+print('GPU Available', torch.cuda.is_available())
+for i in range(torch.cuda.device_count()):
+    total_mem += torch.cuda.get_device_properties(i).total_memory
+bs = total_mem // mem_per_item
+bs = min(12, bs)
+print('Batch size', bs)
+'''
+'''
+
 
 syncdir = '/content/drive/MyDrive/drive_rp_sync'
 datasets = '/datasets/biopores_750_training'
@@ -91,7 +141,10 @@ val = '/annotations/val'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
 
-create_first_model_with_random_weights(syncdir+project+'/models_models')
+test_ney_model(syncdir+project+'/models_models/B1-1_000.png')
+
+#create_first_model_with_random_weights(syncdir+project+'/models_models')
+
 #image_and_segmentation('/home/jonatan/Documents/diku/BA/testbil/org/B85-1_000.jpg' ,'/home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png')
 #dif_seg_aaa()
 
