@@ -17,6 +17,7 @@ from model_utils
 '''
 def create_first_model_with_random_weights(model_dir):
     # used when no model was specified on project creation.
+    os.mkdir(model_dir)
     model_num = 1
     model_name = str(model_num).zfill(6)
     model_name += '_' + str(int(round(time.time()))) + '.pkl'
@@ -89,6 +90,7 @@ val = '/annotations/val'
 
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
+
 create_first_model_with_random_weights(syncdir+project+'/models_models')
 #image_and_segmentation('/home/jonatan/Documents/diku/BA/testbil/org/B85-1_000.jpg' ,'/home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png')
 #dif_seg_aaa()
