@@ -2,6 +2,7 @@
 
 import model_utils
 import im_utils
+import time
 import numpy as np
 from skimage.io import imread, imsave
 from skimage import color
