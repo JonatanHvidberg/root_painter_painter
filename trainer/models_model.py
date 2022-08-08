@@ -99,9 +99,10 @@ def test_ney_model(out_path):
     #B9-1_002.png
     #B1-1_000.png god
 
-    tiles= im_utils.get_tiles(image, in_tile_shape=(in_w, in_w, 4), out_tile_shape=(out_w, out_w))
+    tiles, coords = im_utils.get_tiles(image, in_tile_shape=(in_w, in_w, 4), out_tile_shape=(out_w, out_w))
 
-    print(np.shape.(tiles))
+    print(coords)
+    print(tiles)
 
     segmented = model_utils.ensemble_segment([syncdir+project+'/models_models/000001_1659961126.pkl'], image, bs, in_w, out_w)
 
