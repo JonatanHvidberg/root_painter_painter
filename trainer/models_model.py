@@ -38,6 +38,32 @@ def load_model(model_path):
         model.load_state_dict(torch.load(model_path))
     model.cuda()
     return model
+
+def ensemble_segment(model_paths, image, bs, in_w, out_w,
+                     threshold=0.5):
+    """ Average predictions from each model specified in model_paths """
+    pred_sum = None
+    pred_count = 0
+    # then add predictions from the previous models to form an ensemble
+    for model_path in model_paths:
+        cnn = load_model(model_path)
+        preds = model_utils.unet_segment(cnn, image,
+                             bs, in_w, out_w, threshold=None)
+        if pred_sum is not None:
+            pred_sum += preds
+        else:
+            pred_sum = preds
+        pred_count += 1
+        # get flipped version too (test time augmentation)
+        flipped_im = np.fliplr(image)
+        flipped_pred = model_utils.unet_segment(cnn, flipped_im, bs, in_w,
+                                    out_w, threshold=None)
+        pred_sum += np.fliplr(flipped_pred)
+        pred_count += 1
+    foreground_probs = pred_sum / pred_count
+    predicted = foreground_probs > threshold
+    predicted = predicted.astype(int)
+    return predicted
 '''
 ====================================================================================================
 '''
@@ -86,7 +112,7 @@ def dif_seg_aaa(imageSegDir, imageValDir, imageSaveDir):
 
 def test_ney_model(out_path):
     #make model 
-    models=load_model(syncdir+project+'/models_models/000001_1659961126.pkl')
+    #models=load_model(syncdir+project+'/models_models/000001_1659961126.pkl')
 
     imagedir = syncdir+datasets+'/B1-1_000.jpg'
     imageSegDir = syncdir+project+segmentations+ '/B1-1_000.png'
@@ -104,7 +130,7 @@ def test_ney_model(out_path):
     print(coords)
     print(tiles)
 
-    segmented = model_utils.ensemble_segment([syncdir+project+'/models_models/000001_1659961126.pkl'], image, bs, in_w, out_w)
+    segmented = ensemble_segment([syncdir+project+'/models_models/000001_1659961126.pkl'], image, bs, in_w, out_w)
 
 
     seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 4))
