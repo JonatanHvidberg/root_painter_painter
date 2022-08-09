@@ -10,6 +10,7 @@ import numpy as np
 from skimage.io import imread, imsave
 from skimage import color, img_as_float32
 import torch
+from torch.nn.functional import softmax
 
 '''
 from model_utils thens to mage my model
