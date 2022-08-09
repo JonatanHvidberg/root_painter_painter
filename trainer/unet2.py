@@ -38,8 +38,8 @@ class DownBlock(nn.Module):
         out2 = self.conv1(out1)
         out3 = self.conv2(out2)
         out4 = self.conv1x1(out3)
-        print(np.shaps(out4))
-        print(np.shaps(out1))
+        print(np.shape(out4))
+        print(np.shape(out1))
         return out4 + out1
 
 
