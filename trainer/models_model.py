@@ -115,7 +115,8 @@ def test_ney_model(out_path):
     imagedir = syncdir+datasets+'/B1-1_000.jpg'
     imageSegDir = syncdir+project+segmentations+ '/B1-1_000.png'
 
-    image = image_and_segmentation(imagedir,imageSegDir)
+    #image = image_and_segmentation(imagedir,imageSegDir)
+    image = im_utils.load_image(imagedir)
 
     #load imig
     #B9-1_002.png
