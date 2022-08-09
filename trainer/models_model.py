@@ -180,7 +180,8 @@ def test_ney_model(out_path):
     tiles, coords = im_utils.get_tiles(image, in_tile_shape=(in_w, in_w, 4), out_tile_shape=(out_w, out_w))
 
 
-    segmented = ensemble_segment([syncdir+project+'/models_models/000001_1659961126.pkl'], image, bs, in_w, out_w)
+    #segmented = ensemble_segment([syncdir+project+'/models_models/000001_1659961126.pkl'], image, bs, in_w, out_w)
+    segmented = ensemble_segment([syncdir+project+'/models_models/000001_test_1660051004.pkl'], image, bs, in_w, out_w)
 
 
     seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 4))
@@ -218,9 +219,9 @@ val = '/annotations/val'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
 
-#test_ney_model(syncdir+project+'/models_models/B1-1_000.png')
+test_ney_model(syncdir+project+'/models_models/B1-1_000.png')
 
-create_first_model_with_random_weights(syncdir+project+'/models_models')
+#create_first_model_with_random_weights(syncdir+project+'/models_models')
 
 #image_and_segmentation('/home/jonatan/Documents/diku/BA/testbil/org/B85-1_000.jpg' ,'/home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png')
 #dif_seg_aaa()
