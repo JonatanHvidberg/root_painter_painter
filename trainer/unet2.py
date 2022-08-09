@@ -9,6 +9,7 @@ cos of the exter in put
 
 """
 import torch.nn as nn
+import numpy as np
 
 class DownBlock(nn.Module):
     def __init__(self, in_channels):
@@ -37,6 +38,8 @@ class DownBlock(nn.Module):
         out2 = self.conv1(out1)
         out3 = self.conv2(out2)
         out4 = self.conv1x1(out3)
+        print(np.shaps(out4))
+        print(np.shaps(out1))
         return out4 + out1
 
 
