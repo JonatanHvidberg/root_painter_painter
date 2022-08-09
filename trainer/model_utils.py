@@ -176,7 +176,7 @@ def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
     assert image.shape[1] >= in_w, str(image.shape[1])
 
     tiles, coords = im_utils.get_tiles(image,
-                                       in_tile_shape=(in_w, in_w, 3),
+                                       in_tile_shape=(in_w, in_w, 4),
                                        out_tile_shape=(out_w, out_w))
     tile_idx = 0
     batches = []
@@ -188,7 +188,7 @@ def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
                 print('shape(tile)')
                 print(np.shape(tile))
                 tile = img_as_float32(tile)
-                print(np.shape(tile))
+                print(tile)
                 tile = im_utils.normalize_tile(tile)
                 tile = np.moveaxis(tile, -1, 0)
                 tile_idx += 1

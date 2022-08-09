@@ -47,8 +47,8 @@ def ensemble_segment(model_paths, image, bs, in_w, out_w,
     # then add predictions from the previous models to form an ensemble
     for model_path in model_paths:
         cnn = load_model(model_path)
-        preds = model_utils.unet_segment(cnn, image,
-                             bs, in_w, out_w, threshold=None)
+
+        preds = model_utils.unet_segment(cnn, image, bs, in_w, out_w, threshold=None)
         if pred_sum is not None:
             pred_sum += preds
         else:
@@ -71,9 +71,7 @@ def ensemble_segment(model_paths, image, bs, in_w, out_w,
 def image_and_segmentation(imageDir, imageSegDir):
     image = im_utils.load_image(imageDir)
     imageSeg = imread(imageSegDir)
-    print(np.shape(image))
 
-    print(np.shape(imageSeg))
 
     imageVitSeg=np.zeros([(image).shape[0],(image).shape[1],4])
 
@@ -119,16 +117,12 @@ def test_ney_model(out_path):
 
     image = image_and_segmentation(imagedir,imageSegDir)
 
-    print(np.shape(image))
-
     #load imig
     #B9-1_002.png
     #B1-1_000.png god
 
     tiles, coords = im_utils.get_tiles(image, in_tile_shape=(in_w, in_w, 4), out_tile_shape=(out_w, out_w))
 
-    print(coords)
-    print(tiles)
 
     segmented = ensemble_segment([syncdir+project+'/models_models/000001_1659961126.pkl'], image, bs, in_w, out_w)
 
