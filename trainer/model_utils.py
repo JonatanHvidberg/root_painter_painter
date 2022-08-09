@@ -188,6 +188,7 @@ def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
                 print('shape(tile)')
                 print(np.shape(tile))
                 tile = img_as_float32(tile)
+                print(np.shape(tile))
                 tile = im_utils.normalize_tile(tile)
                 tile = np.moveaxis(tile, -1, 0)
                 tile_idx += 1
