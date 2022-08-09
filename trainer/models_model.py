@@ -20,7 +20,7 @@ def create_first_model_with_random_weights(model_dir):
     #os.mkdir(model_dir)
     model_num = 1
     model_name = str(model_num).zfill(6)
-    model_name += '_test_' + str(int(round(time.time()))) + '.pkl'
+    model_name += '_2_' + str(int(round(time.time()))) + '.pkl'
     model = UNetGNRes()
     model = torch.nn.DataParallel(model)
     model_path = os.path.join(model_dir, model_name)
@@ -219,9 +219,9 @@ val = '/annotations/val'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
 
-test_ney_model(syncdir+project+'/models_models/B1-1_000.png')
+#test_ney_model(syncdir+project+'/models_models/B1-1_000.png')
 
-#create_first_model_with_random_weights(syncdir+project+'/models_models')
+create_first_model_with_random_weights(syncdir+project+'/models_models')
 
 #image_and_segmentation('/home/jonatan/Documents/diku/BA/testbil/org/B85-1_000.jpg' ,'/home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png')
 #dif_seg_aaa()

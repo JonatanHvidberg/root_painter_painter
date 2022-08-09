@@ -67,13 +67,13 @@ class UpBlock(nn.Module):
         )
         self.conv2 = nn.Sequential(
             nn.Conv2d(in_channels, in_channels,
-                      kernel_size=4, padding=0),
+                      kernel_size=3, padding=0),
             nn.ReLU(),
             nn.GroupNorm(32, in_channels)
         )
         self.conv3 = nn.Sequential(
             nn.Conv2d(in_channels, in_channels,
-                      kernel_size=4, padding=0),
+                      kernel_size=3, padding=0),
             nn.ReLU(),
             nn.GroupNorm(32, in_channels)
         )
@@ -91,10 +91,10 @@ class UNetGNRes(nn.Module):
     def __init__(self, im_channels=4):
         super().__init__()
         self.conv_in = nn.Sequential(
-            nn.Conv2d(im_channels, 64, kernel_size=4, padding=0),
+            nn.Conv2d(im_channels, 64, kernel_size=3, padding=0),
             nn.ReLU(),
             nn.GroupNorm(32, 64),
-            nn.Conv2d(64, 64, kernel_size=4, padding=0),
+            nn.Conv2d(64, 64, kernel_size=3, padding=0),
             nn.ReLU(),
             nn.GroupNorm(32, 64)
             # now at 568 x 568, 64 channels
