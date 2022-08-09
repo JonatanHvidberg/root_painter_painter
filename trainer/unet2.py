@@ -17,13 +17,13 @@ class DownBlock(nn.Module):
         self.pool = nn.MaxPool2d(2)
         self.conv1 = nn.Sequential(
             nn.Conv2d(in_channels, in_channels*2,
-                      kernel_size=4, padding=1),
+                      kernel_size=3, padding=1),
             nn.ReLU(),
             nn.GroupNorm(32, in_channels*2)
         )
         self.conv2 = nn.Sequential(
             nn.Conv2d(in_channels*2, in_channels*2,
-                      kernel_size=4, padding=1),
+                      kernel_size=3, padding=1),
             nn.ReLU(),
             nn.GroupNorm(32, in_channels*2)
         )
