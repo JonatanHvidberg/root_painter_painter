@@ -17,7 +17,7 @@ from model_utils thens to mage my model
 '''
 def create_first_model_with_random_weights(model_dir):
     # used when no model was specified on project creation.
-    os.mkdir(model_dir)
+    #os.mkdir(model_dir)
     model_num = 1
     model_name = str(model_num).zfill(6)
     model_name += '_test_' + str(int(round(time.time()))) + '.pkl'
