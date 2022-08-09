@@ -8,11 +8,11 @@ import time
 import os
 import numpy as np
 from skimage.io import imread, imsave
-from skimage import color
+from skimage import color, img_as_float32
 import torch
 
 '''
-from model_utils
+from model_utils thens to mage my model
 ====================================================================================================
 '''
 def create_first_model_with_random_weights(model_dir):
@@ -48,7 +48,7 @@ def ensemble_segment(model_paths, image, bs, in_w, out_w,
     for model_path in model_paths:
         cnn = load_model(model_path)
 
-        preds = model_utils.unet_segment(cnn, image, bs, in_w, out_w, threshold=None)
+        preds = unet_segment(cnn, image, bs, in_w, out_w, threshold=None)
         if pred_sum is not None:
             pred_sum += preds
         else:
@@ -56,7 +56,7 @@ def ensemble_segment(model_paths, image, bs, in_w, out_w,
         pred_count += 1
         # get flipped version too (test time augmentation)
         flipped_im = np.fliplr(image)
-        flipped_pred = model_utils.unet_segment(cnn, flipped_im, bs, in_w,
+        flipped_pred = unet_segment(cnn, flipped_im, bs, in_w,
                                     out_w, threshold=None)
         pred_sum += np.fliplr(flipped_pred)
         pred_count += 1
@@ -64,12 +64,66 @@ def ensemble_segment(model_paths, image, bs, in_w, out_w,
     predicted = foreground_probs > threshold
     predicted = predicted.astype(int)
     return predicted
+
+
+def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
+    """
+    Threshold set to None means probabilities returned without thresholding.
+    """
+
+    assert image.shape[0] >= in_w, str(image.shape[0])
+    assert image.shape[1] >= in_w, str(image.shape[1])
+
+    tiles, coords = im_utils.get_tiles(image,
+                                       in_tile_shape=(in_w, in_w, 4),
+                                       out_tile_shape=(out_w, out_w))
+    tile_idx = 0
+    batches = []
+    while tile_idx < len(tiles):
+        tiles_to_process = []
+        for _ in range(bs):
+            if tile_idx < len(tiles):
+                tile = tiles[tile_idx]
+                print('shape(tile)')
+                print(np.shape(tile))
+                #tile = img_as_float32(tile)
+                tile = im_utils.normalize_tile(tile)
+                tile = np.moveaxis(tile, -1, 0)
+                tile_idx += 1
+                tiles_to_process.append(tile)
+        tiles_for_gpu = torch.from_numpy(np.array(tiles_to_process))
+        tiles_for_gpu.cuda()
+        tiles_for_gpu = tiles_for_gpu.float()
+        batches.append(tiles_for_gpu)
+
+    output_tiles = []
+    for gpu_tiles in batches:
+        outputs = cnn(gpu_tiles)
+        softmaxed = softmax(outputs, 1)
+        foreground_probs = softmaxed[:, 1, :]  # just the foreground probability.
+        if threshold is not None:
+            predicted = foreground_probs > threshold
+            predicted = predicted.view(-1).int()
+        else:
+            predicted = foreground_probs
+
+        pred_np = predicted.data.cpu().numpy()
+        out_tiles = pred_np.reshape((len(gpu_tiles), out_w, out_w))
+        for out_tile in out_tiles:
+            output_tiles.append(out_tile)
+
+    assert len(output_tiles) == len(coords), (
+        f'{len(output_tiles)} {len(coords)}')
+
+    reconstructed = im_utils.reconstruct_from_tiles(output_tiles, coords,
+                                                    image.shape[:-1])
+    return reconstructed
 '''
 ====================================================================================================
 '''
 
 def image_and_segmentation(imageDir, imageSegDir):
-    image = im_utils.load_image(imageDir)
+    image = img_as_float32(im_utils.load_image(imageDir))
     imageSeg = imread(imageSegDir)
 
 
@@ -83,7 +137,7 @@ def image_and_segmentation(imageDir, imageSegDir):
             imageVitSeg[x][y][3]=imageSeg[x][y][3]
 
             if (imageSeg[x][y][3] != 0):
-                imageVitSeg[x][y][3]=255
+                imageVitSeg[x][y][3]=1
                 
     
     return imageVitSeg
