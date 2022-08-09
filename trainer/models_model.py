@@ -88,6 +88,7 @@ def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
                 print(np.shape(tile))
                 #tile = img_as_float32(tile)
                 tile = im_utils.normalize_tile(tile)
+                print(tile)
                 tile = np.moveaxis(tile, -1, 0)
                 tile_idx += 1
                 tiles_to_process.append(tile)
@@ -169,8 +170,8 @@ def test_ney_model(out_path):
     imagedir = syncdir+datasets+'/B1-1_000.jpg'
     imageSegDir = syncdir+project+segmentations+ '/B1-1_000.png'
 
-    #image = image_and_segmentation(imagedir,imageSegDir)
-    image = im_utils.load_image(imagedir)
+    image = image_and_segmentation(imagedir,imageSegDir)
+    #image = im_utils.load_image(imagedir)
 
     #load imig
     #B9-1_002.png
