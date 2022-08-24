@@ -190,7 +190,7 @@ from im_utils
 '''
 
 def load_train_image_and_annot(dataset_dir, train_annot_dir):
-    max_attempts = 1
+    max_attempts = 60
     attempts = 0
     # used for logging which file caused the problem.
     latest_annot_path = None
@@ -224,6 +224,7 @@ def load_train_image_and_annot(dataset_dir, train_annot_dir):
             assert np.sum(annot) > 0
             assert image.shape[2] == 3 # should be RGB
             # also return fname for debugging purposes.
+            print('alt godt')
             return image, annot, fname
         except Exception as e:
             latest_error = e

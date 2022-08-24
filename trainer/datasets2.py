@@ -51,6 +51,7 @@ class TrainDataset(Dataset):
     def __getitem__(self, _):
         image, annot, fname = load_train_image_and_annot(self.dataset_dir,
                                                          self.train_annot_dir)
+        print('alt godt stadig')
         
         tile_pad = (self.in_w - self.out_w) // 2
 
