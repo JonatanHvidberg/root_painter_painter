@@ -209,8 +209,11 @@ def load_train_image_and_annot(dataset_dir, train_annot_dir):
 
             # This might take ages, profile and optimize
             fnames = ls(train_annot_dir)
+            print('alt godt 1')
             fnames = [a for a in fnames if im_utils.is_photo(a)]
+            print('alt godt 2')
             fname = random.sample(fnames, 1)[0]
+            print('alt godt 3')
             annot_path = os.path.join(train_annot_dir, fname)
             image_path_part = os.path.join(dataset_dir,
                                            os.path.splitext(fname)[0])
