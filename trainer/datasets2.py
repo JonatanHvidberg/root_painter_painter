@@ -51,7 +51,7 @@ class TrainDataset(Dataset):
     def __getitem__(self, _):
         image, annot, fname = load_train_image_and_annot(self.dataset_dir,
                                                          self.train_annot_dir)
-        
+
         tile_pad = (self.in_w - self.out_w) // 2
 
         # ensures each pixel is sampled with equal chance
@@ -100,8 +100,8 @@ class TrainDataset(Dataset):
 
 
         im_tile = im_utils.normalize_tile(im_tile)
-        im_tile, annot_tile = self.augmentor.transform(im_tile, annot_tile)
-        im_tile = im_utils.normalize_tile(im_tile)
+        #im_tile, annot_tile = self.augmentor.transform(im_tile, annot_tile)
+        #im_tile = im_utils.normalize_tile(im_tile)
 
         foreground = np.array(annot_tile)[:, :, 0]
         background = np.array(annot_tile)[:, :, 1]
