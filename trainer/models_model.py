@@ -3,7 +3,7 @@
 import model_utils
 import im_utils
 from unet2 import UNetGNRes
-from datasets2 import TrainDataset2
+from datasets2 import TrainDataset as TrainDataset2
 
 import time
 import os
