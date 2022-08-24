@@ -148,7 +148,7 @@ def image_and_segmentation(imageDir, imageSegDir):
     imageSegBul = np.array(imageSeg[:,:,2:3]) #take the segmen imiget and set it to one layer 
     imageVitSeg = np.concatenate((image,imageSegBul), axis=2) # concat imig and segmentaysen to 4 layer
 
-    im_utils.save_then_move(saveDir, imageVitSeg)
+    #im_utils.save_then_move(saveDir, imageVitSeg)
     
     image = img_as_float32(image)
     imageSegBul = np.array(imageSeg[:,:,2:3], dtype=bool)
