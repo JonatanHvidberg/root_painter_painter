@@ -49,7 +49,6 @@ test_opt()
 import model_utils
 import im_utils
 from unet2 import UNetGNRes
-from datasets2 import TrainDataset
 
 import time
 import os
