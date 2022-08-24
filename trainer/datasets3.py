@@ -31,17 +31,92 @@ from skimage.exposure import rescale_intensity
 from im_utils import load_train_image_and_annot
 from file_utils import ls
 import im_utils
+import elastic
+
+def elastic_transform(photo, annot):
+    def_map = elastic.get_elastic_map(photo.shape,
+                                      scale=random.random(),
+                                      intensity=0.4 + (0.6 * random.random()))
+    photo = elastic.transform_image(photo, def_map,, channels=4)
+    annot = elastic.transform_image(annot, def_map, channels=2)
+    annot = np.round(annot).astype(np.int64)
+    return photo, annot
+
+def guassian_noise_transform(photo, annot):
+    sigma = np.abs(np.random.normal(0, scale=0.09))
+
+    seg = np.array(photo[:,:,3:])
+    photo = np.array(photo[:,:,:3])
+
+    photo = im_utils.add_gaussian_noise(photo, sigma)
+
+    photo = np.concatenate((photo,seg), axis=2)
+    return photo, annot
+
+def salt_pepper_transform(photo, annot):
+    salt_intensity = np.abs(np.random.normal(0.0, 0.008))
+
+    seg = np.array(photo[:,:,3:])
+    photo = np.array(photo[:,:,:3])
+
+    photo = im_utils.add_salt_pepper(photo, salt_intensity)
+
+    photo = np.concatenate((photo,seg), axis=2)
+
+    return photo, annot
+
+
+class UNetTransformer():
+    """ Data Augmentation """
+    def __init__(self):
+        self.color_jit = ColorJitter(brightness=0.3, contrast=0.3,
+                                     saturation=0.2, hue=0.001)
+
+    def transform(self, photo, annot):
+
+        transforms = random.sample([elastic_transform,
+                                    guassian_noise_transform,
+                                    salt_pepper_transform,
+                                    self.color_jit_transform], 4)
+
+        for transform in transforms:
+            if random.random() < 0.8:
+                photo, annot = transform(photo, annot)
+
+        if random.random() < 0.5:
+            photo = np.fliplr(photo)
+            annot = np.fliplr(annot)
+
+        return photo, annot
+
+    def color_jit_transform(self, photo, annot):
+        # TODO check skimage docs for something cleaner to convert
+        # from float to int
+
+        seg = np.array(photo[:,:,3:])
+        photo = np.array(photo[:,:,:3])
+
+        photo = rescale_intensity(photo, out_range=(0, 255)) # from float to int
+        photo = Image.fromarray((photo).astype(np.int8), mode='RGB') 
+
+        photo = self.color_jit(photo)  # returns PIL image use ColorJitter
+        photo = img_as_float32(np.array(photo))  # return back to numpy
+
+        photo = np.concatenate((photo,seg), axis=2)
+
+        return photo, annot
 
 
 class TrainDataset(Dataset):
-    def __init__(self, train_annot_dir, dataset_dir, in_w, out_w):
+    def __init__(self, image, annot, fname , in_w, out_w):
         """
         in_w and out_w are the tile size in pixels
         """
         self.in_w = in_w
         self.out_w = out_w
         self.train_annot_dir = train_annot_dir
-        self.dataset_dir = dataset_dir
+        #self.dataset_dir = dataset_dir
+        self.augmentor = UNetTransformer()
 
     def __len__(self):
         # use at least 612 but when dataset gets bigger start to expand
@@ -49,8 +124,7 @@ class TrainDataset(Dataset):
         return max(612, len(ls(self.train_annot_dir)) * 2)
 
     def __getitem__(self, _):
-        image, annot, fname = load_train_image_and_annot(self.dataset_dir,
-                                                         self.train_annot_dir)
+        #image, annot, fname = load_train_image_and_annot(self.dataset_dir, self.train_annot_dir)
         
         tile_pad = (self.in_w - self.out_w) // 2
 
@@ -88,23 +162,18 @@ class TrainDataset(Dataset):
         assert im_tile.shape == (self.in_w, self.in_w, 4), (
             f" shape is {im_tile.shape} for tile from {fname}")
 
-
-
-        seg = np.array(im_tile[:,:,3:])/255
-        im_tile = np.array(im_tile[:,:,:3])
-
-
-        im_tile = img_as_float32(im_tile)
-
-        im_tile = np.concatenate((photo,seg), axis=2)
-
-
+        #im_tile = img_as_float32(im_tile)
+        # dette skal virke men 4 chanels
         im_tile = im_utils.normalize_tile(im_tile)
+
         im_tile, annot_tile = self.augmentor.transform(im_tile, annot_tile)
+        
         im_tile = im_utils.normalize_tile(im_tile)
+        #
 
-        foreground = np.array(annot_tile)[:, :, 0]
-        background = np.array(annot_tile)[:, :, 1]
+        foreground = np.array(annot_tile)[:, :, 0] #red
+        background = np.array(annot_tile)[:, :, 1] #green
+
 
         # Annotion is cropped post augmentation to ensure
         # elastic grid doesn't remove the edges.

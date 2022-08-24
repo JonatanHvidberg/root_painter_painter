@@ -3,6 +3,7 @@
 import model_utils
 import im_utils
 from unet2 import UNetGNRes
+from datasets2 import TrainDataset2
 
 import time
 import os
@@ -11,6 +12,7 @@ from skimage.io import imread, imsave
 from skimage import color, img_as_float32
 import torch
 from torch.nn.functional import softmax
+from loss import combined_loss as criterion
 
 '''
 from model_utils thens to mage my model
@@ -18,10 +20,10 @@ from model_utils thens to mage my model
 '''
 def create_first_model_with_random_weights(model_dir):
     # used when no model was specified on project creation.
-    #os.mkdir(model_dir)
+    
     model_num = 1
     model_name = str(model_num).zfill(6)
-    model_name += '_2_' + str(int(round(time.time()))) + '.pkl'
+    model_name += '_' + str(int(round(time.time()))) + '.pkl'
     model = UNetGNRes()
     model = torch.nn.DataParallel(model)
     model_path = os.path.join(model_dir, model_name)
@@ -124,10 +126,11 @@ def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
 ====================================================================================================
 '''
 
-def image_and_segmentation(imageDir, imageSegDir):
-    image = img_as_float32(im_utils.load_image(imageDir))
+def image_and_segmentation(imageDir, imageSegDir, saveDir):
+    image = im_utils.load_image(imageDir)
     imageSeg = imread(imageSegDir)
 
+    '''
 
     imageVitSeg=np.zeros([(image).shape[0],(image).shape[1],4])
 
@@ -140,31 +143,42 @@ def image_and_segmentation(imageDir, imageSegDir):
 
             if (imageSeg[x][y][3] != 0):
                 imageVitSeg[x][y][3]=1
-                
+    
+    '''
+    imageSegBul = np.array(imageSeg[:,:,2:3]) #take the segmen imiget and set it to one layer 
+    imageVitSeg = np.concatenate((image,imageSegBul), axis=2) # concat imig and segmentaysen to 4 layer
+
+    im_utils.save_then_move(saveDir, imageVitSeg)
+    
+    image = img_as_float32(image)
+    imageSegBul = np.array(imageSeg[:,:,2:3], dtype=bool)
+    imageVitSeg = np.concatenate((image,imageSegBul), axis=2)
     
     return imageVitSeg
 
-def dif_seg_aaa(imageSegDir, imageValDir, imageSaveDir):
+
+
+def dif_seg_ann(imageSegDir, imageAnnDir, imageSaveDir):
     imageSeg = imread(imageSegDir) #shut be models model segrigation /home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png
-    imageVal = imread(imageValDir)
+    imageAnn = imread(imageAnnDir)
 
-    imageValVal=np.zeros([(imageVal).shape[0],(imageVal).shape[1],4])
+    imageAnnAnn=np.zeros([(imageAnn).shape[0],(imageAnn).shape[1],4])
 
-    for x in range(imageVal.shape[0]): 
-        for y in range(imageVal.shape[1]):
+    for x in range(imageAnn.shape[0]): 
+        for y in range(imageAnn.shape[1]):
 
-            if (imageSeg[x][y][3] and not (imageVal[x][y][3])):
-                imageValVal[x][y][1] = 255
-                imageValVal[x][y][3] = 180
+            if (imageSeg[x][y][3] and not (imageAnn[x][y][3])): #false posetiv
+                imageAnnAnn[x][y][1] = 255
+                imageAnnAnn[x][y][3] = 180
 
-            if (not (imageSeg[x][y][3]) and imageVal[x][y][3]):
-                imageValVal[x][y][0] = 255
-                imageValVal[x][y][3] = 180
+            if (not (imageSeg[x][y][3]) and imageAnn[x][y][3]): #False negativ
+                imageAnnAnn[x][y][0] = 255
+                imageAnnAnn[x][y][3] = 180
 
-    im_utils.save_then_move(imageSaveDir, imageValVal)
+    im_utils.save_then_move(imageSaveDir, imageAnnAnn)
     pass
 
-def test_ney_model(out_path):
+def test_new_model(out_path):
     #make model 
     #models=load_model(syncdir+project+'/models_models/000001_1659961126.pkl')
 
@@ -193,6 +207,58 @@ def test_ney_model(out_path):
     im_utils.save_then_move(out_path, seg_alpha)
     pass
 
+
+
+def setup(dir):
+    #os.mkdir(dir+'/models_models')
+    os.mkdir(dir+'/models_models'+'/data')
+    os.mkdir(dir+'/models_models'+'/seg')
+    os.mkdir(dir+'/models_models'+'/annotations')
+    pass
+
+
+
+def train_one_epoch(train_set,model, optimizer):
+    
+    model.train()
+
+    for step, (photo_tiles,
+           foreground_tiles,
+           defined_tiles) in enumerate(train_loader):
+
+        photo_tiles = photo_tiles.cuda()
+        foreground_tiles = foreground_tiles.cuda()
+        defined_tiles = defined_tiles.cuda()
+
+        optimizer.zero_grad()
+
+        outputs = model(photo_tiles)
+        softmaxed = softmax(outputs, 1)
+
+        foreground_probs = softmaxed[:, 1, :]
+
+        outputs[:, 0] *= defined_tiles
+        outputs[:, 1] *= defined_tiles
+
+        loss = criterion(outputs, foreground_tiles)
+        loss.backward()
+        optimizer.step()
+
+    #validation
+
+
+
+def train_type2(model_path)
+    train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
+
+    optimizer = torch.optim.SGD(self.model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
+
+    model = load_model(model_path)
+
+    train_one_epoch(train_set, model, optimizer)    
+    pass
+
+#train_type2([syncdir+project+'/models_models/000001_2_1660065013.pkl'])
 '''
 Data
 '''
@@ -220,11 +286,16 @@ val = '/annotations/val'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
 
-test_ney_model(syncdir+project+'/models_models/B1-1_000.png')
+#setup(syncdir+project)
+
+#test_new_model(syncdir+project+'/models_models/B1-1_000.png')
+
 
 #create_first_model_with_random_weights(syncdir+project+'/models_models')
 
-#image_and_segmentation('/home/jonatan/Documents/diku/BA/testbil/org/B85-1_000.jpg' ,'/home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png')
+image_and_segmentation('/home/jonatan/Documents/diku/BA/testbil/org/B85-1_000.jpg' 
+    ,'/home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png'
+    ,'/home/jonatan/Documents/diku/BA/testbil/sek/test.png')
 #dif_seg_aaa()
 
 '''
