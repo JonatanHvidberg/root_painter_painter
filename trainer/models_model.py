@@ -214,6 +214,8 @@ def setup(dir):
     os.mkdir(dir+'/models_models'+'/data')
     os.mkdir(dir+'/models_models'+'/seg')
     os.mkdir(dir+'/models_models'+'/annotations')
+    os.mkdir(dir+'/models_models'+'/annotations/train')
+    os.mkdir(dir+'/models_models'+'/annotations/val')
     pass
 
 
@@ -248,7 +250,7 @@ def train_one_epoch(train_set,model, optimizer):
 
 
 
-def train_type2(model_path)
+def train_type2(model_path, train_annot_dir, dataset_dir)
     train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
 
     optimizer = torch.optim.SGD(self.model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
@@ -258,7 +260,6 @@ def train_type2(model_path)
     train_one_epoch(train_set, model, optimizer)    
     pass
 
-#train_type2([syncdir+project+'/models_models/000001_2_1660065013.pkl'])
 '''
 Data
 '''
@@ -282,9 +283,21 @@ project = '/projects/test_01'
 
 segmentations ='/segmentations'
 val = '/annotations/val'
+train = '/annotations/train'
 
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
+
+'''
+train_type2([syncdir+project+'/models_models/000001_2_1660065013.pkl'],
+    [syncdir+project+],
+    )
+'''
+setup(syncdir+project)
+#dif_seg_ann(imageSegDir, imageAnnDir, imageSaveDir)
+dif_seg_ann([syncdir+project+'/models_models/B85-1_000.png'], [syncdir+project+val+'/B85-1_000.png'], syncdir+project+'/models_models/annotations/val/B85-1_000.png')
+#sed=image_and_segmentation()
+#im_utils.save_then_move(imageSaveDir, imageAnnAnn)
 
 #setup(syncdir+project)
 
@@ -293,9 +306,13 @@ print(syncdir+project+'/models_models')
 
 #create_first_model_with_random_weights(syncdir+project+'/models_models')
 
+'''
 image_and_segmentation('/home/jonatan/Documents/diku/BA/testbil/org/B85-1_000.jpg' 
     ,'/home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png'
     ,'/home/jonatan/Documents/diku/BA/testbil/sek/test.png')
+'''
+
+
 #dif_seg_aaa()
 
 '''
