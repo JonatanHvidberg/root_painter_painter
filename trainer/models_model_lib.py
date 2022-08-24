@@ -211,32 +211,20 @@ def load_train_image_and_annot(dataset_dir, train_annot_dir):
             fnames = ls(train_annot_dir)
             fnames = [a for a in fnames if im_utils.is_photo(a)]
             fname = random.sample(fnames, 1)[0]
-            print('alt godt 3')
             annot_path = os.path.join(train_annot_dir, fname)
-            print('alt godt 4')
             image_path_part = os.path.join(dataset_dir,
                                            os.path.splitext(fname)[0])
             # it's possible the image has a different extenstion
             # so use glob to get it
-            print('alt godt 5')
             image_path = glob.glob(image_path_part + '.*')[0]
-            print('alt godt 6')
             latest_im_path = image_path
-            print('alt godt 7')
             image = imread(image_path)
-            print('alt godt 8')
             latest_annot_path = annot_path
-            print('alt godt 9')
             annot = imread(annot_path).astype(bool)
-            print('alt godt 10')
             assert np.sum(annot) > 0
-            print('alt godt 11')
-            print(image.shape[2])
-            print(image.shape)
             
-            assert image.shape[2] == 3 # should be RGB
+            assert image.shape[2] == 4 # should be RGB + segmentation
             # also return fname for debugging purposes.
-            print('alt godt')
             return image, annot, fname
         except Exception as e:
             latest_error = e
