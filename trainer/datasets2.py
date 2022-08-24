@@ -51,7 +51,6 @@ class TrainDataset(Dataset):
     def __getitem__(self, _):
         image, annot, fname = load_train_image_and_annot(self.dataset_dir,
                                                          self.train_annot_dir)
-        print('alt godt stadig')
         
         tile_pad = (self.in_w - self.out_w) // 2
 
@@ -97,7 +96,7 @@ class TrainDataset(Dataset):
 
         im_tile = img_as_float32(im_tile)
 
-        im_tile = np.concatenate((photo,seg), axis=2)
+        im_tile = np.concatenate((im_tile,seg), axis=2)
 
 
         im_tile = im_utils.normalize_tile(im_tile)
