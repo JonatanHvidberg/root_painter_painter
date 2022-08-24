@@ -59,6 +59,16 @@ import torch
 from torch.nn.functional import softmax
 from file_utils import ls
 
+import glob
+import shutil
+from math import ceil
+import random
+import skimage.util as skim_util
+from skimage import color
+from skimage.exposure import rescale_intensity
+from skimage.io import imread, imsave
+
+
 
 '''
 from model_utils thens to mage my model
@@ -199,7 +209,7 @@ def load_train_image_and_annot(dataset_dir, train_annot_dir):
 
             # This might take ages, profile and optimize
             fnames = ls(train_annot_dir)
-            fnames = [a for a in fnames if is_photo(a)]
+            fnames = [a for a in fnames if im_utils.is_photo(a)]
             fname = random.sample(fnames, 1)[0]
             annot_path = os.path.join(train_annot_dir, fname)
             image_path_part = os.path.join(dataset_dir,
