@@ -288,16 +288,21 @@ train = '/annotations/train'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
 
+#train_type2(model_path, train_annot_dir, dataset_dir)
 '''
-train_type2([syncdir+project+'/models_models/000001_2_1660065013.pkl'],
-    [syncdir+project+],
+train_type2(syncdir+project+'/models_models/000001_2_1660065013.pkl',
+    [syncdir+project+'/models_models/'],
     )
 '''
 
+
 #dif_seg_ann(imageSegDir, imageAnnDir, imageSaveDir)
-dif_seg_ann(syncdir+project+'/models_models/B1-1_000.png', syncdir+project+val+'/B1-1_000.png', syncdir+project+'/models_models/annotations/val/B1-1_000.png')
-#sed=image_and_segmentation()
-#im_utils.save_then_move(imageSaveDir, imageAnnAnn)
+#dif_seg_ann(syncdir+project+'/models_models/B1-1_000.png', syncdir+project+val+'/B1-1_000.png', syncdir+project+'/models_models/annotations/val/B1-1_000.png')
+
+#image_and_segmentation(imagedir,imageSegDir)
+sed=image_and_segmentation(syncdir+datasets+'/B1-1_000.jpg',syncdir+project+segmentations+'/B1-1_000.png')
+im_utils.save_then_move(syncdir+project+'/models_models/data/B1-1_000.png', sed)
+
 
 #setup(syncdir+project)
 
