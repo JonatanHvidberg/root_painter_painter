@@ -5,6 +5,8 @@ import im_utils
 from unet2 import UNetGNRes
 from datasets2 import TrainDataset as TrainDataset2
 
+import multiprocessing
+
 import time
 import os
 import numpy as np
