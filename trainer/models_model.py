@@ -295,7 +295,7 @@ train_type2([syncdir+project+'/models_models/000001_2_1660065013.pkl'],
 '''
 
 #dif_seg_ann(imageSegDir, imageAnnDir, imageSaveDir)
-dif_seg_ann([syncdir+project+'/models_models/B1-1_000.png'], [syncdir+project+val+'/B1-1_000.png'], syncdir+project+'/models_models/annotations/val/B1-1_000.png')
+dif_seg_ann(syncdir+project+'/models_models/B1-1_000.png', syncdir+project+val+'/B1-1_000.png', syncdir+project+'/models_models/annotations/val/B1-1_000.png')
 #sed=image_and_segmentation()
 #im_utils.save_then_move(imageSaveDir, imageAnnAnn)
 
