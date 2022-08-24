@@ -250,7 +250,7 @@ def train_one_epoch(train_set,model, optimizer):
 
 
 
-def train_type2(model_path, train_annot_dir, dataset_dir)
+def train_type2(model_path, train_annot_dir, dataset_dir):
     train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
 
     optimizer = torch.optim.SGD(self.model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
