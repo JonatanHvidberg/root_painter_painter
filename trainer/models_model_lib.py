@@ -209,21 +209,26 @@ def load_train_image_and_annot(dataset_dir, train_annot_dir):
 
             # This might take ages, profile and optimize
             fnames = ls(train_annot_dir)
-            print('alt godt 1')
             fnames = [a for a in fnames if im_utils.is_photo(a)]
-            print('alt godt 2')
             fname = random.sample(fnames, 1)[0]
             print('alt godt 3')
             annot_path = os.path.join(train_annot_dir, fname)
+            print('alt godt 4')
             image_path_part = os.path.join(dataset_dir,
                                            os.path.splitext(fname)[0])
             # it's possible the image has a different extenstion
             # so use glob to get it
+            print('alt godt 5')
             image_path = glob.glob(image_path_part + '.*')[0]
+            print('alt godt 6')
             latest_im_path = image_path
+            print('alt godt 7')
             image = imread(image_path)
+            print('alt godt 8')
             latest_annot_path = annot_path
+            print('alt godt 9')
             annot = imread(annot_path).astype(bool)
+            print('alt godt 10')
             assert np.sum(annot) > 0
             assert image.shape[2] == 3 # should be RGB
             # also return fname for debugging purposes.
