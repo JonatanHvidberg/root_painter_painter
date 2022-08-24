@@ -214,7 +214,7 @@ def load_train_image_and_annot(dataset_dir, train_annot_dir):
             assert image.shape[2] == 3 # should be RGB
             # also return fname for debugging purposes.
             return image, annot, fname
-        except Elatest_im_pathxception as e:
+        except Exception as e:
             latest_error = e
             # This could be due to an empty annotation saved by the user.
             # Which happens rarely due to deleting all labels in an 
