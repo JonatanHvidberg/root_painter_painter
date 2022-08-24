@@ -126,7 +126,7 @@ def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
 ====================================================================================================
 '''
 
-def image_and_segmentation(imageDir, imageSegDir, saveDir):
+def image_and_segmentation(imageDir, imageSegDir):
     image = im_utils.load_image(imageDir)
     imageSeg = imread(imageSegDir)
 
