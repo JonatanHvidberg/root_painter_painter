@@ -28,7 +28,7 @@ from PIL import Image
 from skimage import img_as_float32
 from skimage.exposure import rescale_intensity
 
-from im_utils import load_train_image_and_annot
+from models_model_lib import load_train_image_and_annot
 from file_utils import ls
 import im_utils
 
