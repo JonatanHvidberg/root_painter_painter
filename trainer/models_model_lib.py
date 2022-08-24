@@ -230,6 +230,10 @@ def load_train_image_and_annot(dataset_dir, train_annot_dir):
             annot = imread(annot_path).astype(bool)
             print('alt godt 10')
             assert np.sum(annot) > 0
+            print('alt godt 11')
+            print(image.shape[2])
+            print(image.shape)
+            
             assert image.shape[2] == 3 # should be RGB
             # also return fname for debugging purposes.
             print('alt godt')
