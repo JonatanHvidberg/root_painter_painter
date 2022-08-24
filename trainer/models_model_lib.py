@@ -190,7 +190,7 @@ from im_utils
 '''
 
 def load_train_image_and_annot(dataset_dir, train_annot_dir):
-    max_attempts = 60
+    max_attempts = 1
     attempts = 0
     # used for logging which file caused the problem.
     latest_annot_path = None
@@ -217,7 +217,6 @@ def load_train_image_and_annot(dataset_dir, train_annot_dir):
             # it's possible the image has a different extenstion
             # so use glob to get it
             image_path = glob.glob(image_path_part + '.*')[0]
-            print(image_path)
             latest_im_path = image_path
             image = imread(image_path)
             latest_annot_path = annot_path

@@ -239,6 +239,8 @@ def train_one_epoch(train_set,model, optimizer):
            foreground_tiles,
            defined_tiles) in enumerate(train_loader):
 
+        print('hej')
+
         photo_tiles = photo_tiles.cuda()
         foreground_tiles = foreground_tiles.cuda()
         defined_tiles = defined_tiles.cuda()
