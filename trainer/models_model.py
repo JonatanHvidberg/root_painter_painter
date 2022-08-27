@@ -4,6 +4,7 @@ import model_utils
 import im_utils
 from unet2 import UNetGNRes
 from datasets2 import TrainDataset as TrainDataset2
+import models_model_lib 
 
 import multiprocessing
 
@@ -16,6 +17,10 @@ import torch
 from torch.nn.functional import softmax
 from loss import combined_loss as criterion
 from torch.utils.data import DataLoader
+
+from model_utils import save_if_better
+
+from file_utils import ls
 '''
 from model_utils thens to mage my model
 ====================================================================================================
@@ -124,6 +129,9 @@ def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
     reconstructed = im_utils.reconstruct_from_tiles(output_tiles, coords,
                                                     image.shape[:-1])
     return reconstructed
+
+
+
 '''
 ====================================================================================================
 '''
@@ -180,6 +188,32 @@ def dif_seg_ann(imageSegDir, imageAnnDir, imageSaveDir):
     im_utils.save_then_move(imageSaveDir, imageAnnAnn)
     pass
 
+
+
+def dif_new_ann(imageSegDir, imageAnnDir):
+    imageSeg = imread(imageSegDir) #shut be models model segrigation /home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png
+    imageAnn = imread(imageAnnDir)
+
+    imageAnnAnn=np.zeros([(imageAnn).shape[0],(imageAnn).shape[1],4])
+
+    for x in range(imageAnn.shape[0]): 
+        for y in range(imageAnn.shape[1]):
+
+            if ((imageSeg[x][y][3] and imageAnn[x][y][0]) or (not (imageSeg[x][y][3]) and imageAnn[x][y][1])):
+                imageAnnAnn[x][y][1] = 255
+                imageAnnAnn[x][y][3] = 180
+
+            elif (imageAnn[x][y][3]):
+                imageAnnAnn[x][y][0] = 255
+                imageAnnAnn[x][y][3] = 180
+
+            else:
+                imageAnnAnn[x][y][1] = 255
+                imageAnnAnn[x][y][3] = 180
+    return imageAnnAnn
+
+
+
 def test_new_model(out_path):
     #make model 
     #models=load_model(syncdir+project+'/models_models/000001_1659961126.pkl')
@@ -211,13 +245,45 @@ def test_new_model(out_path):
 
 
 
-def setup(dir):
-    #os.mkdir(dir+'/models_models')
-    os.mkdir(dir+'/models_models'+'/data')
-    os.mkdir(dir+'/models_models'+'/seg')
-    os.mkdir(dir+'/models_models'+'/annotations')
-    os.mkdir(dir+'/models_models'+'/annotations/train')
-    os.mkdir(dir+'/models_models'+'/annotations/val')
+def setup(setup_dir):
+    os.mkdir(setup_dir +'/models_models')
+    os.mkdir(setup_dir +'/models_models' + '/data')
+    os.mkdir(setup_dir +'/models_models' + '/seg')
+    os.mkdir(setup_dir +'/models_models' + '/annotations')
+    os.mkdir(setup_dir +'/models_models' + '/annotations/train')
+    os.mkdir(setup_dir +'/models_models' + '/annotations/val')
+    pass
+
+def setup_date(setup_dir):
+    fnames = ls(setup_dir + segmentations)
+    fnames = [a for a in fnames if im_utils.is_photo(a)]
+
+    for fname in fnames:
+        Dataimig = image_and_segmentation(syncdir+datasets+fname ,setup_dir +'/segmentations/' + fname)
+        im_utils.save_then_move(setup_dir '/models_models/data/'+fname, Dataimig)
+
+    '''
+    val = '/annotations/val'
+    train = '/annotations/train'
+    '''
+
+    fnames = ls(setup_dir + val)
+    fnames = [a for a in fnames if im_utils.is_photo(a)]
+
+    for fname in fnames:
+        #dif_new_ann(imageSegDir, imageAnnDir)
+        DataImig = dif_new_ann(setup_dir +'/segmentations/' + fname ,setup_dir +'/annotations/val/' + fname)
+        im_utils.save_then_move(setup_dir '/models_models/annotations/val'+fname, Dataimig)
+
+
+    fnames = ls(setup_dir + train)
+    fnames = [a for a in fnames if im_utils.is_photo(a)]
+
+    for fname in fnames:
+        #dif_new_ann(imageSegDir, imageAnnDir)
+        DataImig = dif_new_ann(setup_dir +'/segmentations/' + fname ,setup_dir +'/annotations/train/' + fname)
+        im_utils.save_then_move(setup_dir '/models_models/annotations/train'+fname, Dataimig)
+
     pass
 
 
@@ -239,7 +305,6 @@ def train_one_epoch(train_set,model, optimizer):
            foreground_tiles,
            defined_tiles) in enumerate(train_loader):
 
-        print(step)
 
         photo_tiles = photo_tiles.cuda()
         foreground_tiles = foreground_tiles.cuda()
@@ -259,8 +324,28 @@ def train_one_epoch(train_set,model, optimizer):
         loss.backward()
         optimizer.step()
 
-    #validation
+        if (step>9):
+            pass
 
+    validation(model)
+
+
+def validation(model):
+
+    get_val_metrics = partial(models_model_lib.get_val_metrics,
+                          val_annot_dir=' ',
+                          dataset_dir=' ',
+                          in_w=in_w, out_w=out_w, bs=bs)
+
+
+    model_dir=' '
+    prev_model, prev_path = model_utils.get_prev_model(model_dir)
+
+    cur_metrics = get_val_metrics(copy.deepcopy(model))
+    prev_metrics = get_val_metrics(prev_model)
+
+    was_saved = save_if_better(model_dir, model, prev_path,
+                           cur_metrics['f1'], prev_metrics['f1'])
 
 
 def train_type2(model_path, train_annot_dir, dataset_dir):
@@ -292,20 +377,34 @@ print('Batch size', bs)
 
 syncdir = '/content/drive/MyDrive/drive_rp_sync'
 datasets = '/datasets/biopores_750_training'
-project = '/projects/test_01'
+project = '/projects/biopores_a_corrective'
 
-segmentations ='/segmentations'
+
+
+segmentations = '/segmentations'
 val = '/annotations/val'
 train = '/annotations/train'
 
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
 
+setup(syncdir+project)
+setup_date(syncdir+project)
+
 #train_type2(model_path, train_annot_dir, dataset_dir)
 
+'''
 train_type2(syncdir+project+'/models_models/000001_2_1660065013.pkl',
     syncdir+project+'/models_models/'+val,
     syncdir+project+'/models_models/data')
+
+'''
+
+
+#def dif_new_ann(imageSegDir, imageAnnDir):
+    #shut be models model segrigation /home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png
+#A=dif_new_ann('/home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png', '/home/jonatan/Documents/diku/BA/testbil/tranORval/B85-1_000.png')
+#im_utils.save_then_move('/home/jonatan/Documents/diku/BA/testbil/B85-1_000.png', A)
 
 
 
