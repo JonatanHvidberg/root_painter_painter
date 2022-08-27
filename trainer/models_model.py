@@ -259,7 +259,7 @@ def setup_date(setup_dir):
     fnames = [a for a in fnames if im_utils.is_photo(a)]
 
     for fname in fnames:
-        Dataimig = image_and_segmentation(syncdir+datasets+'/' + os.path.splitext(filename)[0] + '.jpg' ,setup_dir +'/segmentations/' + fname)
+        Dataimig = image_and_segmentation(syncdir+datasets+'/' + os.path.splitext(fname)[0] + '.jpg' ,setup_dir +'/segmentations/' + fname)
         im_utils.save_then_move(setup_dir + '/models_models/data/'+fname, Dataimig)
 
     '''
