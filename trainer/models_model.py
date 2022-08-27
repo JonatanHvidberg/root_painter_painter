@@ -388,7 +388,7 @@ train = '/annotations/train'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
 
-setup(syncdir+project)
+#setup(syncdir+project)
 setup_date(syncdir+project)
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
