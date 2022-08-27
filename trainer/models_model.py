@@ -194,7 +194,7 @@ def dif_new_ann(imageSegDir, imageAnnDir):
     imageSeg = imread(imageSegDir) #shut be models model segrigation /home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png
     imageAnn = imread(imageAnnDir)
 
-    imageAnnAnn=np.zeros([(imageAnn).shape[0],(imageAnn).shape[1],4])
+    imageAnnAnn=np.zeros([(imageAnn).shape[0],(imageAnn).shape[1],4], np.uint8)
 
     for x in range(imageAnn.shape[0]): 
         for y in range(imageAnn.shape[1]):
@@ -210,7 +210,7 @@ def dif_new_ann(imageSegDir, imageAnnDir):
             else:
                 imageAnnAnn[x][y][1] = 255
                 imageAnnAnn[x][y][3] = 180
-    return imageAnnAnn
+    return imageAnnAnn.astype('uint8')
 
 
 
@@ -255,12 +255,12 @@ def setup(setup_dir):
     pass
 
 def setup_date(setup_dir):
-    fnames = ls(setup_dir + segmentations)
-    fnames = [a for a in fnames if im_utils.is_photo(a)]
+    #fnames = ls(setup_dir + segmentations)
+    #fnames = [a for a in fnames if im_utils.is_photo(a)]
 
-    for fname in fnames:
-        Dataimig = image_and_segmentation(syncdir+datasets+'/' + os.path.splitext(fname)[0] + '.jpg' ,setup_dir +'/segmentations/' + fname)
-        imsave(setup_dir + '/models_models/data/'+fname, Dataimig)
+    #for fname in fnames:
+    #    Dataimig = image_and_segmentation(syncdir+datasets+'/' + os.path.splitext(fname)[0] + '.jpg' ,setup_dir +'/segmentations/' + fname)
+    #    imsave(setup_dir + '/models_models/data/'+fname, Dataimig)
 
     '''
     val = '/annotations/val'
@@ -273,7 +273,7 @@ def setup_date(setup_dir):
     for fname in fnames:
         #dif_new_ann(imageSegDir, imageAnnDir)
         DataImig = dif_new_ann(setup_dir +'/segmentations/' + fname ,setup_dir +'/annotations/val/' + fname)
-        imsave(setup_dir + '/models_models/annotations/val/'+fname, Dataimig)
+        imsave(setup_dir + '/models_models/annotations/val/'+fname, DataImig)
 
 
     fnames = ls(setup_dir + train)
@@ -282,7 +282,7 @@ def setup_date(setup_dir):
     for fname in fnames:
         #dif_new_ann(imageSegDir, imageAnnDir)
         DataImig = dif_new_ann(setup_dir +'/segmentations/' + fname ,setup_dir +'/annotations/train/' + fname)
-        imsave(setup_dir + '/models_models/annotations/train/'+fname, Dataimig)
+        imsave(setup_dir + '/models_models/annotations/train/'+fname, DataImig)
 
     pass
 
