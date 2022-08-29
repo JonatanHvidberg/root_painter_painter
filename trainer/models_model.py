@@ -97,8 +97,6 @@ def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
         for _ in range(bs):
             if tile_idx < len(tiles):
                 tile = tiles[tile_idx]
-                print('shape(tile)')
-                print(np.shape(tile))
                 #tile = img_as_float32(tile)
                 tile = im_utils.normalize_tile(tile)
                 #print(tile)
@@ -304,33 +302,40 @@ def train_one_epoch(train_set,model, optimizer):
                               num_workers=min(multiprocessing.cpu_count(), 12),
                               drop_last=False, pin_memory=True)
 
-    for step, (photo_tiles,
-           foreground_tiles,
-           defined_tiles) in enumerate(train_loader):
+    num_of_traning_no_better=0
+
+    while num_of_traning_no_better<10:
+
+        for step, (photo_tiles,
+               foreground_tiles,
+               defined_tiles) in enumerate(train_loader):
 
 
-        photo_tiles = photo_tiles.cuda()
-        foreground_tiles = foreground_tiles.cuda()
-        defined_tiles = defined_tiles.cuda()
+            photo_tiles = photo_tiles.cuda()
+            foreground_tiles = foreground_tiles.cuda()
+            defined_tiles = defined_tiles.cuda()
 
-        optimizer.zero_grad()
+            optimizer.zero_grad()
 
-        outputs = model(photo_tiles)
-        softmaxed = softmax(outputs, 1)
+            outputs = model(photo_tiles)
+            softmaxed = softmax(outputs, 1)
 
-        foreground_probs = softmaxed[:, 1, :]
+            foreground_probs = softmaxed[:, 1, :]
 
-        outputs[:, 0] *= defined_tiles
-        outputs[:, 1] *= defined_tiles
+            outputs[:, 0] *= defined_tiles
+            outputs[:, 1] *= defined_tiles
 
-        loss = criterion(outputs, foreground_tiles)
-        loss.backward()
-        optimizer.step()
+            loss = criterion(outputs, foreground_tiles)
+            loss.backward()
+            optimizer.step()
 
-        if (step>9):
-            pass
+            if (step>9):
+                pass
 
-    validation(model)
+        if validation(model):
+            num_of_traning_no_better = 0
+        else:
+            num_of_traning_no_better = num_of_traning_no_better+1
 
 
 def validation(model):
@@ -341,8 +346,8 @@ def validation(model):
                           in_w=in_w, out_w=out_w, bs=bs)
 
 
-    model_dir=syncdir+project+'/models_models'
-    prev_path = model_utils.get_latest_model_paths(syncdir+project+'/models_models/models', k=1)[0]
+    model_dir=syncdir+project+'/models_models/models'
+    prev_path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     prev_model =load_model(prev_path)
 
     cur_metrics = get_val_metrics(copy.deepcopy(model))
@@ -351,10 +356,12 @@ def validation(model):
     print('cur_metrics')
     print(cur_metrics)
 
-    '''
+    
     was_saved = save_if_better(model_dir, model, prev_path,
                            cur_metrics['f1'], prev_metrics['f1'])
-    '''
+
+    return was_saved
+    
 
 
 def train_type2(model_path, train_annot_dir, dataset_dir):
@@ -397,9 +404,15 @@ train = '/annotations/train'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
 
-model=load_model(syncdir+project+'/models_models/models/000001_1661772775.pkl')
 
-validation(model)
+#train_type2(model_path, train_annot_dir, dataset_dir)
+train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
+    , syncdir+project+train
+    , syncdir+project+'/models_models/data')
+
+#model=load_model(syncdir+project+'/models_models/models/000001_1661772775.pkl')
+
+#validation(model)
 
 #setup(syncdir+project)
 #setup_date(syncdir+project)
