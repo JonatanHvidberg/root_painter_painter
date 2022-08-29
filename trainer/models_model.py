@@ -409,7 +409,7 @@ print(syncdir+project+'/models_models')
 
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
-train_type2(syncdir+project+'/models_models/models/000033_1578341100.pkl'
+train_type2(syncdir+project+'/models_models/models/000003_1661779227.pkl'
     , syncdir+project+train
     , syncdir+project+'/models_models/data')
 
