@@ -21,6 +21,8 @@ from torch.utils.data import DataLoader
 from model_utils import save_if_better
 
 from file_utils import ls
+
+from functools import partial
 '''
 from model_utils thens to mage my model
 ====================================================================================================
