@@ -23,6 +23,7 @@ from model_utils import save_if_better
 from file_utils import ls
 
 from functools import partial
+import copy
 '''
 from model_utils thens to mage my model
 ====================================================================================================
