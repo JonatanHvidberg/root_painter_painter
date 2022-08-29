@@ -333,19 +333,25 @@ def train_one_epoch(train_set,model, optimizer):
 def validation(model):
 
     get_val_metrics = partial(models_model_lib.get_val_metrics,
-                          val_annot_dir=' ',
-                          dataset_dir=' ',
+                          val_annot_dir=syncdir+project+'/models_models'+val,
+                          dataset_dir=syncdir+project+'/models_models/data',
                           in_w=in_w, out_w=out_w, bs=bs)
 
 
-    model_dir=' '
-    prev_model, prev_path = model_utils.get_prev_model(model_dir)
+    model_dir=syncdir+project+'/models_models'
+    prev_path = model_utils.get_latest_model_paths(syncdir+project+'/models_models/models', k=1)[0]
+    prev_model =load_model(prev_path)
 
     cur_metrics = get_val_metrics(copy.deepcopy(model))
     prev_metrics = get_val_metrics(prev_model)
 
+    print('cur_metrics')
+    print(cur_metrics)
+
+    '''
     was_saved = save_if_better(model_dir, model, prev_path,
                            cur_metrics['f1'], prev_metrics['f1'])
+    '''
 
 
 def train_type2(model_path, train_annot_dir, dataset_dir):
@@ -388,10 +394,18 @@ train = '/annotations/train'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models')
 
+model=load_model(syncdir+project+'/models_models/models/000001_1661772775.pkl')
+
+validation(model)
+
 #setup(syncdir+project)
 #setup_date(syncdir+project)
+#create_first_model_with_random_weights(syncdir+project+'/models_models')
 
-create_first_model_with_random_weights(syncdir+project+'/models_models')
+
+
+
+
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
 
