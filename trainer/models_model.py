@@ -389,7 +389,9 @@ train = '/annotations/train'
 print(syncdir+project+'/models_models')
 
 #setup(syncdir+project)
-setup_date(syncdir+project)
+#setup_date(syncdir+project)
+
+create_first_model_with_random_weights(syncdir+project+'/models_models')
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
 
