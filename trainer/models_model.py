@@ -356,6 +356,9 @@ def validation(model):
     print('cur_metrics')
     print(cur_metrics)
 
+    print('prev_metrics')
+    print(prev_metrics)
+
     
     was_saved = save_if_better(model_dir, model, prev_path,
                            cur_metrics['f1'], prev_metrics['f1'])
@@ -406,7 +409,7 @@ print(syncdir+project+'/models_models')
 
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
-train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
+train_type2(syncdir+project+'/models_models/models/000033_1578341100.pkl'
     , syncdir+project+train
     , syncdir+project+'/models_models/data')
 
