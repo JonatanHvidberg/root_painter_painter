@@ -53,22 +53,24 @@ def segment_gradian(model_paths, image, bs, in_w, out_w):
     return foreground_probs
 
 def gradian_data_setop(model_paths):
-
-    image = im_utils.load_image(syncdir+datasets+'/B85-1_000.jpg')
-    segmented = segment_gradian(model_paths, image, bs, in_w, out_w)
-
-    seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 3))
-    seg_alpha[segmented > 0] = [0, 1.0, 1.0]
-
-    segmented.shape=(segmented.shape[0],segmented.shape[1],1)
-
-    seg_alpha  = (seg_alpha * 255).astype(np.uint8)
-
-    seg_alpha = np.concatenate((seg_alpha,segmented), axis=2)
-
     
-    im_utils.save_then_move(syncdir+project+'/test3.png', seg_alpha)
-    pass
+    fnames = ls(setup_dir)
+    fnames = [a for a in fnames if im_utils.is_photo(a)]
+    for fname in fnames:
+
+        image = im_utils.load_image(syncdir+datasets+'/'+ os.path.splitext(fname)[0] + '.jpg')
+        segmented = segment_gradian(model_paths, image, bs, in_w, out_w)
+
+        #seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 3))
+        #seg_alpha[segmented > 0] = [0, 1.0, 1.0]
+
+        segmented.shape=(segmented.shape[0],segmented.shape[1],1)
+
+        #seg_alpha  = (seg_alpha * 255).astype(np.uint8)
+
+        image = np.concatenate((seg_alpha,segmented), axis=2)
+
+        im_utils.save_then_move(syncdir+project+'/models_models/data2/'+fname, image)
 
 def test_data():
     image=imread(syncdir+project+'/models_models/data/B85-1_000.png')
@@ -110,7 +112,7 @@ train = '/annotations/train'
 print(syncdir+project+'/models_models/000015_1578333385.pkl')
 
 #test_data()
-gradian_data_setop([syncdir+project+'/models/000015_1578333385.pkl'])
+gradian_data_setop([syncdir+project+'/models/000015_1578333385.pkl'], syncdir+project+'/segmentations')
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
