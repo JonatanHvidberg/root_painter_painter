@@ -6,6 +6,9 @@ from datasets2 import TrainDataset as TrainDataset2
 import im_utils
 import torch
 
+#for test
+from skimage.io import imread, imsave
+
 import numpy as np
 
 
