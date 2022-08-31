@@ -52,8 +52,10 @@ def gradian_data_setop(model_paths):
     image = im_utils.load_image(syncdir+datasets+'/B85-1_000.jpg')
     segmented = segment_gradian(model_paths, image, bs, in_w, out_w)
 
-    seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 4))
-    seg_alpha[segmented > 0] = [0, 1.0, 1.0, segmented]
+    seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 3))
+    seg_alpha[segmented > 0] = [0, 1.0, 1.0]
+
+    seg_alpha = np.concatenate((seg_alpha,segmented), axis=2)
 
     seg_alpha  = (seg_alpha * 255).astype(np.uint8)
 
