@@ -55,7 +55,7 @@ def gradian_data_setop(model_paths):
     image = im_utils.load_image(syncdir+datasets+'/B85-1_000.jpg')
     segmented = segment_gradian(model_paths, image, bs, in_w, out_w)
 
-    seg_alpha = np.ones((segmented.shape[0], segmented.shape[1], 3))
+    seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 3))
     seg_alpha[segmented > 0] = [0, 1.0, 1.0]
 
     segmented.shape=(segmented.shape[0],segmented.shape[1],1)
@@ -71,9 +71,9 @@ def gradian_data_setop(model_paths):
 def test_data():
     image=imread(syncdir+project+'/models_models/data/B85-1_000.png')
     image_RGB = np.array(image[:,:,:3])
-    seg_alpha = np.zeros((image_RGB.shape[0], image_RGB.shape[1], 1))
+    seg_alpha = np.ones((image_RGB.shape[0], image_RGB.shape[1], 1))
 
-    image = np.concatenate((image_RGB,seg_alpha), axis=2)
+    image = (np.concatenate((image_RGB,seg_alpha), axis=2)).astype(np.uint8
 
     imsave(syncdir+project+'/test-B85-1_000.png',image)
 '''
