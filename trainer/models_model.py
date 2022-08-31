@@ -90,7 +90,7 @@ train = '/annotations/train'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models/000015_1578333385.pkl')
 
-gradian_data_setop(syncdir+project+'/models/000015_1578333385.pkl')
+gradian_data_setop([syncdir+project+'/models/000015_1578333385.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
 '''
