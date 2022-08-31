@@ -117,12 +117,13 @@ def train_type2(model_path, train_annot_dir, dataset_dir):
     train_epoch(train_set, model, optimizer, dataset_dir)
     pass
 
-def train_type3(model_path, train_annot_dir, dataset_dir, dataset_dir2):
-    model
+def train_type3(model_path, fmodel_path, train_annot_dir, dataset_dir, dataset_dir2):
+    
+    fmodel = model_utils.load_model(fmodel_path)
 
     train_set = TrainDataset3(fmodel, train_annot_dir,dataset_dir,in_w,out_w)
 
-    model = model_utils.load_model(model_path)
+    model = mml.load_model(model_path)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
 
@@ -236,6 +237,7 @@ train_type2(syncdir+project+'/models_models/models2/000001_1661772775.pkl'
 '''
 
 train_type3(syncdir+project+'/models_models/models3/000001_1661772775.pkl'
+    , syncdir+project+'/models/000015_1578333385.pkl'
     , syncdir+project+train
     , syncdir+datasets
     , syncdir+project+'/models_models/data2'
