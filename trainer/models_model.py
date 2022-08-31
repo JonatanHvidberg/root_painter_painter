@@ -11,6 +11,7 @@ from torch.nn.functional import softmax
 from loss import combined_loss as criterion
 from functools import partial
 from model_utils import save_if_better
+from torch.utils.data import DataLoader
 
 #for test
 from skimage.io import imread, imsave
