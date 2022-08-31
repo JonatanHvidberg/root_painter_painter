@@ -118,9 +118,11 @@ def train_type2(model_path, train_annot_dir, dataset_dir):
     pass
 
 def train_type3(model_path, train_annot_dir, dataset_dir, dataset_dir2):
-    train_set = TrainDataset3(train_annot_dir,dataset_dir,in_w,out_w)
+    model
 
-    model = mml.load_model(model_path)
+    train_set = TrainDataset3(fmodel, train_annot_dir,dataset_dir,in_w,out_w)
+
+    model = model_utils.load_model(model_path)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
 
