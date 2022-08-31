@@ -3,6 +3,7 @@
 import models_model_lib as mml
 import model_utils
 from datasets2 import TrainDataset as TrainDataset2
+from datasets3 import TrainDataset as TrainDataset3
 import im_utils
 import torch
 
@@ -79,15 +80,15 @@ def train_epoch(train_set,model, optimizer):
             num_of_traning_no_better = num_of_traning_no_better+1
 
 
-def validation(model):
+def validation(model,dataset_dir):
 
     get_val_metrics = partial(mml.get_val_metrics,
                           val_annot_dir=syncdir+project+'/models_models'+val,
-                          dataset_dir=syncdir+project+'/models_models/data',
+                          dataset_dir=dataset_dir,
                           in_w=in_w, out_w=out_w, bs=bs)
 
 
-    model_dir=syncdir+project+'/models_models/models2'
+    model_dir=syncdir+project+'/models_models/models3'
     prev_path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     prev_model =mml.load_model(prev_path)
 
@@ -113,7 +114,17 @@ def train_type2(model_path, train_annot_dir, dataset_dir):
 
     optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
 
-    train_epoch(train_set, model, optimizer)    
+    train_epoch(train_set, model, optimizer, dataset_dir)
+    pass
+
+def train_type3(model_path, train_annot_dir, dataset_dir, dataset_dir2):
+    train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
+
+    model = mml.load_model(model_path)
+
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
+
+    train_epoch(train_set, model, optimizer, dataset_dir2)    
     pass
 
 def segment_gradian(model_paths, image, bs, in_w, out_w):
@@ -213,13 +224,20 @@ print(syncdir+project+'/models_models/000015_1578333385.pkl')
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
 '''
-train_type2(syncdir+project+'/models_models/models/000003_1661779227.pkl'
-    , syncdir+project+train
-    , syncdir+project+'/models_models/data')
-'''
 train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
+    , syncdir+project+'/models_models'+train
+    , syncdir+project+'/models_models/data')
+
+train_type2(syncdir+project+'/models_models/models2/000001_1661772775.pkl'
     , syncdir+project+train
     , syncdir+project+'/models_models/data2')
+'''
+
+train_type3(syncdir+project+'/models_models/models3/000001_1661772775.pkl'
+    , syncdir+project+train
+    , syncdir+datasets
+    , syncdir+project+'/models_models/data2'
+    )
 
 #model=load_model(syncdir+project+'/models_models/models/000001_1661772775.pkl')
 

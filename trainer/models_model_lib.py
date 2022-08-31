@@ -96,6 +96,29 @@ def ensemble_segment(model_paths, image, bs, in_w, out_w,
     predicted = predicted.astype(int)
     return predicted
 
+def simbel_segment(cnn, image):
+    """ Average predictions from each model specified in model_paths """
+    pred_sum = None
+    pred_count = 0
+    # then add predictions from the previous models to form an ensemble
+
+
+    preds = unet_segment(cnn, image, bs, in_w, out_w, threshold=None)
+    if pred_sum is not None:
+        pred_sum += preds
+    else:
+        pred_sum = preds
+    pred_count += 1
+    # get flipped version too (test time augmentation)
+    flipped_im = np.fliplr(image)
+    flipped_pred = unet_segment(cnn, flipped_im, bs, in_w,
+                                out_w, threshold=None)
+    pred_sum += np.fliplr(flipped_pred)
+    pred_count += 1
+    foreground_probs = pred_sum / pred_count
+
+    return foreground_probs
+
 
 def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
     """
@@ -293,30 +316,17 @@ def as_float32(image):#img_as_float32 for imige with seg
 
         return image
 
-
-def image_and_segmentation(imageDir, imageSegDir):
+def image_and_segmentation_dir(imageDir, imageSegDir):
     image = im_utils.load_image(imageDir)
     imageSeg = imread(imageSegDir)
+    return image_and_segmentation(image,imageSeg)
 
-    '''
+def image_and_segmentation(image, imageSeg):
 
-    imageVitSeg=np.zeros([(image).shape[0],(image).shape[1],4])
-
-    for x in range(image.shape[0]): 
-        for y in range(image.shape[1]):
-            for z in range(image.shape[2]):
-                imageVitSeg[x][y][z]=image[x][y][z]
-
-            imageVitSeg[x][y][3]=imageSeg[x][y][3]
-
-            if (imageSeg[x][y][3] != 0):
-                imageVitSeg[x][y][3]=1
-    
-    '''
     imageSegBul = np.array(imageSeg[:,:,2:3]) #take the segmen imiget and set it to one layer 
     imageVitSeg = np.concatenate((image,imageSegBul), axis=2) # concat imig and segmentaysen to 4 layer
 
-    #im_utils.save_then_move(saveDir, imageVitSeg)
+
     
     image = img_as_float32(image)
     imageSegBul = np.array(imageSeg[:,:,2:3], dtype=bool)
@@ -346,11 +356,12 @@ def dif_seg_ann(imageSegDir, imageAnnDir, imageSaveDir):
     im_utils.save_then_move(imageSaveDir, imageAnnAnn)
     pass
 
-
-
 def dif_new_ann(imageSegDir, imageAnnDir):
     imageSeg = imread(imageSegDir) #shut be models model segrigation /home/jonatan/Documents/diku/BA/testbil/sek/B85-1_000.png
     imageAnn = imread(imageAnnDir)
+    return new_ann(imageSeg,imageAnn)
+
+def new_ann(imageSeg, imageAnn):
 
     imageAnnAnn=np.zeros([(imageAnn).shape[0],(imageAnn).shape[1],4], np.uint8)
 
