@@ -92,6 +92,7 @@ class TrainDataset(Dataset):
         """
         in_w and out_w are the tile size in pixels
         """
+        self.model = model
         self.in_w = in_w
         self.out_w = out_w
         self.train_annot_dir = train_annot_dir
@@ -147,7 +148,7 @@ class TrainDataset(Dataset):
         im_tile, annot_tile = self.augmentor.transform(im_tile, annot_tile)
         im_tile = im_utils.normalize_tile(im_tile)
 
-        segmented=mml.simbel_segment(model, im_tile)
+        segmented=mml.simbel_segment(self.model, im_tile)
         segmented.shape=(segmented.shape[0],segmented.shape[1],1)
 
         im_tile = image_and_segmentation(im_tile, segmented)
