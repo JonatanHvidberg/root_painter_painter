@@ -71,7 +71,8 @@ def gradian_data_setop(model_paths):
 def test_data():
     image=imread(syncdir+project+'/models_models/data/B85-1_000.png')
     image_RGB = np.array(image[:,:,:3])
-    seg_alpha = np.ones((image_RGB.shape[0], image_RGB.shape[1], 1))
+    seg_alpha = np.ones((image_RGB.shape[0], image_RGB.shape[1], 1))*255
+
 
     image = (np.concatenate((image_RGB,seg_alpha), axis=2))
 
