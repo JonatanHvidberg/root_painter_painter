@@ -1,10 +1,16 @@
 
 
-from models_model_lib  import *
+import models_model_lib as mml
 import model_utils
 from datasets2 import TrainDataset as TrainDataset2
 import im_utils
 import torch
+
+#for traning
+from torch.nn.functional import softmax
+from loss import combined_loss as criterion
+from functools import partial
+from model_utils import save_if_better
 
 #for test
 from skimage.io import imread, imsave
@@ -13,16 +19,94 @@ import time
 import os
 
 
+
+
 import numpy as np
 
 
 def setop():
     pass
 
+def train_epoch(train_set,model, optimizer):
+    
+    model.train()
+
+
+    train_loader = DataLoader(train_set, bs, shuffle=True,
+                              # 12 workers is good for performance
+                              # on 2 RTX2080 Tis
+                              # 0 workers is good for debugging
+                              # don't go above 12 workers and don't go above the number of cpus
+                              num_workers=min(multiprocessing.cpu_count(), 12),
+                              drop_last=False, pin_memory=True)
+
+    num_of_traning_no_better=0
+
+    while num_of_traning_no_better<10:
+
+        for step, (photo_tiles,
+               foreground_tiles,
+               defined_tiles) in enumerate(train_loader):
+
+
+            photo_tiles = photo_tiles.cuda()
+            foreground_tiles = foreground_tiles.cuda()
+            defined_tiles = defined_tiles.cuda()
+
+            optimizer.zero_grad()
+
+            outputs = model(photo_tiles)
+            softmaxed = softmax(outputs, 1)
+
+            foreground_probs = softmaxed[:, 1, :]
+
+            outputs[:, 0] *= defined_tiles
+            outputs[:, 1] *= defined_tiles
+
+            loss = criterion(outputs, foreground_tiles)
+            loss.backward()
+            optimizer.step()
+
+            if (step>9):
+                pass
+
+        if validation(model):
+            num_of_traning_no_better = 0
+        else:
+            num_of_traning_no_better = num_of_traning_no_better+1
+
+
+def validation(model):
+
+    get_val_metrics = partial(mml.get_val_metrics,
+                          val_annot_dir=syncdir+project+'/models_models'+val,
+                          dataset_dir=syncdir+project+'/models_models/data',
+                          in_w=in_w, out_w=out_w, bs=bs)
+
+
+    model_dir=syncdir+project+'/models_models/models2'
+    prev_path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
+    prev_model =mml.load_model(prev_path)
+
+    cur_metrics = get_val_metrics(copy.deepcopy(model))
+    prev_metrics = get_val_metrics(prev_model)
+
+    print('cur_metrics')
+    print(cur_metrics)
+
+    print('prev_metrics')
+    print(prev_metrics)
+
+    
+    was_saved = save_if_better(model_dir, model, prev_path,
+                           cur_metrics['f1'], prev_metrics['f1'])
+
+    return was_saved
+
 def train_type2(model_path, train_annot_dir, dataset_dir):
     train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
 
-    model = load_model(model_path)
+    model = mml.load_model(model_path)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
 
