@@ -42,7 +42,7 @@ def segment_gradian(model_paths, image, bs, in_w, out_w):
                                     out_w, threshold=None)
         pred_sum += np.fliplr(flipped_pred)
         pred_count += 1
-    foreground_probs = pred_sum / pred_count
+    foreground_probs = (pred_sum / pred_count)*255
     foreground_probs = foreground_probs.astype(int)
     #predicted = foreground_probs > threshold
     #predicted = predicted.astype(int)
