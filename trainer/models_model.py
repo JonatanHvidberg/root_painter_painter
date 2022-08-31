@@ -1,6 +1,6 @@
 
 
-import models_model_lib  as mml
+from models_model_lib  import *
 import model_utils
 from datasets2 import TrainDataset as TrainDataset2
 import im_utils
@@ -22,11 +22,11 @@ def setop():
 def train_type2(model_path, train_annot_dir, dataset_dir):
     train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
 
-    model = mml.load_model(model_path)
+    model = load_model(model_path)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
 
-    mml.train_epoch(train_set, model, optimizer)    
+    train_epoch(train_set, model, optimizer)    
     pass
 
 def segment_gradian(model_paths, image, bs, in_w, out_w):
@@ -87,11 +87,7 @@ def test_data():
 '''
 Data
 '''
-global in_w
-global out_w
-global mem_per_item
-global total_mem
-global bs
+
 
 in_w = 572
 out_w = 500
