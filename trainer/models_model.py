@@ -87,6 +87,12 @@ def test_data():
 '''
 Data
 '''
+global in_w
+global out_w
+global mem_per_item
+global total_mem
+global bs
+
 in_w = 572
 out_w = 500
 mem_per_item = 3800000000
