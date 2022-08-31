@@ -71,7 +71,7 @@ def gradian_data_setop(model_paths,setup_dir):
 
         #seg_alpha  = (seg_alpha * 255).astype(np.uint8)
 
-        image = np.concatenate((seg_alpha,segmented), axis=2)
+        image = np.concatenate((image,segmented), axis=2)
 
         im_utils.save_then_move(syncdir+project+'/models_models/data2/'+fname, image)
 
