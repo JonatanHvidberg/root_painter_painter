@@ -52,7 +52,7 @@ def segment_gradian(model_paths, image, bs, in_w, out_w):
     #predicted = predicted.astype(int)
     return foreground_probs
 
-def gradian_data_setop(model_paths):
+def gradian_data_setop(model_paths,setup_dir):
     
     fnames = ls(setup_dir)
     fnames = [a for a in fnames if im_utils.is_photo(a)]
