@@ -8,6 +8,7 @@ import torch
 
 #for test
 from skimage.io import imread, imsave
+from file_utils import ls
 
 import numpy as np
 
@@ -52,6 +53,7 @@ def segment_gradian(model_paths, image, bs, in_w, out_w):
     return foreground_probs
 
 def gradian_data_setop(model_paths):
+
     image = im_utils.load_image(syncdir+datasets+'/B85-1_000.jpg')
     segmented = segment_gradian(model_paths, image, bs, in_w, out_w)
 
@@ -65,7 +67,7 @@ def gradian_data_setop(model_paths):
     seg_alpha = np.concatenate((seg_alpha,segmented), axis=2)
 
     
-    im_utils.save_then_move(syncdir+project+'/test2.png', seg_alpha)
+    im_utils.save_then_move(syncdir+project+'/test3.png', seg_alpha)
     pass
 
 def test_data():
@@ -107,8 +109,8 @@ train = '/annotations/train'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models/000015_1578333385.pkl')
 
-test_data()
-#gradian_data_setop([syncdir+project+'/models/000015_1578333385.pkl'])
+#test_data()
+gradian_data_setop([syncdir+project+'/models/000015_1578333385.pkl'])
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
