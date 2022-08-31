@@ -31,7 +31,7 @@ import numpy as np
 def setop():
     pass
 
-def train_epoch(train_set,model, optimizer):
+def train_epoch(train_set,model, optimizer, dataset_dir):
     
     model.train()
 
@@ -74,7 +74,7 @@ def train_epoch(train_set,model, optimizer):
             if (step>9):
                 pass
 
-        if validation(model):
+        if validation(model, dataset_dir):
             num_of_traning_no_better = 0
         else:
             num_of_traning_no_better = num_of_traning_no_better+1
