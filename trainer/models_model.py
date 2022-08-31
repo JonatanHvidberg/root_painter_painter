@@ -73,7 +73,7 @@ def test_data():
     image_RGB = np.array(image[:,:,:3])
     seg_alpha = np.ones((image_RGB.shape[0], image_RGB.shape[1], 1))
 
-    image = (np.concatenate((image_RGB,seg_alpha), axis=2)).astype(np.uint8
+    image = (np.concatenate((image_RGB,seg_alpha), axis=2))
 
     imsave(syncdir+project+'/test-B85-1_000.png',image)
 '''
