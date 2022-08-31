@@ -53,7 +53,7 @@ def gradian_data_setop(model_paths):
     segmented = segment_gradian(model_paths, image, bs, in_w, out_w)
 
     seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 4))
-    seg_alpha[segmented > 0] = [0, 1.0, 1.0, 1.0]
+    seg_alpha[segmented > 0] = [0, 1.0, 1.0, segmented]
 
     seg_alpha  = (seg_alpha * 255).astype(np.uint8)
 
