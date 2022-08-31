@@ -61,7 +61,11 @@ def gradian_data_setop(model_paths):
 
     seg_alpha  = (seg_alpha * 255).astype(np.uint8)
 
-    print(seg_alpha[:,:,3])
+    for x in range(seg_alpha.shape[0]):
+        for y in range(seg_alpha.shape[1]):
+            if seg_alpha[x,y,3]!=0:
+                print(seg_alpha[x,y,3])
+                pass
 
     #im_utils.save_then_move(syncdir+project+'/test.png', seg_alpha)
     pass
