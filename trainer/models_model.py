@@ -61,7 +61,9 @@ def gradian_data_setop(model_paths):
 
     seg_alpha  = (seg_alpha * 255).astype(np.uint8)
 
-    im_utils.save_then_move(syncdir+project+'/test.png', seg_alpha)
+    print(seg_alpha[:,:,3])
+
+    #im_utils.save_then_move(syncdir+project+'/test.png', seg_alpha)
     pass
 
 '''
