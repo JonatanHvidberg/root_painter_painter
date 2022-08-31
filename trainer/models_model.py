@@ -118,7 +118,7 @@ def train_type2(model_path, train_annot_dir, dataset_dir):
     pass
 
 def train_type3(model_path, train_annot_dir, dataset_dir, dataset_dir2):
-    train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
+    train_set = TrainDataset3(train_annot_dir,dataset_dir,in_w,out_w)
 
     model = mml.load_model(model_path)
 
