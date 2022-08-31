@@ -8,7 +8,7 @@ import im_utils
 import numpy as np
 
 
-def setop()
+def setop():
     pass
 
 def train_type2(model_path, train_annot_dir, dataset_dir):
