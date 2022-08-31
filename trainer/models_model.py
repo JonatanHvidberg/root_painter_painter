@@ -65,6 +65,14 @@ def gradian_data_setop(model_paths):
     im_utils.save_then_move(syncdir+project+'/test2.png', seg_alpha)
     pass
 
+def test_data()
+    image=imread(syncdir+project+'/models_models/data/B85-1_000.png')
+    image_RGB = np.array(image[:,:,:3])
+    seg_alpha = np.zeros((image_RGB.shape[0], image_RGB.shape[1], 1))
+
+    image = np.concatenate((image_RGB,seg_alpha), axis=2)
+
+    imsave(syncdir+project+'/test-B85-1_000.png',image)
 '''
 Data
 '''
@@ -95,8 +103,9 @@ train = '/annotations/train'
 #print(syncdir+datasets+'/B85-1_000.png')
 print(syncdir+project+'/models_models/000015_1578333385.pkl')
 
+test_data()
 #gradian_data_setop([syncdir+project+'/models/000015_1578333385.pkl'])
-gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
+#gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
 '''
