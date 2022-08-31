@@ -57,19 +57,12 @@ def gradian_data_setop(model_paths):
 
     segmented.shape=(segmented.shape[0],segmented.shape[1],1)
 
-    seg_alpha = np.concatenate((seg_alpha,segmented), axis=2)
-
     seg_alpha  = (seg_alpha * 255).astype(np.uint8)
 
-    for x in range(seg_alpha.shape[0]):
-        for y in range(seg_alpha.shape[1]):
-            if seg_alpha[x,y,3]!=0:
-                print(':')
-                print(seg_alpha[x,y,3])
-                print(segmented[x,y,0])
-                pass
+    seg_alpha = np.concatenate((seg_alpha,segmented), axis=2)
 
-    #im_utils.save_then_move(syncdir+project+'/test.png', seg_alpha)
+    
+    im_utils.save_then_move(syncdir+project+'/test2.png', seg_alpha)
     pass
 
 '''
