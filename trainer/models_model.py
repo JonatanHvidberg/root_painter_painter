@@ -75,7 +75,7 @@ def test_data():
 
     image = (np.concatenate((image_RGB,seg_alpha), axis=2))
 
-    imsave(syncdir+project+'/test-B85-1_000.png',image)
+    imsave(syncdir+project+'/test2-B85-1_000.png',image)
 '''
 Data
 '''
