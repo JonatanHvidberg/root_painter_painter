@@ -55,6 +55,8 @@ def gradian_data_setop(model_paths):
     seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 3))
     seg_alpha[segmented > 0] = [0, 1.0, 1.0]
 
+    segmented.shape=(segmented.shape[0],segmented.shape[1],1)
+
     seg_alpha = np.concatenate((seg_alpha,segmented), axis=2)
 
     seg_alpha  = (seg_alpha * 255).astype(np.uint8)
