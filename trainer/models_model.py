@@ -49,7 +49,7 @@ def segment_gradian(model_paths, image, bs, in_w, out_w):
     return foreground_probs
 
 def gradian_data_setop(model_paths):
-    image=datasets+'/B85-1_000.jpg'
+    image = im_utils.load_image(datasets+'/B85-1_000.jpg')
     segmented = segment_gradian(model_paths, image, bs, in_w, out_w)
 
     seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 4))
