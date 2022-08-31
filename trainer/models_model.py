@@ -88,7 +88,7 @@ def validation(model,dataset_dir):
                           in_w=in_w, out_w=out_w, bs=bs)
 
 
-    model_dir=syncdir+project+'/models_models/models2'
+    model_dir=syncdir+project+'/models_models/models'
     prev_path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     prev_model =mml.load_model(prev_path)
 
@@ -219,14 +219,14 @@ val = '/annotations/val'
 train = '/annotations/train'
 
 #print(syncdir+datasets+'/B85-1_000.png')
-print(syncdir+project+'/models_models/000015_1578333385.pkl')
+#print(syncdir+project+'/models_models/000015_1578333385.pkl')
 
 #test_data()
 #gradian_data_setop([syncdir+project+'/models/000015_1578333385.pkl'], syncdir+project+'/segmentations')
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
-'''
+
 train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
@@ -235,6 +235,7 @@ train_type2(syncdir+project+'/models_models/models2/000001_1661772775.pkl'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data2')
 
+'''
 '''
 train_type3(syncdir+project+'/models_models/models3/000001_1661772775.pkl'
     , syncdir+project+'/models/000015_1578333385.pkl'
