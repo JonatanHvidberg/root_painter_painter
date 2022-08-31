@@ -272,7 +272,7 @@ def load_train_image_and_annot(dataset_dir, train_annot_dir):
 '''
 my funtion
 '''
-def as_float32(image)#img_as_float32 for imige with seg
+def as_float32(image):#img_as_float32 for imige with seg
 
         image_seg = np.array(image[:,:,3:])/255
         image_RGB = np.array(image[:,:,:3])
