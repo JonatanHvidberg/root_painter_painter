@@ -31,6 +31,17 @@ from skimage.io import imread, imsave
 from metrics import get_metrics
 
 
+in_w = 572
+out_w = 500
+mem_per_item = 3800000000
+total_mem = 0
+print('GPU Available', torch.cuda.is_available())
+for i in range(torch.cuda.device_count()):
+    total_mem += torch.cuda.get_device_properties(i).total_memory
+bs = total_mem // mem_per_item
+bs = min(12, bs)
+print('Batch size', bs)
+
 '''
 from model_utils thens to mage my model
 ====================================================================================================
