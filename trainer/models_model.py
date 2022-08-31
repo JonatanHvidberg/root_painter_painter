@@ -115,7 +115,7 @@ train = '/annotations/train'
 print(syncdir+project+'/models_models/000015_1578333385.pkl')
 
 #test_data()
-gradian_data_setop([syncdir+project+'/models/000015_1578333385.pkl'], syncdir+project+'/segmentations')
+#gradian_data_setop([syncdir+project+'/models/000015_1578333385.pkl'], syncdir+project+'/segmentations')
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
@@ -124,6 +124,9 @@ train_type2(syncdir+project+'/models_models/models/000003_1661779227.pkl'
     , syncdir+project+train
     , syncdir+project+'/models_models/data')
 '''
+train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
+    , syncdir+project+train
+    , syncdir+project+'/models_models/data2')
 
 #model=load_model(syncdir+project+'/models_models/models/000001_1661772775.pkl')
 

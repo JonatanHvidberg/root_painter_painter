@@ -492,7 +492,7 @@ def validation(model):
                           in_w=in_w, out_w=out_w, bs=bs)
 
 
-    model_dir=syncdir+project+'/models_models/models'
+    model_dir=syncdir+project+'/models_models/models2'
     prev_path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     prev_model =load_model(prev_path)
 
