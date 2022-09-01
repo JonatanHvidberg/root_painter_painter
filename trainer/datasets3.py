@@ -143,20 +143,11 @@ class TrainDataset(Dataset):
         assert im_tile.shape == (self.in_w, self.in_w, 3), (
             f" shape is {im_tile.shape} for tile from {fname}")
 
-        print('1',im_tile.shape)
 
         im_tile = img_as_float32(im_tile)
-
-        print('2',im_tile.shape)
         im_tile = im_utils.normalize_tile(im_tile)
-
-        print('3',im_tile.shape)
         im_tile, annot_tile = self.augmentor.transform(im_tile, annot_tile)
-
-        print('4',im_tile.shape)
         im_tile = im_utils.normalize_tile(im_tile)
-
-        print('5',im_tile.shape)
 
         '''
         segmented=mml.simbel_segment(self.model, im_tile)
@@ -180,7 +171,15 @@ class TrainDataset(Dataset):
         foreground = foreground + background
         foreground = foreground.astype(np.int64)
         foreground = torch.from_numpy(foreground)
+        print('5',im_tile.shape)
+
         im_tile = im_tile.astype(np.float32)
+        print('6',im_tile.shape)
+
         im_tile = np.moveaxis(im_tile, -1, 0)
+        print('7',im_tile.shape)
+
         im_tile = torch.from_numpy(im_tile)
+        print('8',im_tile.shape)
+
         return im_tile, foreground, mask
