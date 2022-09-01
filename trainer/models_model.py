@@ -88,7 +88,7 @@ def validation(model,dataset_dir):
                           in_w=in_w, out_w=out_w, bs=bs)
 
 
-    model_dir=syncdir+project+'/models_models/models3'
+    model_dir=syncdir+project+'/models_models/models2'
     prev_path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     prev_model =mml.load_model(prev_path)
 
@@ -230,20 +230,21 @@ train = '/annotations/train'
 train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
+'''
+for x in xrange(1,10):
+    train_type2(syncdir+project+'/models_models/models2/000001_1661772775.pkl'
+        , syncdir+project+'/models_models'+train
+        , syncdir+project+'/models_models/data2')
 
-train_type2(syncdir+project+'/models_models/models2/000001_1661772775.pkl'
-    , syncdir+project+'/models_models'+train
-    , syncdir+project+'/models_models/data2')
 
 '''
-
 train_type3(syncdir+project+'/models_models/models3/000001_1661772775.pkl'
     , syncdir+project+'/models/000015_1578333385.pkl'
     , syncdir+project+train
     , syncdir+datasets
     , syncdir+project+'/models_models/data2'
     )
-
+'''
 
 #model=load_model(syncdir+project+'/models_models/models/000001_1661772775.pkl')
 
