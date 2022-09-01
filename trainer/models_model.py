@@ -30,7 +30,7 @@ import numpy as np
 
 def setop():
     pass
-def DataLoader_type3(model, im_tile, annot_tile)
+def DataLoader_type3(model, im_tile, annot_tile):
         segmented=mml.simbel_segment(model, im_tile)
         segmented.shape=(segmented.shape[0],segmented.shape[1],1)
 
