@@ -125,7 +125,7 @@ def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):
     Threshold set to None means probabilities returned without thresholding.
     """
     print(in_w)
-    print(image)
+    print(image.shape)
     assert image.shape[0] >= in_w, str(image.shape[0])
     assert image.shape[1] >= in_w, str(image.shape[1])
 
