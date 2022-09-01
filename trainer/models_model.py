@@ -40,6 +40,9 @@ def DataLoader_type3(model, im_tile, annot_tile):
         print('shape')
         print(im_tile.shape)
         print(outputs.shape)
+        print(annot_tile.shape)
+
+
 
         assert 1==1
         assert 1!=1
@@ -108,8 +111,6 @@ def train_epoch(train_set,model, optimizer, dataset_dir, type=2, fmodel='nan'):
             loss.backward()
             optimizer.step()
 
-            if (step>9):
-                pass
 
         if validation(model, dataset_dir):
             num_of_traning_no_better = 0

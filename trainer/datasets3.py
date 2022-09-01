@@ -145,9 +145,13 @@ class TrainDataset(Dataset):
 
 
         im_tile = img_as_float32(im_tile)
+
         im_tile = im_utils.normalize_tile(im_tile)
+
         im_tile, annot_tile = self.augmentor.transform(im_tile, annot_tile)
+
         im_tile = im_utils.normalize_tile(im_tile)
+
 
         '''
         segmented=mml.simbel_segment(self.model, im_tile)
@@ -171,15 +175,10 @@ class TrainDataset(Dataset):
         foreground = foreground + background
         foreground = foreground.astype(np.int64)
         foreground = torch.from_numpy(foreground)
-        print('5',im_tile.shape)
-
         im_tile = im_tile.astype(np.float32)
-        print('6',im_tile.shape)
-
         im_tile = np.moveaxis(im_tile, -1, 0)
-        print('7',im_tile.shape)
-
         im_tile = torch.from_numpy(im_tile)
-        print('8',im_tile.shape)
+        print('im_tile',im_tile.shape)
+        print('foreground',foreground.shape)
 
         return im_tile, foreground, mask
