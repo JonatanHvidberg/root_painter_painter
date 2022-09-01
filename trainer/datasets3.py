@@ -88,11 +88,11 @@ class UNetTransformer():
 
 
 class TrainDataset(Dataset):
-    def __init__(self, model, train_annot_dir, dataset_dir, in_w, out_w):
+    def __init__(self, train_annot_dir, dataset_dir, in_w, out_w):
         """
         in_w and out_w are the tile size in pixels
         """
-        self.model = model
+        #self.model = model
         self.in_w = in_w
         self.out_w = out_w
         self.train_annot_dir = train_annot_dir
