@@ -76,7 +76,6 @@ def train_epoch(train_set,model, optimizer, dataset_dir, type=2, fmodel='nan'):
                foreground_tiles,
                defined_tiles) in enumerate(train_loader):
             if type == 3:
-                print(fmodel)
                 #assert fmodel == 'nan', 'foren model not defint'
                 photo_tiles,foreground_tiles, defined_tiles =DataLoader_type3(fmodel,photo_tiles,foreground_tiles)
 
