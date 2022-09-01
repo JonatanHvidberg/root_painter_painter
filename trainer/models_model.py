@@ -30,8 +30,32 @@ import numpy as np
 
 def setop():
     pass
+def DataLoader_type3(model, im_tile, annot_tile)
+        segmented=mml.simbel_segment(model, im_tile)
+        segmented.shape=(segmented.shape[0],segmented.shape[1],1)
 
-def train_epoch(train_set,model, optimizer, dataset_dir):
+        im_tile = image_and_segmentation(im_tile, segmented)
+        annot_tile = new_ann(im_tile ,annot_tile)
+
+        foreground = np.array(annot_tile)[:, :, 0]
+        background = np.array(annot_tile)[:, :, 1]
+
+        # Annotion is cropped post augmentation to ensure
+        # elastic grid doesn't remove the edges.
+        foreground = foreground[tile_pad:-tile_pad, tile_pad:-tile_pad]
+        background = background[tile_pad:-tile_pad, tile_pad:-tile_pad]
+        # mask specified pixels of annotation which are defined
+        mask = foreground + background
+        mask = mask.astype(np.float32)
+        mask = torch.from_numpy(mask)
+        foreground = foreground.astype(np.int64)
+        foreground = torch.from_numpy(foreground)
+        im_tile = im_tile.astype(np.float32)
+        im_tile = np.moveaxis(im_tile, -1, 0)
+        im_tile = torch.from_numpy(im_tile)
+        return im_tile, foreground, mask
+
+def train_epoch(train_set,model, optimizer, dataset_dir, type=2, fmodel='nan'):
     
     model.train()
 
@@ -51,6 +75,9 @@ def train_epoch(train_set,model, optimizer, dataset_dir):
         for step, (photo_tiles,
                foreground_tiles,
                defined_tiles) in enumerate(train_loader):
+            if type == 3:
+                assert fmodel == 'nan', 'foren model not defint'
+                photo_tiles,foreground_tiles, defined_tiles =DataLoader_type3(photo_tiles,foreground_tiles)
 
 
             photo_tiles = photo_tiles.cuda()
@@ -88,7 +115,7 @@ def validation(model,dataset_dir):
                           in_w=in_w, out_w=out_w, bs=bs)
 
 
-    model_dir=syncdir+project+'/models_models/models2'
+    model_dir=syncdir+project+'/models_models/models3'
     prev_path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     prev_model =mml.load_model(prev_path)
 
@@ -121,13 +148,13 @@ def train_type3(model_path, fmodel_path, train_annot_dir, dataset_dir, dataset_d
     
     fmodel = model_utils.load_model(fmodel_path)
 
-    train_set = TrainDataset3(fmodel, train_annot_dir,dataset_dir,in_w,out_w)
+    train_set = TrainDataset3(train_annot_dir,dataset_dir,in_w,out_w)
 
     model = mml.load_model(model_path)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
 
-    train_epoch(train_set, model, optimizer, dataset_dir2)    
+    train_epoch(train_set, model, optimizer, dataset_dir2,3 ,fmodel)    
     pass
 
 def segment_gradian(model_paths, image, bs, in_w, out_w):
@@ -230,21 +257,19 @@ train = '/annotations/train'
 train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
-'''
+
 for x in range(10):
     train_type2(syncdir+project+'/models_models/models2/000001_1661772775.pkl'
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data2')
-
-
 '''
+
 train_type3(syncdir+project+'/models_models/models3/000001_1661772775.pkl'
     , syncdir+project+'/models/000015_1578333385.pkl'
     , syncdir+project+train
     , syncdir+datasets
     , syncdir+project+'/models_models/data2'
     )
-'''
 
 #model=load_model(syncdir+project+'/models_models/models/000001_1661772775.pkl')
 

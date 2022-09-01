@@ -88,11 +88,11 @@ class UNetTransformer():
 
 
 class TrainDataset(Dataset):
-    def __init__(self, model, train_annot_dir, dataset_dir, in_w, out_w):
+    def __init__(self, train_annot_dir, dataset_dir, in_w, out_w):
         """
         in_w and out_w are the tile size in pixels
         """
-        self.model = model
+        #self.model = model
         self.in_w = in_w
         self.out_w = out_w
         self.train_annot_dir = train_annot_dir
@@ -148,26 +148,4 @@ class TrainDataset(Dataset):
         im_tile, annot_tile = self.augmentor.transform(im_tile, annot_tile)
         im_tile = im_utils.normalize_tile(im_tile)
 
-        segmented=mml.simbel_segment(self.model, im_tile)
-        segmented.shape=(segmented.shape[0],segmented.shape[1],1)
-
-        im_tile = image_and_segmentation(im_tile, segmented)
-        annot_tile = new_ann(im_tile ,annot_tile)
-
-        foreground = np.array(annot_tile)[:, :, 0]
-        background = np.array(annot_tile)[:, :, 1]
-
-        # Annotion is cropped post augmentation to ensure
-        # elastic grid doesn't remove the edges.
-        foreground = foreground[tile_pad:-tile_pad, tile_pad:-tile_pad]
-        background = background[tile_pad:-tile_pad, tile_pad:-tile_pad]
-        # mask specified pixels of annotation which are defined
-        mask = foreground + background
-        mask = mask.astype(np.float32)
-        mask = torch.from_numpy(mask)
-        foreground = foreground.astype(np.int64)
-        foreground = torch.from_numpy(foreground)
-        im_tile = im_tile.astype(np.float32)
-        im_tile = np.moveaxis(im_tile, -1, 0)
-        im_tile = torch.from_numpy(im_tile)
-        return im_tile, foreground, mask
+        return im_tile, annot_tile, 0
