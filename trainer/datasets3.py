@@ -148,4 +148,4 @@ class TrainDataset(Dataset):
         im_tile, annot_tile = self.augmentor.transform(im_tile, annot_tile)
         im_tile = im_utils.normalize_tile(im_tile)
 
-        return im_tile, annot_tile, 0
+        return im_tile, annot_tile, annot_tile
