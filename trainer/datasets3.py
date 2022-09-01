@@ -148,11 +148,13 @@ class TrainDataset(Dataset):
         im_tile, annot_tile = self.augmentor.transform(im_tile, annot_tile)
         im_tile = im_utils.normalize_tile(im_tile)
 
+        '''
         segmented=mml.simbel_segment(self.model, im_tile)
         segmented.shape=(segmented.shape[0],segmented.shape[1],1)
 
         im_tile = image_and_segmentation(im_tile, segmented)
         annot_tile = new_ann(im_tile ,annot_tile)
+        '''
 
         foreground = np.array(annot_tile)[:, :, 0]
         background = np.array(annot_tile)[:, :, 1]
