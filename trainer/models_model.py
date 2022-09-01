@@ -231,7 +231,7 @@ train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
 '''
-for x in xrange(1,10):
+for x in range(10):
     train_type2(syncdir+project+'/models_models/models2/000001_1661772775.pkl'
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data2')
