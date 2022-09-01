@@ -148,7 +148,7 @@ def train_type2(model_path, train_annot_dir, dataset_dir):
 def train_type3(model_path, fmodel_path, train_annot_dir, dataset_dir, dataset_dir2):
     
     fmodel = model_utils.load_model(fmodel_path)
-    print(fmodel)
+    
 
     train_set = TrainDataset3(train_annot_dir,dataset_dir,in_w,out_w)
 
