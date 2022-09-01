@@ -31,8 +31,18 @@ import numpy as np
 def setop():
     pass
 def DataLoader_type3(model, im_tile, annot_tile):
+        '''
         segmented=mml.simbel_segment(model, im_tile)
         segmented.shape=(segmented.shape[0],segmented.shape[1],1)
+        '''
+        outputs = model(im_tile)
+
+        print('shape')
+        print(im_tile.shape)
+        print(outputs.shape)
+
+        assert 1==1
+        assert 1!=1
 
         im_tile = image_and_segmentation(im_tile, segmented)
         annot_tile = new_ann(im_tile ,annot_tile)
