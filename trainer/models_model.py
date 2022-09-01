@@ -77,7 +77,7 @@ def train_epoch(train_set,model, optimizer, dataset_dir, type=2, fmodel='nan'):
                defined_tiles) in enumerate(train_loader):
             if type == 3:
                 assert fmodel == 'nan', 'foren model not defint'
-                photo_tiles,foreground_tiles, defined_tiles =DataLoader_type3(photo_tiles,foreground_tiles)
+                photo_tiles,foreground_tiles, defined_tiles =DataLoader_type3(fmodel,photo_tiles,foreground_tiles)
 
 
             photo_tiles = photo_tiles.cuda()
