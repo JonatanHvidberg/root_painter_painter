@@ -228,7 +228,7 @@ def test_data():
 def get_seg_from_model():
     
     image=imread(syncdir+project+'/models_models/data/B85-1_000.png')
-    segmented = ensemble_segment([syncdir+project+'/models_models/models/000004_1661980651.pkl'], image, bs, in_w, out_w)
+    segmented = mml.ensemble_segment([syncdir+project+'/models_models/models/000004_1661980651.pkl'], image, bs, in_w, out_w)
 
     seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 4))
     seg_alpha[segmented > 0] = [0, 1.0, 1.0, 0.7]
