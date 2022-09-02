@@ -296,10 +296,10 @@ project = '/projects/biopores_a_corrective'
 
 
 segmentations = '/segmentations'
-val = '/annotations/val'
-train = '/annotations/train'
+val = '/annotations2/val'
+train = '/annotations2/train'
 
-setup_date(syncdir+project)
+#setup_date(syncdir+project)
 #get_seg_from_model()
 
 #print(syncdir+datasets+'/B85-1_000.png')
@@ -314,12 +314,12 @@ setup_date(syncdir+project)
 train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
-
-for x in range(10):
-    train_type2(syncdir+project+'/models_models/models2/000001_1661772775.pkl'
-        , syncdir+project+'/models_models'+train
-        , syncdir+project+'/models_models/data2')
 '''
+
+train_type2(syncdir+project+'/models_models/models2/000001_1661772775.pkl'
+    , syncdir+project+'/models_models'+train
+    , syncdir+project+'/models_models/data2')
+
 
 '''
 train_type3(syncdir+project+'/models_models/models3/000001_1661772775.pkl'
