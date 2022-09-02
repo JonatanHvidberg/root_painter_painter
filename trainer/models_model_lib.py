@@ -425,15 +425,15 @@ def setup(setup_dir):
 def setup_date(setup_dir):
     fnames = ls(setup_dir + segmentations)
     fnames = [a for a in fnames if im_utils.is_photo(a)]
-
+    '''
     for fname in fnames:
         Dataimig = image_and_segmentation(syncdir+datasets+'/' + os.path.splitext(fname)[0] + '.jpg' ,setup_dir +'/segmentations/' + fname)
         imsave(setup_dir + '/models_models/data/'+fname, Dataimig)
-
     '''
-    val = '/annotations/val'
-    train = '/annotations/train'
-    '''
+    
+    val = '/annotations2/val'
+    train = '/annotations2/train'
+    
 
     fnames = ls(setup_dir + val)
     fnames = [a for a in fnames if im_utils.is_photo(a)]
@@ -441,7 +441,7 @@ def setup_date(setup_dir):
     for fname in fnames:
         #dif_new_ann(imageSegDir, imageAnnDir)
         DataImig = dif_new_ann(setup_dir +'/segmentations/' + fname ,setup_dir +'/annotations/val/' + fname)
-        imsave(setup_dir + '/models_models/annotations/val/'+fname, DataImig)
+        imsave(setup_dir + '/models_models/annotations2/val/'+fname, DataImig)
 
 
     fnames = ls(setup_dir + train)
@@ -450,6 +450,6 @@ def setup_date(setup_dir):
     for fname in fnames:
         #dif_new_ann(imageSegDir, imageAnnDir)
         DataImig = dif_new_ann(setup_dir +'/segmentations/' + fname ,setup_dir +'/annotations/train/' + fname)
-        imsave(setup_dir + '/models_models/annotations/train/'+fname, DataImig)
+        imsave(setup_dir + '/models_models/annotations2/train/'+fname, DataImig)
 
     pass

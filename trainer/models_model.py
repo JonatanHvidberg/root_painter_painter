@@ -225,17 +225,45 @@ def test_data():
 
     imsave(syncdir+project+'/test2-B85-1_000.png',image)
 
-def get_seg_from_model():
+def get_seg_from_model(image):
     
-    image=imread(syncdir+project+'/models_models/data/B92-1_001.png')
-    segmented = mml.ensemble_segment([syncdir+project+'/models_models/models/000004_1661980651.pkl'], image, bs, in_w, out_w)
+    #image=imread(syncdir+project+'/models_models/data/B92-1_001.png')
+    segmented = mml.ensemble_segment([syncdir+project+'/models/000015_1578333385.pkl'], image, bs, in_w, out_w)
 
     seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 4))
     seg_alpha[segmented > 0] = [0, 1.0, 1.0, 0.7]
 
     seg_alpha  = (seg_alpha * 255).astype(np.uint8)
 
-    im_utils.imsave(syncdir+project+'/m1B92-1_001.png', seg_alpha)
+    #im_utils.imsave(syncdir+project+'/m1B92-1_001.png', seg_alpha)
+    return seg_alpha
+
+
+def setup_date(setup_dir):
+
+    fnames = ls(setup_dir + val)
+    fnames = [a for a in fnames if im_utils.is_photo(a)]
+
+    for fname in fnames:
+        #dif_new_ann(imageSegDir, imageAnnDir)
+        image=imread(syncdir+datasets+'/' + os.path.splitext(fname)[0] + '.jpg')
+        imageAnn=imread(setup_dir+'/annotations/val/' + fname)
+        imageSeg=get_seg_from_model(image)
+        DataImig=mml.new_ann(imageSeg, imageAnn)
+        imsave(setup_dir + '/models_models/annotations2/val/'+fname, DataImig)
+
+
+    fnames = ls(setup_dir + train)
+    fnames = [a for a in fnames if im_utils.is_photo(a)]
+
+    for fname in fnames:
+
+        image=imread(syncdir+datasets+'/' + os.path.splitext(fname)[0] + '.jpg')
+        imageAnn=imread(setup_dir+'/annotations/train/' + fname)
+        imageSeg=get_seg_from_model(image)
+        DataImig=mml.new_ann(imageSeg, imageAnn)
+        imsave(setup_dir + '/models_models/annotations2/train/'+fname, DataImig)
+
     pass
 
 '''
@@ -271,8 +299,8 @@ segmentations = '/segmentations'
 val = '/annotations/val'
 train = '/annotations/train'
 
-
-get_seg_from_model()
+setup_date(syncdir+project)
+#get_seg_from_model()
 
 #print(syncdir+datasets+'/B85-1_000.png')
 #print(syncdir+project+'/models_models/000015_1578333385.pkl')
