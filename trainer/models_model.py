@@ -224,6 +224,20 @@ def test_data():
     image = (np.concatenate((image_RGB,seg_alpha), axis=2))
 
     imsave(syncdir+project+'/test2-B85-1_000.png',image)
+
+def get_seg_from_model():
+    
+    image=imread(syncdir+project+'/models_models/data/B85-1_000.png')
+    segmented = ensemble_segment([syncdir+project+'/models_models/models/000004_1661980651.pkl'], image, bs, in_w, out_w)
+
+    seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 4))
+    seg_alpha[segmented > 0] = [0, 1.0, 1.0, 0.7]
+
+    seg_alpha  = (seg_alpha * 255).astype(np.uint8)
+
+    im_utils.imsave(syncdir+project+'/m1B85-1_000.png', seg_alpha)
+    pass
+
 '''
 Data
 '''
@@ -257,6 +271,9 @@ segmentations = '/segmentations'
 val = '/annotations/val'
 train = '/annotations/train'
 
+
+get_seg_from_model()
+
 #print(syncdir+datasets+'/B85-1_000.png')
 #print(syncdir+project+'/models_models/000015_1578333385.pkl')
 
@@ -276,12 +293,14 @@ for x in range(10):
         , syncdir+project+'/models_models/data2')
 '''
 
+'''
 train_type3(syncdir+project+'/models_models/models3/000001_1661772775.pkl'
     , syncdir+project+'/models/000015_1578333385.pkl'
     , syncdir+project+train
     , syncdir+datasets
     , syncdir+project+'/models_models/data2'
     )
+'''
 
 #model=load_model(syncdir+project+'/models_models/models/000001_1661772775.pkl')
 
