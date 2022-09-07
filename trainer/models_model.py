@@ -145,7 +145,7 @@ def validation(model,dataset_dir):
 
     return was_saved
 
-def val_info():
+def val_info(dataset_dir):
     get_val_metrics = partial(mml.get_val_metrics,
                           val_annot_dir=syncdir+project+'/models_models'+val,
                           dataset_dir=dataset_dir,
@@ -396,7 +396,7 @@ test = '/labels/test'
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
-val_info()
+val_info(syncdir+project+'/models_models/data')
 '''
 
 train_type2(syncdir+project+'/models_models/models4/000001_1661772775.pkl'
