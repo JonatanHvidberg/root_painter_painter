@@ -346,14 +346,14 @@ def result():
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model = mml.load_model(path)
 
-    image = imread(syncdir+project+'/models_models/data/B44-1_003.png')
-    
+    fnames = ls(syncdir+project+'/models_models/data/')
 
-    seg = mml.simbel_segment(model,image)
+    for fname in fnames:
 
-    gradian = coler_gradian(seg)
-
-    imsave(syncdir+project+'/models_models/gB44-1_003.png', gradian)
+        image = imread(syncdir+project+'/models_models/data/'+fname)
+        seg = mml.simbel_segment(model,image)
+        gradian = coler_gradian(seg)
+        imsave(syncdir+project+'/models_models/res/mm/'+ fname, gradian)
 
 '''
 Data
