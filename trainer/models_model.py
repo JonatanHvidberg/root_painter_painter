@@ -145,7 +145,7 @@ def validation(model,dataset_dir):
 
     return was_saved
 
-def val_info()
+def val_info():
     get_val_metrics = partial(mml.get_val_metrics,
                           val_annot_dir=syncdir+project+'/models_models'+val,
                           dataset_dir=dataset_dir,
