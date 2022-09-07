@@ -293,7 +293,7 @@ def reat_cfv_seg(dirr):
         elif c>length:
             shutil.copyfile(src+ dataset + '/'+ file_name
                 ,des + file_name)
-        else
+        else:
             shutil.copyfile(src+ dataset + '/'+ file_name
                 ,des +dataset + '/' + file_name)
 
