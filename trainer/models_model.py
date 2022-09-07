@@ -350,7 +350,7 @@ def result():
 
     gradian = coler_gradian(seg)
 
-    imsave(gradian,syncdir+project+'/models_models/gB44-1_003.png')
+    imsave(syncdir+project+'/models_models/gB44-1_003.png', gradian)
 
 '''
 Data
