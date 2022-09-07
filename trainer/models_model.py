@@ -145,6 +145,30 @@ def validation(model,dataset_dir):
 
     return was_saved
 
+def val_info()
+    get_val_metrics = partial(mml.get_val_metrics,
+                          val_annot_dir=syncdir+project+'/models_models'+val,
+                          dataset_dir=dataset_dir,
+                          in_w=in_w, out_w=out_w, bs=bs)
+    get_test_metrics = partial(mml.get_val_metrics,
+                      val_annot_dir=syncdir+project+'/models_models'+test,
+                      dataset_dir=dataset_dir,
+                      in_w=in_w, out_w=out_w, bs=bs)
+
+    model_dir=syncdir+project+'/models_models/models4'
+    path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
+    model =mml.load_model(path)
+
+    val_metrics = get_val_metrics(copy.deepcopy(model))
+    test_metrics = get_test_metrics(copy.deepcopy(model))
+
+    print('val_metrics')
+    print(val_metrics)
+
+    print('test_metrics')
+    print(test_metrics)
+
+
 def train_type2(model_path, train_annot_dir, dataset_dir):
     train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
 
@@ -357,6 +381,7 @@ project = '/projects/biopores_a_corrective'
 segmentations = '/segmentations'
 val = '/labels/val'
 train = '/labels/train'
+test = '/labels/test'
 
 #reat_cfv_seg(syncdir+project)
 
@@ -371,9 +396,13 @@ train = '/labels/train'
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
+val_info()
+'''
+
 train_type2(syncdir+project+'/models_models/models4/000001_1661772775.pkl'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
+'''
 '''
 train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
     , syncdir+project+'/models_models'+train
