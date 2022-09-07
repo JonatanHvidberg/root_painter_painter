@@ -346,7 +346,7 @@ def result():
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model = mml.load_model(path)
 
-    fnames = ls(syncdir+project+'/models_models/data/')
+    fnames = ls(syncdir+project+'/models_models/labels/test/')
 
     for fname in fnames:
 
