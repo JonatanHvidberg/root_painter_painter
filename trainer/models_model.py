@@ -266,6 +266,65 @@ def setup_date(setup_dir):
 
     pass
 
+import shutil
+import pandas
+
+def reat_cfv_seg(dirr):
+    #dirr='/home/jonatan/Downloads/projects/biopores_a_corrective'
+
+    csvData = pandas.read_csv(dirr+'/annot_created_times6.csv')
+    length=csvData.index.stop-6
+    print(length)
+    csvData.sort_values(["created_datetime"], axis=0, ascending=[False], inplace=True)
+    
+    print(csvData.index)
+
+    src=dirr+'/models_models/annotations/'
+    des=dirr+'/models_models/labels/'
+
+    c=0
+    for x in csvData.index:
+        dataset = csvData['dataset'][x]
+        file_name = csvData['file_name'][x]
+        
+        if c<20:
+            shutil.copyfile(src+ dataset + '/'+ file_name
+                ,des + 'test/'+ file_name)
+        elif c>length:
+            shutil.copyfile(src+ dataset + '/'+ file_name
+                ,des + file_name)
+        else
+            shutil.copyfile(src+ dataset + '/'+ file_name
+                ,des +dataset + '/' + file_name)
+
+        c=c+1
+
+    '''
+    print(csvData['file_name'][16])
+    print(csvData['file_name'][109])
+    print(csvData['file_name'][120])
+    print(csvData['file_name'][114])
+    print(csvData['file_name'][29])
+    print(csvData['file_name'][38])
+
+    print(csvData['created_datetime'][16])
+    print(csvData['created_datetime'][109])
+    print(csvData['created_datetime'][120])
+    print(csvData['created_datetime'][114])
+    print(csvData['created_datetime'][29])
+    print(csvData['created_datetime'][38])
+    
+    print(csvData['file_name'][19])
+    print(csvData['dataset'][19])
+    print(csvData['created_datetime'][19])
+    print(csvData['created_time'][19])
+
+    '''
+
+
+
+
+
 '''
 Data
 '''
@@ -299,6 +358,8 @@ segmentations = '/segmentations'
 val = '/annotations2/val'
 train = '/annotations2/train'
 
+reat_cfv_seg(syncdir+project)
+
 #setup_date(syncdir+project)
 #get_seg_from_model()
 
@@ -314,12 +375,12 @@ train = '/annotations2/train'
 train_type2(syncdir+project+'/models_models/models/000001_1661772775.pkl'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
-'''
+
 
 train_type2(syncdir+project+'/models_models/models2/000001_1661772775.pkl'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data2')
-
+'''
 
 '''
 train_type3(syncdir+project+'/models_models/models3/000001_1661772775.pkl'
