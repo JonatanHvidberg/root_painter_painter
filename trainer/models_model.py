@@ -323,31 +323,34 @@ def reat_cfv_seg(dirr):
 
         c=c+1
 
-    '''
-    print(csvData['file_name'][16])
-    print(csvData['file_name'][109])
-    print(csvData['file_name'][120])
-    print(csvData['file_name'][114])
-    print(csvData['file_name'][29])
-    print(csvData['file_name'][38])
+def coler_gradian(segmented):
 
-    print(csvData['created_datetime'][16])
-    print(csvData['created_datetime'][109])
-    print(csvData['created_datetime'][120])
-    print(csvData['created_datetime'][114])
-    print(csvData['created_datetime'][29])
-    print(csvData['created_datetime'][38])
+    seg_alpha = np.zeros((segmented.shape[0], segmented.shape[1], 4))
+
     
-    print(csvData['file_name'][19])
-    print(csvData['dataset'][19])
-    print(csvData['created_datetime'][19])
-    print(csvData['created_time'][19])
 
-    '''
+    for x in range(segmented.shape[0]):
+        for y in range(segmented.shape[1]):
+            seg_alpha[x][y] = [1-segmented[x][y], segmented[x][y], segmented[x][y], 0.7]
+
+    seg_alpha  = (seg_alpha * 255).astype(np.uint8)
+
+    return seg_alpha
 
 
+def result():
+    model_dir=syncdir+project+'/models_models/models4'
+    path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
+    model = mml.load_model(path)
 
+    image = imread(syncdir+project+'/models_models/data/B44-1_003.png')
+    
 
+    seg = simbel_segment(model,image)
+
+    gradian = coler_gradian(seg)
+
+    imsave(gradian,syncdir+project+'/models_models/gB44-1_003.png')
 
 '''
 Data
@@ -396,7 +399,10 @@ test = '/labels/test'
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
-val_info(syncdir+project+'/models_models/data')
+#val_info(syncdir+project+'/models_models/data')
+
+result()
+
 '''
 
 train_type2(syncdir+project+'/models_models/models4/000001_1661772775.pkl'
