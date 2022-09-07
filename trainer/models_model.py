@@ -354,6 +354,14 @@ def result():
         gradian = coler_gradian(seg)
         imsave(syncdir+project+'/models_models/res/mm/'+ fname, gradian)
 
+
+def p_coler_gradian():
+    seg_alpha = np.zeros((10, 100, 4))
+    o=0
+    for y in range(seg_alpha.shape[1]):
+        seg_alpha[:,y]=[0, o, 1-o, 0.7]
+        o=o+0.01
+    imsave(syncdir+project+'/models_models/res/gras.png', gradian)
 '''
 Data
 '''
@@ -388,6 +396,9 @@ val = '/labels/val'
 train = '/labels/train'
 test = '/labels/test'
 
+
+p_coler_gradian()
+
 #reat_cfv_seg(syncdir+project)
 
 #setup_date(syncdir+project)
@@ -403,7 +414,7 @@ test = '/labels/test'
 #train_type2(model_path, train_annot_dir, dataset_dir)
 #val_info(syncdir+project+'/models_models/data')
 
-result()
+
 
 '''
 
