@@ -346,7 +346,7 @@ def result():
     image = imread(syncdir+project+'/models_models/data/B44-1_003.png')
     
 
-    seg = simbel_segment(model,image)
+    seg = mml.simbel_segment(model,image)
 
     gradian = coler_gradian(seg)
 
