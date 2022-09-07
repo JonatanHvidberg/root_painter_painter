@@ -361,7 +361,7 @@ def p_coler_gradian():
     for y in range(seg_alpha.shape[1]):
         seg_alpha[:,y]=[0, o, 1-o, 0.7]
         o=o+0.01
-    imsave(syncdir+project+'/models_models/res/gras.png', gradian)
+    imsave(syncdir+project+'/models_models/res/gras.png', seg_alpha)
 '''
 Data
 '''
