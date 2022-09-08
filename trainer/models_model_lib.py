@@ -247,6 +247,7 @@ def get_val_metrics(cnn, val_annot_dir, dataset_dir, in_w, out_w, bs):
         background = annot[:, :, 1].astype(bool).astype(int)
         image_path_part = os.path.join(dataset_dir, os.path.splitext(fname)[0])
         image_path = glob.glob(image_path_part + '.*')[0]
+
         image = im_utils.imread(image_path)
         predicted = unet_segment(cnn, image, bs, in_w,
                                  out_w, threshold=0.5)
@@ -268,20 +269,11 @@ def get_val_metrics(cnn, val_annot_dir, dataset_dir, in_w, out_w, bs):
     return metrics
 
 def get_val_old_metrics(cnn, val_annot_dir, dataset_dir, in_w, out_w, bs):
-    """
-    Return the TP, FP, TN, FN, defined_sum, duration
-    for the {cnn} on the validation set
 
-    TODO - This is too similar to the train loop. Merge both and use flags.
-    """
     start = time.time()
     fnames = ls(val_annot_dir)
     fnames = [a for a in fnames if im_utils.is_photo(a)]
-    # TODO: In order to speed things up, be a bit smarter here
-    # by only segmenting the parts of the image where we have
-    # some annotation defined.
-    # implement a 'partial segment' which exlcudes tiles with no
-    # annotation defined.
+
     tps = 0
     fps = 0
     tns = 0
@@ -313,6 +305,68 @@ def get_val_old_metrics(cnn, val_annot_dir, dataset_dir, in_w, out_w, bs):
         unsertensy=entorpy(predicted)
         predicted = unsertensy > 0.5
         predicted = predicted.astype(int)
+        # mask defines which pixels are defined in the annotation.
+        mask = foreground + background
+        mask = mask.astype(bool).astype(int)
+        predicted *= mask
+        predicted = predicted.astype(bool).astype(int)
+        y_defined = mask.reshape(-1)
+        y_pred = predicted.reshape(-1)[y_defined > 0]
+        y_true = foreground.reshape(-1)[y_defined > 0]
+        tps += np.sum(np.logical_and(y_pred == 1, y_true == 1))
+        tns += np.sum(np.logical_and(y_pred == 0, y_true == 0))
+        fps += np.sum(np.logical_and(y_pred == 1, y_true == 0))
+        fns += np.sum(np.logical_and(y_pred == 0, y_true == 1))
+        defined_sum += np.sum(y_defined > 0)
+    duration = round(time.time() - start, 3)
+    metrics = get_metrics(tps, fps, tns, fns, defined_sum, duration)
+    return metrics
+
+def get_val_dopel_metrics(cnno, cnn , val_annot_dir, dataset_dir, in_w, out_w, bs):
+
+    start = time.time()
+    fnames = ls(val_annot_dir)
+    fnames = [a for a in fnames if im_utils.is_photo(a)]
+
+    tps = 0
+    fps = 0
+    tns = 0
+    fns = 0
+    defined_sum = 0
+    for fname in fnames:
+        annot_path = os.path.join(val_annot_dir,
+                                  os.path.splitext(fname)[0] + '.png')
+        # reading the image may throw an exception.
+        # I suspect this is due to it being only partially written to disk
+        # simply retry if this happens.
+        try:
+            annot = imread(annot_path)
+        except Exception as ex:
+            print(f'Exception reading annotation {annot_path} inside validation method.'
+                  'Will retry in 0.1 seconds')
+            print(fname, ex)
+            time.sleep(0.1)
+            annot = imread(annot_path)
+
+        annot = np.array(annot)
+        foreground = annot[:, :, 0].astype(bool).astype(int)
+        background = annot[:, :, 1].astype(bool).astype(int)
+        image_path_part = os.path.join(dataset_dir, os.path.splitext(fname)[0])
+        image_path = glob.glob(image_path_part + '.*')[0]
+
+        image = im_utils.load_image(image_path)
+        predicted = model_utils.unet_segment(cnno, image, bs, in_w,
+                                 out_w, threshold=None)
+        unsertensy=entorpy(predicted)
+        predicted = unsertensy > 0.5
+        predicted = predicted.astype(int)
+
+        image = im_utils.imread(image_path) 
+        predicted2 = unet_segment(cnn, image, bs, in_w,
+                                 out_w, threshold=0.5)
+        predicted *= predicted2
+
+
         # mask defines which pixels are defined in the annotation.
         mask = foreground + background
         mask = mask.astype(bool).astype(int)

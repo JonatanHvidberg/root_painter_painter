@@ -161,6 +161,11 @@ def val_info(dataset_dir):
                   dataset_dir=dataset_dir,
                   in_w=in_w, out_w=out_w, bs=bs)
 
+    get_val_dopel_metrics = partial(mml.get_val_dopel_metrics,
+              val_annot_dir=syncdir+project+'/models_models'+test,
+              dataset_dir=dataset_dir,
+              in_w=in_w, out_w=out_w, bs=bs)
+
     model_dir=syncdir+project+'/models_models/models4'
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model =mml.load_model(path)
@@ -170,6 +175,7 @@ def val_info(dataset_dir):
     val_metrics = get_val_metrics(copy.deepcopy(model))
     test_metrics = get_test_metrics(copy.deepcopy(model))
     old_metrics = get_old_metrics(copy.deepcopy(oldmodel))
+    dopel_metrics = get_val_dopel_metrics(copy.deepcopy(oldmodel),copy.deepcopy(model))
 
     print('val_metrics')
     print(val_metrics)
@@ -179,6 +185,9 @@ def val_info(dataset_dir):
 
     print('old_metrics')
     print(old_metrics)
+
+    print('dopel_metrics')
+    print(dopel_metrics)
 
 
 def train_type2(model_path, train_annot_dir, dataset_dir):
@@ -446,7 +455,7 @@ train = '/labels/train'
 test = '/labels/test'
 
 
-result_unsertensu()
+#result_unsertensu()
 
 #reat_cfv_seg(syncdir+project)
 
@@ -461,7 +470,7 @@ result_unsertensu()
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
-#val_info(syncdir+project+'/models_models/data')
+val_info(syncdir+project+'/models_models/data')
 
 
 
