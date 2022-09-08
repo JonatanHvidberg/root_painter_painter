@@ -310,6 +310,7 @@ def get_val_old_metrics(cnn, val_annot_dir, dataset_dir, in_w, out_w, bs):
                                  out_w, threshold=None)
         unsertensy=entorpy(predicted)
         predicted = unsertensy > 0.5
+        predicted = predicted.astype(int)
         # mask defines which pixels are defined in the annotation.
         mask = foreground + background
         mask = mask.astype(bool).astype(int)
