@@ -168,7 +168,7 @@ def val_info(dataset_dir):
 
     val_metrics = get_val_metrics(copy.deepcopy(model))
     test_metrics = get_test_metrics(copy.deepcopy(model))
-    old_metrics = get_old_metrics(copy.deepcopy(model))
+    old_metrics = get_old_metrics(copy.deepcopy(oldmodel))
 
     print('val_metrics')
     print(val_metrics)
