@@ -176,6 +176,9 @@ def val_info(dataset_dir):
     print('test_metrics')
     print(test_metrics)
 
+    print('old_metrics')
+    print(old_metrics)
+
 
 def train_type2(model_path, train_annot_dir, dataset_dir):
     train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
