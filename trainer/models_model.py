@@ -155,12 +155,20 @@ def val_info(dataset_dir):
                       dataset_dir=dataset_dir,
                       in_w=in_w, out_w=out_w, bs=bs)
 
+    get_old_metrics = partial(mml.get_val_old_metrics,
+                  val_annot_dir=syncdir+project+'/models_models'+test,
+                  dataset_dir=dataset_dir,
+                  in_w=in_w, out_w=out_w, bs=bs)
+
     model_dir=syncdir+project+'/models_models/models4'
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model =mml.load_model(path)
 
+    oldmodel = model_utils.load_model(syncdir+project+ '/models/000032_1578339309.pkl')
+
     val_metrics = get_val_metrics(copy.deepcopy(model))
     test_metrics = get_test_metrics(copy.deepcopy(model))
+    old_metrics = get_old_metrics(copy.deepcopy(model))
 
     print('val_metrics')
     print(val_metrics)
@@ -362,6 +370,31 @@ def p_coler_gradian():
         seg_alpha[:,y]=[0, o, 1-o, 0.7]
         o=o+0.01
     imsave(syncdir+project+'/models_models/res/gras.png', seg_alpha)
+
+def td():
+    x1 = (np.arange(9.0).reshape((3, 3))/9)
+    mml.entorpy(x1)
+
+
+
+def nicedata():
+    dirr='/home/jonatan/Downloads/projects/biopores_a_corrective'
+
+    csvData = pandas.read_csv(dirr+'/annot_created_times6.csv')
+    length=csvData.index.stop-6
+    print(length)
+    csvData.sort_values(["created_datetime"], axis=0, ascending=[False], inplace=True)
+    
+    print(csvData.index)
+    print(csvData)
+
+    c=0
+    for x in csvData.index:
+        if c<20:
+            print(csvData['created_time'][x])
+        c=c+1
+
+#nicedata()
 '''
 Data
 '''
@@ -397,7 +430,7 @@ train = '/labels/train'
 test = '/labels/test'
 
 
-p_coler_gradian()
+
 
 #reat_cfv_seg(syncdir+project)
 
@@ -412,7 +445,7 @@ p_coler_gradian()
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
-#val_info(syncdir+project+'/models_models/data')
+val_info(syncdir+project+'/models_models/data')
 
 
 
