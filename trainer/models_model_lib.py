@@ -364,6 +364,7 @@ def get_val_dopel_metrics(cnno, cnn , val_annot_dir, dataset_dir, in_w, out_w, b
         image = im_utils.imread(image_path) 
         predicted2 = unet_segment(cnn, image, bs, in_w,
                                  out_w, threshold=0.5)
+        predicted2=predicted2.astype(bool).astype(int)
         predicted *= predicted2
 
 
