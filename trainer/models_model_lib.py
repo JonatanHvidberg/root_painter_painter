@@ -119,7 +119,7 @@ def simbel_segment(cnn, image):
 
     return foreground_probs
 
-def simbel_segment_old(cnn, image):
+def simbel_segment_unsertensu(cnn, image):
     """ Average predictions from each model specified in model_paths """
     pred_sum = None
     pred_count = 0
@@ -140,7 +140,9 @@ def simbel_segment_old(cnn, image):
     pred_count += 1
     foreground_probs = pred_sum / pred_count
 
-    return foreground_probs
+    unsertensy = entorpy(foreground_probs)
+
+    return unsertensy
 
 
 def unet_segment(cnn, image, bs, in_w, out_w, threshold=0.5):

@@ -150,6 +150,7 @@ def val_info(dataset_dir):
                           val_annot_dir=syncdir+project+'/models_models'+val,
                           dataset_dir=dataset_dir,
                           in_w=in_w, out_w=out_w, bs=bs)
+
     get_test_metrics = partial(mml.get_val_metrics,
                       val_annot_dir=syncdir+project+'/models_models'+test,
                       dataset_dir=dataset_dir,
@@ -365,6 +366,18 @@ def result():
         gradian = coler_gradian(seg)
         imsave(syncdir+project+'/models_models/res/mm/'+ fname, gradian)
 
+def result_unsertensu():
+    model = model_utils.load_model(syncdir+project+ '/models/000032_1578339309.pkl')
+
+    fnames = ls(syncdir+project+'/models_models/labels/test/')
+
+    for fname in fnames:
+
+        image = im_utils.load_image(syncdir+project+'/models_models/data/'+fname)
+        seg = mml.simbel_segment_unsertensu(model,image)
+        gradian = coler_gradian(seg)
+        imsave(syncdir+project+'/models_models/res/mu/'+ fname, gradian)
+
 
 def p_coler_gradian():
     seg_alpha = np.zeros((10, 100, 4))
@@ -433,7 +446,7 @@ train = '/labels/train'
 test = '/labels/test'
 
 
-
+result_unsertensu()
 
 #reat_cfv_seg(syncdir+project)
 
@@ -448,7 +461,7 @@ test = '/labels/test'
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
-val_info(syncdir+project+'/models_models/data')
+#val_info(syncdir+project+'/models_models/data')
 
 
 
