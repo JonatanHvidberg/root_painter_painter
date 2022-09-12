@@ -435,6 +435,10 @@ def sum_error():
         c = c+1
     
     ys=ys[np.argsort(ys[:,0])]
+    print(ys)
+    ys=ys[np.argsort(ys[:,1])]
+    print(ys)
+  '''
     x=np.arange(len(fnames))
 
     fig, ax = plt.subplots()
@@ -445,6 +449,7 @@ def sum_error():
     print(ys)
     ax.legend()
     plt.show()
+'''
 
 def nicedata():
     dirr='/home/jonatan/Downloads/projects/biopores_a_corrective'
