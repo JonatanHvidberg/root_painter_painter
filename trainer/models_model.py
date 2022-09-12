@@ -417,7 +417,7 @@ def sum_error():
 
     
         image = imread(syncdir+project+'/models_models/data/'+fname)
-        predicted = unet_segment(model, image, bs, in_w,
+        predicted = mml.unet_segment(model, image, bs, in_w,
                          out_w, threshold=0.5)
         predicted_sum = np.sum(predicted)
         persent_predicted =predicted_sum/totel_pix
