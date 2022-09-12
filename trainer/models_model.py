@@ -407,7 +407,7 @@ def sum_error():
 
     for fname in fnames:
 
-        image = imread(syncdir+project+'/models_models/test/'+fname)
+        image = imread(syncdir+project+'/models_models/labels/test/'+fname)
         coreted_sum = 1
         print(shape.image)
         print(np.shape(image[:,:,0]))
