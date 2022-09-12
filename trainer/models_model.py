@@ -397,11 +397,12 @@ def p_coler_gradian():
     imsave(syncdir+project+'/models_models/res/gras.png', seg_alpha)
 
 def sum_error():
-'''
+
+    '''
     model_dir=syncdir+project+'/models_models/models4'
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model = mml.load_model(path)
-'''
+    '''
     fnames = ls(syncdir+project+'/models_models/labels/test/')
 
     for fname in fnames:
@@ -412,11 +413,11 @@ def sum_error():
         print(shape.(image[:,:,0]))
         print((image[:,:,0]>0))
 
-'''
+    '''
         image = imread(syncdir+project+'/models_models/data/'+fname)
 
         image = imread(syncdir+datasets+os.path.splitext(fname)[0] + '.jpg')
-'''
+    '''
 
 
 def nicedata():
