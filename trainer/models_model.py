@@ -396,10 +396,27 @@ def p_coler_gradian():
         o=o+0.01
     imsave(syncdir+project+'/models_models/res/gras.png', seg_alpha)
 
-def td():
-    x1 = (np.arange(9.0).reshape((3, 3))/9)
-    mml.entorpy(x1)
+def sum_error():
+'''
+    model_dir=syncdir+project+'/models_models/models4'
+    path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
+    model = mml.load_model(path)
+'''
+    fnames = ls(syncdir+project+'/models_models/labels/test/')
 
+    for fname in fnames:
+
+        image = imread(syncdir+project+'/models_models/test/'+fname)
+        coreted_sum = 1
+        print(shape.image)
+        print(shape.(image[:,:,0]))
+        print((image[:,:,0]>0))
+
+'''
+        image = imread(syncdir+project+'/models_models/data/'+fname)
+
+        image = imread(syncdir+datasets+os.path.splitext(fname)[0] + '.jpg')
+'''
 
 
 def nicedata():
@@ -423,6 +440,8 @@ def nicedata():
 '''
 Data
 '''
+
+
 global in_w
 global out_w
 global mem_per_item
@@ -470,8 +489,8 @@ test = '/labels/test'
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
-val_info(syncdir+project+'/models_models/data')
-
+#val_info(syncdir+project+'/models_models/data')
+sum_error()
 
 
 '''
