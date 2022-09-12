@@ -22,7 +22,7 @@ from file_utils import ls
 import time
 import os
 
-
+import matplotlib.pyplot as plt
 
 
 import numpy as np
@@ -405,8 +405,12 @@ def sum_error():
 
     fnames = ls(syncdir+project+'/models_models/labels/test/')
 
+    ys = np.zeros(fnames.shape,3)
+    print(ys.shape)
+
     print(fnames)
 
+    c=0
     for fname in fnames:
 
         image = imread(syncdir+project+'/models_models/labels/test/'+fname)
@@ -424,8 +428,22 @@ def sum_error():
         print(predicted_sum,persent_predicted)
 
         #image = imread(syncdir+datasets+os.path.splitext(fname)[0] + '.jpg')
-    
+        ys[c,0]=coreted_sum
 
+        ys[c,1]=predicted_sum
+
+        c = c+1
+    
+    ys=ys[np.argsort(ys[:,0])]
+    x=np.arange(fnames.shape)
+
+    fig, ax = plt.subplots()
+
+    ax.plot(x, ys[0], 'bo')
+    ax.plot(x, ys[1], 'ro')
+
+    ax.legend()
+    plt.show()
 
 def nicedata():
     dirr='/home/jonatan/Downloads/projects/biopores_a_corrective'
