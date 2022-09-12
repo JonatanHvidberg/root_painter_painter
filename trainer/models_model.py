@@ -439,8 +439,8 @@ def sum_error():
 
     fig, ax = plt.subplots()
 
-    ax.plot(x, ys[0], 'bo')
-    ax.plot(x, ys[1], 'ro')
+    ax.plot(x, ys[:,0], 'bo')
+    ax.plot(x, ys[:,1], 'ro')
 
     ax.legend()
     plt.show()
