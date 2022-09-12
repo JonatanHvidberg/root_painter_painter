@@ -442,6 +442,7 @@ def sum_error():
     ax.plot(x, ys[:,0], 'bo')
     ax.plot(x, ys[:,1], 'ro')
 
+    print(ys)
     ax.legend()
     plt.show()
 
