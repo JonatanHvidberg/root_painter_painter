@@ -405,7 +405,7 @@ def sum_error():
 
     fnames = ls(syncdir+project+'/models_models/labels/test/')
 
-    ys = np.zeros(len(fnames),3)
+    ys = np.zeros([len(fnames),3])
     print(ys.shape)
 
     print(fnames)
