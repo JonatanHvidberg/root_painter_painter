@@ -409,7 +409,7 @@ def sum_error():
 
         image = imread(syncdir+project+'/models_models/labels/test/'+fname)
         coreted_sum = 1
-        print(shape.image)
+        print(np.shape(image))
         print(np.shape(image[:,:,0]))
         print((image[:,:,0]>0))
 
