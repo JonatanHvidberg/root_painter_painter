@@ -405,13 +405,15 @@ def sum_error():
     '''
     fnames = ls(syncdir+project+'/models_models/labels/test/')
 
+    print(fnames)
+
     for fname in fnames:
 
         image = imread(syncdir+project+'/models_models/labels/test/'+fname)
-        coreted_sum = 1
-        print(np.shape(image))
-        print(np.shape(image[:,:,0]))
-        print((image[:,:,0]>0))
+        coreted_sum = np.sum((image[:,:,0]>0).astype(int))
+        totel_pix = image.shape[0]*image.shape[1]
+        persent_coreted =coreted_sum/totel_pix
+        print(coreted_sum,totel_pix,persent_coreted)
 
     '''
         image = imread(syncdir+project+'/models_models/data/'+fname)
