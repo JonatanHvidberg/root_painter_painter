@@ -398,11 +398,11 @@ def p_coler_gradian():
 
 def sum_error():
 
-    '''
+    
     model_dir=syncdir+project+'/models_models/models4'
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model = mml.load_model(path)
-    '''
+
     fnames = ls(syncdir+project+'/models_models/labels/test/')
 
     print(fnames)
@@ -415,11 +415,16 @@ def sum_error():
         persent_coreted =coreted_sum/totel_pix
         print(coreted_sum,totel_pix,persent_coreted)
 
-    '''
+    
         image = imread(syncdir+project+'/models_models/data/'+fname)
+        predicted = unet_segment(model, image, bs, in_w,
+                         out_w, threshold=0.5)
+        predicted_sum = np.sum(predicted)
+        persent_predicted =predicted_sum/totel_pix
+        print(predicted_sum,persent_predicted)
 
-        image = imread(syncdir+datasets+os.path.splitext(fname)[0] + '.jpg')
-    '''
+        #image = imread(syncdir+datasets+os.path.splitext(fname)[0] + '.jpg')
+    
 
 
 def nicedata():
