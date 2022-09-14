@@ -583,6 +583,8 @@ def reat_cfv_seg(project,datatype):
 
     csvData = pandas.read_csv(project+'/annot_created_times6.csv')
     length=csvData.index.stop-6
+    print(csvData.index.stop)
+    print(length)
     
     csvData.sort_values(["created_datetime"], axis=0, ascending=[False], inplace=True)
     
@@ -594,18 +596,16 @@ def reat_cfv_seg(project,datatype):
 
         label=dif_new_ann(project+'/segmentations/'+file_name, project+'/annotations/'+dataset+'/'+file_name)
 
-        data_imig=image_and_segmentation_dir(datatype+'/'+os.path.splitext(file_name)[0] + '.jpg', project+'/segmentations/'+file_name)
+        #data_imig=image_and_segmentation_dir(datatype+'/'+os.path.splitext(file_name)[0] + '.jpg', project+'/segmentations/'+file_name)
         
-        imsave(project+'/models_models/data/'+file_name, data_imig)
+        #imsave(project+'/models_models/data/'+file_name, data_imig)
 
         if c<20:
             imsave(project+'/models_models/labels/test/'+file_name, label)
         elif c>length:
-            imsave(project+'/models_models/labels/'+dataset+'/'+file_name,label)
-            
-        else:
             imsave(project+'/models_models/labels/'+file_name,label)
-            
+        else:
+            imsave(project+'/models_models/labels/'+dataset+'/'+file_name,label)
         c=c+1
 
 def setup_date(setup_dir):
