@@ -88,10 +88,6 @@ def train_epoch(train_set,model, optimizer, dataset_dir, type=2, fmodel='nan'):
         for step, (photo_tiles,
                foreground_tiles,
                defined_tiles) in enumerate(train_loader):
-            if type == 3:
-                #assert fmodel == 'nan', 'foren model not defint'
-                photo_tiles,foreground_tiles, defined_tiles =DataLoader_type3(fmodel,photo_tiles,foreground_tiles)
-
 
             photo_tiles = photo_tiles.cuda()
             foreground_tiles = foreground_tiles.cuda()
@@ -193,7 +189,10 @@ def val_info(dataset_dir):
 def train_type2(model_path, train_annot_dir, dataset_dir):
     train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
 
-    model = mml.load_model(model_path)
+    path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
+    model = mml.load_model(path)
+
+    #model = mml.load_model(model_path)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.99, nesterov=True)
 
@@ -508,7 +507,7 @@ test = '/labels/test'
 
 
 #mml.setup(syncdir+project)
-
+'''
 datasets = '/datasets/towers_750_training'
 project = '/projects/towers_a_corrective'
 mml.setup(syncdir+project)
@@ -524,8 +523,13 @@ mml.reat_cfv_seg(syncdir+project,syncdir+datasets)
 project = '/projects/nodules_b_corrective'
 mml.setup(syncdir+project)
 mml.reat_cfv_seg(syncdir+project,syncdir+datasets)
-
-
+'''
+datasets = '/datasets/towers_750_training'
+project = '/projects/towers_a_corrective'
+mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
+train_type2(syncdir+project+'/models_models/models/'
+    , syncdir+project+'/models_models'+train
+    , syncdir+project+'/models_models/data')
 
 #result_unsertensu()
 
