@@ -122,7 +122,7 @@ def validation(model,dataset_dir):
                           in_w=in_w, out_w=out_w, bs=bs)
 
 
-    model_dir=syncdir+project+'/models_models/models4'
+    model_dir=syncdir+project+'/models_models/models'
     prev_path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     prev_model =mml.load_model(prev_path)
 
@@ -526,7 +526,7 @@ mml.reat_cfv_seg(syncdir+project,syncdir+datasets)
 '''
 
 project = '/projects/biopores_b_corrective'
-mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
+#mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
 train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
