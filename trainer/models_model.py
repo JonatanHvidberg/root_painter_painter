@@ -22,7 +22,7 @@ from file_utils import ls
 import time
 import os
 
-import matplotlib.pyplot as plt
+
 
 
 import numpy as np
@@ -496,7 +496,7 @@ print('Batch size', bs)
 
 syncdir = '/content/drive/MyDrive/drive_rp_sync'
 datasets = '/datasets/biopores_750_training'
-project = '/projects/biopores_a_corrective'
+project = '/projects/biopores_b_corrective'
 
 
 
@@ -504,6 +504,12 @@ segmentations = '/segmentations'
 val = '/labels/val'
 train = '/labels/train'
 test = '/labels/test'
+
+
+
+mml.setup(syncdir+project)
+mml.reat_cfv_seg(syncdir+project,syncdir+datasets)
+
 
 
 #result_unsertensu()
@@ -522,7 +528,7 @@ test = '/labels/test'
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
 #val_info(syncdir+project+'/models_models/data')
-sum_error()
+
 
 
 '''

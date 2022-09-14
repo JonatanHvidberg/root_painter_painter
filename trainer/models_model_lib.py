@@ -28,6 +28,9 @@ from skimage import color
 from skimage.exposure import rescale_intensity
 from skimage.io import imread, imsave
 
+import shutil
+import pandas
+
 from metrics import get_metrics
 
 
@@ -568,11 +571,40 @@ def test_new_model(out_path):
 def setup(setup_dir):
     os.mkdir(setup_dir +'/models_models')
     os.mkdir(setup_dir +'/models_models' + '/data')
-    os.mkdir(setup_dir +'/models_models' + '/seg')
-    os.mkdir(setup_dir +'/models_models' + '/annotations')
-    os.mkdir(setup_dir +'/models_models' + '/annotations/train')
-    os.mkdir(setup_dir +'/models_models' + '/annotations/val')
+    os.mkdir(setup_dir +'/models_models' + '/models')
+    os.mkdir(setup_dir +'/models_models' + '/labels')
+    os.mkdir(setup_dir +'/models_models' + '/labels/train')
+    os.mkdir(setup_dir +'/models_models' + '/labels/val')
+    os.mkdir(setup_dir +'/models_models' + '/labels/test')
     pass
+
+def reat_cfv_seg(project,dataset):
+    #dirr='/home/jonatan/Downloads/projects/biopores_a_corrective'
+
+    csvData = pandas.read_csv(project+'/annot_created_times6.csv')
+    length=csvData.index.stop-6
+    
+    csvData.sort_values(["created_datetime"], axis=0, ascending=[False], inplace=True)
+    
+
+    c=0
+    for x in csvData.index:
+        dataset = csvData['dataset'][x]
+        file_name = csvData['file_name'][x]
+
+        label=dif_new_ann((project+'/segmentations/'+file_name, project+'/annotations/'+dataset+file_name )
+
+        data = image_and_segmentation_dir(dataset+os.path.splitext(fname)[0] + '.jpg'), project+'/segmentations/'+file_name)
+        
+        if c<20:
+            imsave(project+'/models_models/labels/test/'+file_name,label)
+        elif c>length:
+            imsave(project+'/models_models/labels/'+dataset+file_name,label)
+            
+        else:
+            imsave(project+'/models_models/labels/'+file_name,label)
+            
+        c=c+1
 
 def setup_date(setup_dir):
     fnames = ls(setup_dir + segmentations)
