@@ -593,6 +593,7 @@ def reat_cfv_seg(project,dataset):
         file_name = csvData['file_name'][x]
 
         label=dif_new_ann(project+'/segmentations/'+file_name, project+'/annotations/'+dataset+'/'+file_name)
+        print(csvData)
 
         data_imig=image_and_segmentation_dir(dataset+'/'+os.path.splitext(file_name)[0] + '.jpg', project+'/segmentations/'+file_name)
         
