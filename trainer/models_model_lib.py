@@ -255,7 +255,7 @@ def get_val_metrics(cnn, val_annot_dir, dataset_dir, in_w, out_w, bs):
         predicted = unet_segment(cnn, image, bs, in_w,
                                  out_w, threshold=0.5)
 
-        print('arial',np.sum(predicted),np.sum(foreground))
+        #print('arial',np.sum(predicted),np.sum(foreground))
         
         # mask defines which pixels are defined in the annotation.
         mask = foreground + background
