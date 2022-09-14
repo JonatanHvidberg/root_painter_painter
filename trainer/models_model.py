@@ -524,9 +524,9 @@ project = '/projects/nodules_b_corrective'
 mml.setup(syncdir+project)
 mml.reat_cfv_seg(syncdir+project,syncdir+datasets)
 '''
-
-project = '/projects/biopores_b_corrective'
-#mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
+datasets = '/datasets/towers_750_training'
+project = '/projects/towers_a_corrective'
+mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
 train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
