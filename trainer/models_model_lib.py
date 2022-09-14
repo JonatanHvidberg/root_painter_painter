@@ -594,7 +594,7 @@ def reat_cfv_seg(project,dataset):
 
         label=dif_new_ann(project+'/segmentations/'+file_name, project+'/annotations/'+dataset+'/'+file_name)
 
-        image_and_segmentation_dir(dataset+'/'+os.path.splitext(fname)[0] + '.jpg', project+'/segmentations/'+file_name)
+        image_and_segmentation_dir(dataset+'/'+os.path.splitext(file_name)[0] + '.jpg', project+'/segmentations/'+file_name)
         
         if c<20:
             imsave(project+'/models_models/labels/test/'+file_name, label)
