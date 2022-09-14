@@ -189,7 +189,7 @@ def val_info(dataset_dir):
 def train_type2(model_path, train_annot_dir, dataset_dir):
     train_set = TrainDataset2(train_annot_dir,dataset_dir,in_w,out_w)
 
-    path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
+    path = model_utils.get_latest_model_paths(model_path, k=1)[0]
     model = mml.load_model(path)
 
     #model = mml.load_model(model_path)
