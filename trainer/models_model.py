@@ -507,7 +507,7 @@ test = '/labels/test'
 
 
 
-mml.setup(syncdir+project)
+#mml.setup(syncdir+project)
 mml.reat_cfv_seg(syncdir+project,syncdir+datasets)
 
 
