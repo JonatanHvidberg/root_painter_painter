@@ -582,7 +582,7 @@ def reat_cfv_seg(project,datatype):
     #dirr='/home/jonatan/Downloads/projects/biopores_a_corrective'
 
     csvData = pandas.read_csv(project+'/annot_created_times6.csv')
-    length=csvData.index.stop-6
+    length=csvData.index.stop-7
     print(csvData.index.stop)
     print(length)
     
@@ -596,9 +596,9 @@ def reat_cfv_seg(project,datatype):
 
         label=dif_new_ann(project+'/segmentations/'+file_name, project+'/annotations/'+dataset+'/'+file_name)
 
-        #data_imig=image_and_segmentation_dir(datatype+'/'+os.path.splitext(file_name)[0] + '.jpg', project+'/segmentations/'+file_name)
+        data_imig=image_and_segmentation_dir(datatype+'/'+os.path.splitext(file_name)[0] + '.jpg', project+'/segmentations/'+file_name)
         
-        #imsave(project+'/models_models/data/'+file_name, data_imig)
+        imsave(project+'/models_models/data/'+file_name, data_imig)
 
         if c<20:
             imsave(project+'/models_models/labels/test/'+file_name, label)
