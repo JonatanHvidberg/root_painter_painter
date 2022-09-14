@@ -578,7 +578,7 @@ def setup(setup_dir):
     os.mkdir(setup_dir +'/models_models' + '/labels/test')
     pass
 
-def reat_cfv_seg(project,dataset):
+def reat_cfv_seg(project,datatype):
     #dirr='/home/jonatan/Downloads/projects/biopores_a_corrective'
 
     csvData = pandas.read_csv(project+'/annot_created_times6.csv')
@@ -593,9 +593,8 @@ def reat_cfv_seg(project,dataset):
         file_name = csvData['file_name'][x]
 
         label=dif_new_ann(project+'/segmentations/'+file_name, project+'/annotations/'+dataset+'/'+file_name)
-        print(csvData)
 
-        data_imig=image_and_segmentation_dir(dataset+'/'+os.path.splitext(file_name)[0] + '.jpg', project+'/segmentations/'+file_name)
+        data_imig=image_and_segmentation_dir(datatype+'/'+os.path.splitext(file_name)[0] + '.jpg', project+'/segmentations/'+file_name)
         
         imsave(project+'/models_models/labels/data/'+file_name, data_imig)
 
