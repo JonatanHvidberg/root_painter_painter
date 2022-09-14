@@ -157,21 +157,15 @@ def val_info(dataset_dir):
                   dataset_dir=dataset_dir,
                   in_w=in_w, out_w=out_w, bs=bs)
 
-    get_val_dopel_metrics = partial(mml.get_val_dopel_metrics,
-              val_annot_dir=syncdir+project+'/models_models'+test,
-              dataset_dir=dataset_dir,
-              in_w=in_w, out_w=out_w, bs=bs)
-
-    model_dir=syncdir+project+'/models_models/models4'
+    model_dir=syncdir+project+'/models_models/models'
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model =mml.load_model(path)
 
-    oldmodel = model_utils.load_model(syncdir+project+ '/models/000032_1578339309.pkl')
+    oldmodel = model_utils.load_model(syncdir+project+ '/models/000047_1578156936.pkl')
 
     val_metrics = get_val_metrics(copy.deepcopy(model))
     test_metrics = get_test_metrics(copy.deepcopy(model))
     old_metrics = get_old_metrics(copy.deepcopy(oldmodel))
-    dopel_metrics = get_val_dopel_metrics(copy.deepcopy(oldmodel),copy.deepcopy(model))
 
     print('val_metrics')
     print(val_metrics)
@@ -182,8 +176,6 @@ def val_info(dataset_dir):
     print('old_metrics')
     print(old_metrics)
 
-    print('dopel_metrics')
-    print(dopel_metrics)
 
 
 def train_type2(model_path, train_annot_dir, dataset_dir):
@@ -524,12 +516,20 @@ project = '/projects/nodules_b_corrective'
 mml.setup(syncdir+project)
 mml.reat_cfv_seg(syncdir+project,syncdir+datasets)
 '''
+
+
+'''
 datasets = '/datasets/towers_750_training'
 project = '/projects/towers_b_corrective'
 mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
 train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
+'''
+datasets = '/datasets/towers_750_training'
+project = '/projects/towers_a_corrective'
+val_info(syncdir+project+'/models_models/data')
+
 
 #result_unsertensu()
 
@@ -546,7 +546,7 @@ train_type2(syncdir+project+'/models_models/models/'
 #gradian_data_setop([syncdir+project+'/models/000001_1578331363.pkl'])
 
 #train_type2(model_path, train_annot_dir, dataset_dir)
-#val_info(syncdir+project+'/models_models/data')
+
 
 
 
