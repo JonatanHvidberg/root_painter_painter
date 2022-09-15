@@ -427,6 +427,7 @@ def sum_error(o_model_name):
         unsertensy_predicted = unsertensy > 0.5
         unsertensy_predicted = unsertensy_predicted.astype(int)
 
+        print(unsertensy_predicted)
         unsertensy_sum = np.sum(unsertensy_predicted)
 
         ys[c,0]=coreted_sum
