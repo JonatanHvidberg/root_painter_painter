@@ -423,7 +423,7 @@ def sum_error(o_model_name):
         o_predicted = model_utils.unet_segment(omodel, image, bs, in_w,
                  out_w, threshold=None)
 
-        unsertensy=mml.entorpy(predicted)
+        unsertensy=mml.entorpy(o_predicted)
         unsertensy_predicted = unsertensy > 0.5
 
         print(unsertensy_predicted)
