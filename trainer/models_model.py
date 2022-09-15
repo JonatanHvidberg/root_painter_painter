@@ -388,16 +388,18 @@ def p_coler_gradian():
         o=o+0.01
     imsave(syncdir+project+'/models_models/res/gras.png', seg_alpha)
 
-def sum_error():
+def sum_error(o_model_name):
 
     
-    model_dir=syncdir+project+'/models_models/models4'
+    model_dir=syncdir+project+'/models_models/models'
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model = mml.load_model(path)
 
+    omodel = model_utils.load_model(syncdir+project+'/models/' +o_model_name)
+
     fnames = ls(syncdir+project+'/models_models/labels/test/')
 
-    ys = np.zeros([len(fnames),3])
+    ys = np.zeros([len(fnames),4])
     print(ys.shape)
 
     print(fnames)
@@ -408,7 +410,7 @@ def sum_error():
         image = imread(syncdir+project+'/models_models/labels/test/'+fname)
         coreted_sum = np.sum((image[:,:,0]>0).astype(int))
         totel_pix = image.shape[0]*image.shape[1]
-        persent_coreted =coreted_sum/totel_pix
+        #persent_coreted =coreted_sum/totel_pix
         #print(coreted_sum,totel_pix,persent_coreted)
 
     
@@ -416,20 +418,34 @@ def sum_error():
         predicted = mml.unet_segment(model, image, bs, in_w,
                          out_w, threshold=0.5)
         predicted_sum = np.sum(predicted)
-        persent_predicted =predicted_sum/totel_pix
+        #persent_predicted =predicted_sum/totel_pix
         #print(predicted_sum,persent_predicted)
 
-        #image = imread(syncdir+datasets+os.path.splitext(fname)[0] + '.jpg')
+        image = im_utils.load_image(syncdir+datasets+os.path.splitext(fname)[0] + '.jpg')
+
+        o_predicted = model_utils.unet_segment(omodel, image, bs, in_w,
+                 out_w, threshold=None)
+
+        unsertensy=entorpy(predicted)
+        unsertensy_predicted = unsertensy > 0.5
+        unsertensy_predicted = unsertensy_predicted.astype(int)
+
+        unsertensy_sum = np.sum(unsertensy_predicted)
+
         ys[c,0]=coreted_sum
 
         ys[c,1]=predicted_sum
+
+        ys[c,2]=unsertensy_sum
+
+        ys[c,3]=totel_pix
 
         c = c+1
     
     ys=ys[np.argsort(ys[:,0])]
     print(ys)
-    ys=ys[np.argsort(ys[:,1])]
-    print(ys)
+   # ys=ys[np.argsort(ys[:,1])]
+   # print(ys)
     '''
     x=np.arange(len(fnames))
 
@@ -514,6 +530,8 @@ test = '/labels/test'
 
 
 
+
+
 #mml.setup(syncdir+project)
 '''
 datasets = '/datasets/towers_750_training'
@@ -569,6 +587,10 @@ train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models/data')
 '''
 
+#=================================================================
+#get f1 val ror
+#=================================================================
+'''
 print('biopores_b_corrective')
 datasets = '/datasets/biopores_750_training'
 project = '/projects/biopores_b_corrective'
@@ -597,6 +619,15 @@ print('towers_b_corrective')
 project = '/projects/towers_b_corrective'
 om='000040_1578171692.pkl'
 val_info(syncdir+project+'/models_models/data',om)
+'''
+#=================================================================
+#get sum eror val ror
+#=================================================================
+
+print('biopores_a_corrective')
+datasets = '/datasets/biopores_750_training'
+project = '/projects/biopores_a_corrective'
+sum_error('000032_1578339309.pkl')
 
 
 #result_unsertensu()
