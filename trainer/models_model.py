@@ -425,9 +425,12 @@ def sum_error(o_model_name):
 
         unsertensy=mml.entorpy(predicted)
         unsertensy_predicted = unsertensy > 0.5
-        unsertensy_predicted = unsertensy_predicted.astype(int)
 
         print(unsertensy_predicted)
+        print(unsertensy)
+        unsertensy_predicted = unsertensy_predicted.astype(int)
+
+
         unsertensy_sum = np.sum(unsertensy_predicted)
 
         ys[c,0]=coreted_sum
