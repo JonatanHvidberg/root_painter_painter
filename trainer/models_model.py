@@ -426,8 +426,6 @@ def sum_error(o_model_name):
         unsertensy=mml.entorpy(o_predicted)
         unsertensy_predicted = unsertensy > 0.5
 
-        print(unsertensy_predicted)
-        print(unsertensy)
         unsertensy_predicted = unsertensy_predicted.astype(int)
 
 
