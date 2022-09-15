@@ -439,6 +439,7 @@ def sum_error(o_model_name):
 
         c = c+1
     
+    ys=ys.astype(int)
     ys=ys[np.argsort(ys[:,0])]
     print(ys)
    # ys=ys[np.argsort(ys[:,1])]
