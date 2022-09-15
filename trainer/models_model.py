@@ -568,34 +568,34 @@ train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models/data')
 '''
 
-print(biopores_b_corrective)
+print('biopores_b_corrective')
 datasets = '/datasets/towers_750_training'
 project = '/projects/towers_a_corrective'
 om='000023_1578320581.pkl'
-val_info(syncdir+project+'/models_models/data',)
+val_info(syncdir+project+'/models_models/data',om)
 
-print(nodules_a_corrective)
+print('nodules_a_corrective')
 datasets = '/datasets/nodules_750_training'
 project = '/projects/nodules_a_corrective'
 om='000028_1581172999.pkl'
-val_info(syncdir+project+'/models_models/data',)
+val_info(syncdir+project+'/models_models/data',om)
 
-print(nodules_b_corrective)
+print('nodules_b_corrective')
 project = '/projects/nodules_b_corrective'
 om='000023_1581690809.pkl'
-val_info(syncdir+project+'/models_models/data',)
+val_info(syncdir+project+'/models_models/data',om)
 
 
-print(towers_a_corrective)
+print('towers_a_corrective')
 datasets = '/datasets/towers_750_training'
 project = '/projects/towers_a_corrective'
 om='000046_1578155544.pkl'
-val_info(syncdir+project+'/models_models/data',)
+val_info(syncdir+project+'/models_models/data',om)
 
-print(towers_b_corrective)
+print('towers_b_corrective')
 project = '/projects/towers_b_corrective'
 om='000040_1578171692.pkl'
-val_info(syncdir+project+'/models_models/data',)
+val_info(syncdir+project+'/models_models/data',om)
 
 
 #result_unsertensu()
