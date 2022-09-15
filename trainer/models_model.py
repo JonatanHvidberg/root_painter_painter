@@ -443,10 +443,10 @@ def sum_error():
     '''
 
 def nicedata():
-    dirr='/home/jonatan/Downloads/projects/biopores_a_corrective'
+    dirr='/home/jonatan/Downloads/projects/biopores_b_corrective'
 
     csvData = pandas.read_csv(dirr+'/annot_created_times6.csv')
-    length=csvData.index.stop-6
+    length=csvData.index.stop-7
     print(length)
     csvData.sort_values(["created_datetime"], axis=0, ascending=[False], inplace=True)
     
@@ -456,7 +456,10 @@ def nicedata():
     c=0
     for x in csvData.index:
         if c<20:
-            print(csvData['created_time'][x])
+            #print(csvData['file_name'][x])
+            pass
+        elif c>length:
+            print(csvData['file_name'][x])
         c=c+1
 
 #nicedata()
@@ -518,13 +521,33 @@ mml.reat_cfv_seg(syncdir+project,syncdir+datasets)
 '''
 
 
-
-datasets = '/datasets/towers_750_training'
-project = '/projects/towers_b_corrective'
+datasets = '/datasets/nodules_750_training'
+project = '/projects/nodules_a_corrective'
 mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
 train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
+
+project = '/projects/nodules_b_corrective'
+mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
+train_type2(syncdir+project+'/models_models/models/'
+    , syncdir+project+'/models_models'+train
+    , syncdir+project+'/models_models/data')
+
+datasets = '/datasets/biopores_750_training'
+project = '/projects/biopores_b_corrective'
+mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
+train_type2(syncdir+project+'/models_models/models/'
+    , syncdir+project+'/models_models'+train
+    , syncdir+project+'/models_models/data')
+
+project = '/projects/biopores_a_corrective'
+mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
+train_type2(syncdir+project+'/models_models/models/'
+    , syncdir+project+'/models_models'+train
+    , syncdir+project+'/models_models/data')
+
+
 
 '''
 datasets = '/datasets/towers_750_training'
