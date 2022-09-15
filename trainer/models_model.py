@@ -158,6 +158,7 @@ def val_info(dataset_dir,omodel):
                   in_w=in_w, out_w=out_w, bs=bs)
 
     model_dir=syncdir+project+'/models_models/models'
+    print(ls(model_dir))
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model =mml.load_model(path)
 
