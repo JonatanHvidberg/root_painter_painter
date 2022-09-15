@@ -400,9 +400,6 @@ def sum_error(o_model_name):
     fnames = ls(syncdir+project+'/models_models/labels/test/')
 
     ys = np.zeros([len(fnames),4])
-    print(ys.shape)
-
-    print(fnames)
 
     c=0
     for fname in fnames:
@@ -421,7 +418,7 @@ def sum_error(o_model_name):
         #persent_predicted =predicted_sum/totel_pix
         #print(predicted_sum,persent_predicted)
 
-        image = im_utils.load_image(syncdir+datasets+os.path.splitext(fname)[0] + '.jpg')
+        image = im_utils.load_image(syncdir+datasets+'/'+os.path.splitext(fname)[0] + '.jpg')
 
         o_predicted = model_utils.unet_segment(omodel, image, bs, in_w,
                  out_w, threshold=None)
