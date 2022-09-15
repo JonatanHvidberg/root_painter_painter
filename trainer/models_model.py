@@ -525,7 +525,7 @@ mml.create_first_model_with_random_weights(syncdir+project+'/models_models/model
 train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
-'''
+
 
 datasets = '/datasets/nodules_750_training'
 
@@ -537,12 +537,14 @@ train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models/data')
 
 '''
+
 datasets = '/datasets/biopores_750_training'
 project = '/projects/biopores_b_corrective'
 mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
 train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
+'''
 
 project = '/projects/biopores_a_corrective'
 mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
