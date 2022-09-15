@@ -141,7 +141,7 @@ def validation(model,dataset_dir):
 
     return was_saved
 
-def val_info(dataset_dir):
+def val_info(dataset_dir,omodel):
     get_val_metrics = partial(mml.get_val_metrics,
                           val_annot_dir=syncdir+project+'/models_models'+val,
                           dataset_dir=dataset_dir,
@@ -161,7 +161,7 @@ def val_info(dataset_dir):
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model =mml.load_model(path)
 
-    oldmodel = model_utils.load_model(syncdir+project+ '/models/000047_1578156936.pkl')
+    oldmodel = model_utils.load_model(syncdir+project+ '/models/' + omodel)
 
     val_metrics = get_val_metrics(copy.deepcopy(model))
     test_metrics = get_test_metrics(copy.deepcopy(model))
@@ -442,27 +442,39 @@ def sum_error():
     plt.show()
     '''
 
-def nicedata():
-    dirr='/home/jonatan/Downloads/projects/biopores_b_corrective'
+def nicedata(dirr):
+    #dirr='/home/jonatan/Downloads/projects/biopores_b_corrective'
+
+    #file_name  created_time            created_datetime dataset
 
     csvData = pandas.read_csv(dirr+'/annot_created_times6.csv')
     length=csvData.index.stop-7
-    print(length)
+    #print(length)
     csvData.sort_values(["created_datetime"], axis=0, ascending=[False], inplace=True)
     
-    print(csvData.index)
-    print(csvData)
+    #print(csvData.index)
+    #print(csvData)
 
     c=0
     for x in csvData.index:
         if c<20:
-            #print(csvData['file_name'][x])
+            print(csvData['created_time'][x])
             pass
         elif c>length:
-            print(csvData['file_name'][x])
+            #print(csvData['file_name'][x])
+            pass
         c=c+1
 
-#nicedata()
+    img= 1578167460
+    print(1578171692<img)
+    print(1578170314<img)
+
+    print(1581688830<img)
+    print(1581174019<img)
+    print(1581173190<img)
+
+
+#nicedata('/home/jonatan/Downloads/projects/towers_b_corrective')
 '''
 Data
 '''
@@ -538,13 +550,16 @@ train_type2(syncdir+project+'/models_models/models/'
 
 '''
 
+
+
+'''
 datasets = '/datasets/biopores_750_training'
 project = '/projects/biopores_b_corrective'
 mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
 train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models'+train
     , syncdir+project+'/models_models/data')
-'''
+
 
 project = '/projects/biopores_a_corrective'
 mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models/')
@@ -553,12 +568,35 @@ train_type2(syncdir+project+'/models_models/models/'
     , syncdir+project+'/models_models/data')
 '''
 
-
-'''
+print(biopores_b_corrective)
 datasets = '/datasets/towers_750_training'
 project = '/projects/towers_a_corrective'
-val_info(syncdir+project+'/models_models/data')
-'''
+om='000023_1578320581.pkl'
+val_info(syncdir+project+'/models_models/data',)
+
+print(nodules_a_corrective)
+datasets = '/datasets/nodules_750_training'
+project = '/projects/nodules_a_corrective'
+om='000028_1581172999.pkl'
+val_info(syncdir+project+'/models_models/data',)
+
+print(nodules_b_corrective)
+project = '/projects/nodules_b_corrective'
+om='000023_1581690809.pkl'
+val_info(syncdir+project+'/models_models/data',)
+
+
+print(towers_a_corrective)
+datasets = '/datasets/towers_750_training'
+project = '/projects/towers_a_corrective'
+om='000046_1578155544.pkl'
+val_info(syncdir+project+'/models_models/data',)
+
+print(towers_b_corrective)
+project = '/projects/towers_b_corrective'
+om='000040_1578171692.pkl'
+val_info(syncdir+project+'/models_models/data',)
+
 
 #result_unsertensu()
 
