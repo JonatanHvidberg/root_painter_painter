@@ -624,11 +624,30 @@ val_info(syncdir+project+'/models_models/data',om)
 #get sum eror val ror
 #=================================================================
 
-print('biopores_a_corrective')
+print('biopores_b_corrective')
 datasets = '/datasets/biopores_750_training'
-project = '/projects/biopores_a_corrective'
-sum_error('000032_1578339309.pkl')
+project = '/projects/biopores_b_corrective'
+sum_error('000023_1578320581.pkl')
 
+
+print('nodules_a_corrective')
+datasets = '/datasets/nodules_750_training'
+project = '/projects/nodules_a_corrective'
+sum_error('000028_1581172999.pkl')
+
+print('nodules_b_corrective')
+project = '/projects/nodules_b_corrective'
+sum_error('000023_1581690809.pkl')
+
+
+print('towers_a_corrective')
+datasets = '/datasets/towers_750_training'
+project = '/projects/towers_a_corrective'
+sum_error('000046_1578155544.pkl')
+
+print('towers_b_corrective')
+project = '/projects/towers_b_corrective'
+sum_error('000040_1578171692.pkl')
 
 #result_unsertensu()
 
