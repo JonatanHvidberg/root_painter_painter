@@ -569,8 +569,8 @@ train_type2(syncdir+project+'/models_models/models/'
 '''
 
 print('biopores_b_corrective')
-datasets = '/datasets/towers_750_training'
-project = '/projects/towers_a_corrective'
+datasets = '/datasets/biopores_750_training'
+project = '/projects/biopores_b_corrective'
 om='000023_1578320581.pkl'
 val_info(syncdir+project+'/models_models/data',om)
 
