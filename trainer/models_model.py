@@ -28,8 +28,7 @@ import os
 import numpy as np
 
 
-def setop():
-    pass
+
 def DataLoader_type3(model, im_tile, annot_tile):
         '''
         segmented=mml.simbel_segment(model, im_tile)
@@ -287,7 +286,7 @@ def setup_date(setup_dir):
         imageAnn=imread(setup_dir+'/annotations/val/' + fname)
         imageSeg=get_seg_from_model(image)
         DataImig=mml.new_ann(imageSeg, imageAnn)
-        imsave(setup_dir + '/models_models/annotations2/val/'+fname, DataImig)
+        imsave(setup_dir + '/models_models/annotations/val/'+fname, DataImig)
 
 
     fnames = ls(setup_dir + train)
@@ -299,7 +298,7 @@ def setup_date(setup_dir):
         imageAnn=imread(setup_dir+'/annotations/train/' + fname)
         imageSeg=get_seg_from_model(image)
         DataImig=mml.new_ann(imageSeg, imageAnn)
-        imsave(setup_dir + '/models_models/annotations2/train/'+fname, DataImig)
+        imsave(setup_dir + '/models_models/annotations/train/'+fname, DataImig)
 
     pass
 
@@ -389,6 +388,7 @@ def p_coler_gradian():
     imsave(syncdir+project+'/models_models/res/gras.png', seg_alpha)
 
 def sum_error(o_model_name):
+    return 0
 
     
     model_dir=syncdir+project+'/models_models/models'
