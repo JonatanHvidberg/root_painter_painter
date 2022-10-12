@@ -97,8 +97,8 @@ def validation(model,dataset_dir):
     return was_saved
 
 syncdir = 'drive_rp_sync'
-datasets = '/datasets/biopores_750_training'
-project = '/projects/biopores_b_corrective'
+datasets = '/datasets/nodules_750_training'
+project = '/projects/nodules_a_corrective'
 
 segmentations = '/segmentations'
 val = '/labels/val'
@@ -123,6 +123,15 @@ bs = total_mem // mem_per_item
 bs = min(12, bs)
 print('Batch size', bs)
 
+
+for x in range(2,6):
+    modelsDir='/models_models/models'+str(x)+'/'
+    mml.create_first_model_with_random_weights(syncdir+project+modelsDir)
+    train_type2(syncdir+project+modelsDir
+        , syncdir+project+'/models_models'+train
+        , syncdir+project+'/models_models/data')
+
+project = '/projects/nodules_b_corrective'
 
 for x in range(2,6):
     modelsDir='/models_models/models'+str(x)+'/'
