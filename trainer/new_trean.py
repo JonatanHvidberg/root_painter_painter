@@ -97,8 +97,8 @@ def validation(model,dataset_dir):
     return was_saved
 
 syncdir = 'drive_rp_sync'
-datasets = '/datasets/nodules_750_training'
-project = '/projects/nodules_a_corrective'
+datasets = '/datasets/towers_750_training'
+project = '/projects/towers_a_corrective'
 
 segmentations = '/segmentations'
 val = '/labels/val'
@@ -131,7 +131,7 @@ for x in range(2,6):
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data')
 
-project = '/projects/nodules_b_corrective'
+project = '/projects/towers_b_corrective'
 
 for x in range(2,6):
     modelsDir='/models_models/models'+str(x)+'/'
