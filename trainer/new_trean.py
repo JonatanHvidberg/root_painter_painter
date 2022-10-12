@@ -110,8 +110,8 @@ train = '/labels/train'
 test = '/labels/test'
 
 for x in range(2,6):
-    mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models'+x+'/')
-    train_type2(syncdir+project+'/models_models/models'+x+'/'
+    mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models'+str(x)+'/')
+    train_type2(syncdir+project+'/models_models/models'+str(x)+'/'
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data')
         
