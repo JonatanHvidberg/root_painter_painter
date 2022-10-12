@@ -96,7 +96,7 @@ def validation(model,dataset_dir):
 
     return was_saved
 
-syncdir = '/drive_rp_sync'
+syncdir = 'drive_rp_sync'
 datasets = '/datasets/biopores_750_training'
 project = '/projects/biopores_b_corrective'
 
