@@ -100,6 +100,15 @@ def validation(model,dataset_dir):
 datasets = '/datasets/biopores_750_training'
 project = '/projects/biopores_b_corrective'
 
+syncdir = '/content/drive/MyDrive/drive_rp_sync'
+datasets = '/datasets/biopores_750_training'
+project = '/projects/biopores_b_corrective'
+
+segmentations = '/segmentations'
+val = '/labels/val'
+train = '/labels/train'
+test = '/labels/test'
+
 for x in range(2,6):
     mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models'+x+'/')
     train_type2(syncdir+project+'/models_models/models'+x+'/'
