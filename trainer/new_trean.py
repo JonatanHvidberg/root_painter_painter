@@ -77,7 +77,7 @@ def validation(model,dataset_dir):
                           in_w=in_w, out_w=out_w, bs=bs)
 
 
-    model_dir=syncdir+project+'/models_models/models'
+    model_dir=syncdir+project+modelsDir
     prev_path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     prev_model =mml.load_model(prev_path)
 
@@ -95,10 +95,6 @@ def validation(model,dataset_dir):
                            cur_metrics['f1'], prev_metrics['f1'])
 
     return was_saved
-
-
-datasets = '/datasets/biopores_750_training'
-project = '/projects/biopores_b_corrective'
 
 syncdir = '/content/drive/MyDrive/drive_rp_sync'
 datasets = '/datasets/biopores_750_training'
@@ -129,8 +125,9 @@ print('Batch size', bs)
 
 
 for x in range(2,6):
-    mml.create_first_model_with_random_weights(syncdir+project+'/models_models/models'+str(x)+'/')
-    train_type2(syncdir+project+'/models_models/models'+str(x)+'/'
+    modelsDir='/models_models/models'+str(x)+'/'
+    mml.create_first_model_with_random_weights(syncdir+project+modelsDir)
+    train_type2(syncdir+project+modelsDir
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data')
         
