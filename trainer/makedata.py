@@ -54,8 +54,8 @@ val = 'drive_rp_sync/projects/rg_2017_ags/annotations/val/'
 
 datasets = 'drive_rp_sync/datasets/rg_2017_training_size_900_count_4000/'
 
-trainsave = 'drive_rp_sync/projects/rg_2017_ags/models_models/labels/train'
-valsave   = 'drive_rp_sync/projects/rg_2017_ags/models_models/labels/val'
+trainsave = 'drive_rp_sync/projects/rg_2017_ags/models_models/labels/train/'
+valsave   = 'drive_rp_sync/projects/rg_2017_ags/models_models/labels/val/'
 datasave  = 'drive_rp_sync/projects/rg_2017_ags/models_models/data/'
 
 fnames = ls(segmentations)
@@ -67,7 +67,6 @@ for fname in fnames:
     imageSeg = imread(segmentations+fname)
 
     #imsave(datasave+fname,image_and_segmentation(image,imageSeg))
-    print(exists(train+fname))
     if (exists(train+fname)):
 
         imageAnn = imread(train+fname)
