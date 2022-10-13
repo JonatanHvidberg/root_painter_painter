@@ -24,7 +24,7 @@ def new_leb(imageSeg, imageAnn):
                 imageAnnAnn[x][y][3] = 180
 
             elif (imageAnn[x][y][3]):
-                c=c+1
+
                 imageAnnAnn[x][y][0] = 255
                 imageAnnAnn[x][y][3] = 180
 
