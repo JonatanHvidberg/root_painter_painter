@@ -47,10 +47,10 @@ def image_and_segmentation(image, imageSeg):
 
 
 
-segmentations = '/home/jonatan/'+'drive_rp_sync/projects/rg_2017_ags/segmentations/'
+segmentations = 'drive_rp_sync/projects/rg_2017_ags/segmentations/'
 
-train = '/home/jonatan/'+'drive_rp_sync/projects/rg_2017_ags/annotations/train/'
-val = '/home/jonatan/'+'drive_rp_sync/projects/rg_2017_ags/annotations/val/'
+train = 'drive_rp_sync/projects/rg_2017_ags/annotations/train/'
+val = 'drive_rp_sync/projects/rg_2017_ags/annotations/val/'
 
 datasets = 'drive_rp_sync/datasets/rg_2017_training_size_900_count_4000/'
 
