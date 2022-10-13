@@ -47,10 +47,10 @@ def image_and_segmentation(image, imageSeg):
 
 
 
-segmentations = 'drive_rp_sync/projects/rg_2017_ags/segmentations/'
+segmentations = '/home/jonatan/'+'drive_rp_sync/projects/rg_2017_ags/segmentations/'
 
-train = 'drive_rp_sync/projects/rg_2017_ags/annotations/train'
-val = 'drive_rp_sync/projects/rg_2017_ags/annotations/val'
+train = '/home/jonatan/'+'drive_rp_sync/projects/rg_2017_ags/annotations/train/'
+val = '/home/jonatan/'+'drive_rp_sync/projects/rg_2017_ags/annotations/val/'
 
 datasets = 'drive_rp_sync/datasets/rg_2017_training_size_900_count_4000/'
 
@@ -59,6 +59,8 @@ valsave   = 'drive_rp_sync/projects/rg_2017_ags/models_models/labels/val'
 datasave  = 'drive_rp_sync/projects/rg_2017_ags/models_models/data/'
 
 fnames = ls(segmentations)
+
+
 
 for fname in fnames:
     #image = im_utils.load_image(datasets+os.path.splitext(fname)[0] + '.jpg')
