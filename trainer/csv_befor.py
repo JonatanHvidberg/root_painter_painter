@@ -44,14 +44,14 @@ for fname in parsed_json['file_names']:
         if (exists(val+fname)):
             dataset.append('val')
             leb_img=imread(val+fname)
-            pixel_error_sum.append(0)
+            pixel_error_sum.append(np.sum(leg_img[:,:,1]/255))
 
         elif (exists(train+fname)):
             dataset.append('train')
             leg_img=imread(train+fname)
             pixel_error_sum.append(np.sum(leg_img[:,:,1]/255))
         else:
-            pixel_error_sum.append(np.sum(leg_img[:,:,1]/255))
+            pixel_error_sum.append(0)
             dataset.append('nan')
 
 dict = {'file_names':file_names,'dataset':dataset,'pixel_sum':pixel_sum,'pixel_segmentations_sum':pixel_segmentations_sum,'pixel_error_sum':pixel_error_sum}
