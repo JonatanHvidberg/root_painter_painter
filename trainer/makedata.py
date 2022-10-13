@@ -65,7 +65,7 @@ for fname in fnames:
     imageSeg = imread(segmentations+fname)
 
     #imsave(datasave+fname,image_and_segmentation(image,imageSeg))
-
+    print(exists(train+fname))
     if (exists(train+fname)):
 
         imageAnn = imread(train+fname)
