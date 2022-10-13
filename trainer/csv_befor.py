@@ -44,12 +44,12 @@ for fname in parsed_json['file_names']:
         if (exists(val+fname)):
             dataset.append('val')
             leg_img=imread(val+fname)
-            pixel_error_sum.append(np.sum(leg_img[:,:,1]/255))
+            pixel_error_sum.append(np.sum(leg_img[:,:,0]/255))
 
         elif (exists(train+fname)):
             dataset.append('train')
             leg_img=imread(train+fname)
-            pixel_error_sum.append(np.sum(leg_img[:,:,1]/255))
+            pixel_error_sum.append(np.sum(leg_img[:,:,0]/255))
         else:
             pixel_error_sum.append(0)
             dataset.append('nan')
