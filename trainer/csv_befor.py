@@ -15,7 +15,7 @@ pix error
 
 
 
-projects = '/home/jonatan/'+'drive_rp_sync/projects/rg_2017_ags/'
+projects = 'drive_rp_sync/projects/rg_2017_ags/'
 segmentations = projects + 'segmentations/'
 
 val = projects + 'models_models/labels/val'
