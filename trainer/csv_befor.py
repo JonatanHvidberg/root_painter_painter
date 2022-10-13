@@ -43,7 +43,7 @@ for fname in parsed_json['file_names']:
         pixel_segmentations_sum.append(np.sum(seg_img[:,:,1]/255))
         if (exists(val+fname)):
             dataset.append('val')
-            leb_img=imread(val+fname)
+            leg_img=imread(val+fname)
             pixel_error_sum.append(np.sum(leg_img[:,:,1]/255))
 
         elif (exists(train+fname)):
