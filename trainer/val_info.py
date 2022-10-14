@@ -8,7 +8,7 @@ def val_info(dataset_dir,omodel, model_dir):
     train = '/labels/train'
     test = '/labels/test'
 
-    
+
     get_val_metrics = partial(mml.get_val_metrics,
                           val_annot_dir=syncdir+project+'/models_models'+val,
                           dataset_dir=dataset_dir,
@@ -43,6 +43,23 @@ def val_info(dataset_dir,omodel, model_dir):
     print('old_metrics')
     print(old_metrics)
 
+
+global in_w
+global out_w
+global mem_per_item
+global total_mem
+global bs
+
+in_w = 572
+out_w = 500
+mem_per_item = 3800000000
+total_mem = 0
+print('GPU Available', torch.cuda.is_available())
+for i in range(torch.cuda.device_count()):
+    total_mem += torch.cuda.get_device_properties(i).total_memory
+bs = total_mem // mem_per_item
+bs = min(12, bs)
+print('Batch size', bs)
 
 syncdir='drive_rp_sync'
 
