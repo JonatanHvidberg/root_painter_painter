@@ -11,8 +11,6 @@ import pandas as pd
 
 
 def sum_error(o_model_name):
-    return 0
-
     
     model_dir=syncdir+project+'/models_models/models'
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
