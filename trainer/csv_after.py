@@ -6,6 +6,10 @@ from skimage.io import imread, imsave
 import os
 import im_utils
 
+import torch
+import pandas as pd
+
+
 def sum_error(o_model_name):
     return 0
 
@@ -20,12 +24,17 @@ def sum_error(o_model_name):
 
     ys = np.zeros([len(fnames),4])
 
-    c=0
-    for fname in fnames:
+    coreted_sum=[]
+    predicted_sum=[]
+    unsertensy_sum=[]
+    totel_pix=[]
+    file_names=[]
 
+    for fname in fnames:
+        file_names.append[fname]
         image = imread(syncdir+project+'/models_models/labels/test/'+fname)
-        coreted_sum = np.sum((image[:,:,0]>0).astype(int))
-        totel_pix = image.shape[0]*image.shape[1]
+        coreted_sum.append(np.sum((image[:,:,0]>0).astype(int)))
+        totel_pix.append(image.shape[0]*image.shape[1])
         #persent_coreted =coreted_sum/totel_pix
         #print(coreted_sum,totel_pix,persent_coreted)
 
@@ -33,7 +42,7 @@ def sum_error(o_model_name):
         image = imread(syncdir+project+'/models_models/data/'+fname)
         predicted = mml.unet_segment(model, image, bs, in_w,
                          out_w, threshold=0.5)
-        predicted_sum = np.sum(predicted)
+        predicted_sum.append(np.sum(predicted))
         #persent_predicted =predicted_sum/totel_pix
         #print(predicted_sum,persent_predicted)
 
@@ -48,18 +57,32 @@ def sum_error(o_model_name):
         unsertensy_predicted = unsertensy_predicted.astype(int)
 
 
-        unsertensy_sum = np.sum(unsertensy_predicted)
+        unsertensy_sum.append(np.sum(unsertensy_predicted))
 
-        ys[c,0]=coreted_sum
+    dict = {'file_names':file_names,'coreted_sum':coreted_sum,'predicted_sum':predicted_sum,'unsertensy_sum':unsertensy_sum,'totel_pix':totel_pix}
 
-        ys[c,1]=predicted_sum
+    df = pd.DataFrame(dict)
+    df.to_csv(projects+'models_models/after.csv')
 
-        ys[c,2]=unsertensy_sum
 
-        ys[c,3]=totel_pix
+global in_w
+global out_w
+global mem_per_item
+global total_mem
+global bs
 
-        c = c+1
-    
-    ys=ys.astype(int)
-    ys=ys[np.argsort(ys[:,0])]
-    print(ys)
+in_w = 572
+out_w = 500
+mem_per_item = 3800000000
+total_mem = 0
+print('GPU Available', torch.cuda.is_available())
+for i in range(torch.cuda.device_count()):
+    total_mem += torch.cuda.get_device_properties(i).total_memory
+bs = total_mem // mem_per_item
+bs = min(12, bs)
+print('Batch size', bs)
+
+om='000040_1578171692.pkl'
+syncdir='drive_rp_sync'
+project = '/projects/towers_b_corrective'
+um_error(om)
