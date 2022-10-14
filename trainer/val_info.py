@@ -4,6 +4,11 @@ import model_utils
 import copy
 
 def val_info(dataset_dir,omodel, model_dir):
+    val = '/labels/val'
+    train = '/labels/train'
+    test = '/labels/test'
+
+    
     get_val_metrics = partial(mml.get_val_metrics,
                           val_annot_dir=syncdir+project+'/models_models'+val,
                           dataset_dir=dataset_dir,
