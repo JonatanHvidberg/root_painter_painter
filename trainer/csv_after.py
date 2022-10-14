@@ -85,4 +85,4 @@ print('Batch size', bs)
 om='000040_1578171692.pkl'
 syncdir='drive_rp_sync'
 project = '/projects/towers_b_corrective'
-um_error(om)
+sum_error(om)
