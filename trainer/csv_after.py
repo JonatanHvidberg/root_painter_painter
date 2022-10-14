@@ -29,7 +29,7 @@ def sum_error(o_model_name):
     file_names=[]
 
     for fname in fnames:
-        file_names.append[fname]
+        file_names.append(fname)
         image = imread(syncdir+project+'/models_models/labels/test/'+fname)
         coreted_sum.append(np.sum((image[:,:,0]>0).astype(int)))
         totel_pix.append(image.shape[0]*image.shape[1])
