@@ -1,6 +1,7 @@
 from functools import partial
 import models_model_lib as mml
 import model_utils
+import copy
 
 def val_info(dataset_dir,omodel, model_dir):
     get_val_metrics = partial(mml.get_val_metrics,
@@ -38,7 +39,7 @@ def val_info(dataset_dir,omodel, model_dir):
     print(old_metrics)
 
 
-
+syncdir='drive_rp_sync'
 
 print('biopores_b_corrective')
 datasets = '/datasets/biopores_750_training'
