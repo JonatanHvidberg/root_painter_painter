@@ -62,8 +62,8 @@ def sum_error(o_model_name):
     dict = {'file_names':file_names,'coreted_sum':coreted_sum,'predicted_sum':predicted_sum,'unsertensy_sum':unsertensy_sum,'totel_pix':totel_pix}
 
     df = pd.DataFrame(dict)
-    df.to_csv(projects+'models_models/after.csv')
-
+    df.to_csv(syncdir+projects+'models_models/after.csv')
+    print('don')
 
 global in_w
 global out_w
