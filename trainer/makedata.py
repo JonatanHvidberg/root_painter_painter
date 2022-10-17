@@ -9,7 +9,7 @@ from skimage.io import imread, imsave
 import im_utils
 from skimage import color, img_as_float32
 import os
-
+import shutil
 
 
 def new_leb(imageSeg, imageAnn):
