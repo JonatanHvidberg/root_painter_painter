@@ -67,17 +67,20 @@ def make_csv(project_name):
 
     df = pd.DataFrame(dict)
 
-    df.to_csv(projects+'models_models/befor.csv')
+    df.to_csv(projects+'models_models/befor2.csv')
     print(project_name)
 
 
-'''
+
 make_csv(rg_2017_ags)
 
 '''
+
+
 make_csv('biopores_a_corrective')
 make_csv('biopores_b_corrective')
 make_csv('nodules_a_corrective')
 make_csv('nodules_b_corrective')
 make_csv('towers_a_corrective')
 make_csv('towers_b_corrective')
+'''
