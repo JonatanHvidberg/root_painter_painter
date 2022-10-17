@@ -97,18 +97,15 @@ def reat_cfv_seg(project_name):
             else:
                 shutil.move(labels+ dataset+'/'+ file_names
                     ,testsave+file_names)
-
         elif dataset=='nan':
             if c==6:
                 imsave(trainsave+file_names,
                     green_leb(imread(segmentations+file_names)))
                 c=0
-
             else:
                 c=c+1
                 imsave(valsave+file_names,
                     green_leb(imread(segmentations+file_names)))
-
         else:
             print(file_names)
 
