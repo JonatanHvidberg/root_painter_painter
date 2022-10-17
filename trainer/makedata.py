@@ -33,6 +33,12 @@ def new_leb(imageSeg, imageAnn):
                 imageAnnAnn[x][y][3] = 180
     return imageAnnAnn.astype('uint8')
 
+def green_leb(imageSeg):
+    imageLeb=np.zeros([(imageSeg).shape[0],(imageSeg).shape[1],4], np.uint8)
+    imageLeb[:,:,1]=255
+    imageLeb[:,:,3]=180
+    return imageLeb.astype('uint8')
+
 
 def image_and_segmentation(image, imageSeg):
 
@@ -49,6 +55,7 @@ def image_and_segmentation(image, imageSeg):
 
 segmentations = 'drive_rp_sync/projects/rg_2017_ags/segmentations/'
 
+'''
 train = 'drive_rp_sync/projects/rg_2017_ags/annotations/train/'
 val = 'drive_rp_sync/projects/rg_2017_ags/annotations/val/'
 
@@ -57,10 +64,56 @@ datasets = 'drive_rp_sync/datasets/rg_2017_training_size_900_count_4000/'
 trainsave = 'drive_rp_sync/projects/rg_2017_ags/models_models/labels/train/'
 valsave   = 'drive_rp_sync/projects/rg_2017_ags/models_models/labels/val/'
 datasave  = 'drive_rp_sync/projects/rg_2017_ags/models_models/data/'
+'''
 
 fnames = ls(segmentations)
 
 
+def reat_cfv_seg(project_name):
+
+    dirr='drive_rp_sync/projects/'+ project_name +'/models_models/'
+    labels='drive_rp_sync/projects/'+ project_name +'/models_models/labels/'
+
+    segmentations = 'drive_rp_sync/projects/'+ project_name +'/segmentations/'
+
+    trainsave = 'drive_rp_sync/projects/' + project_name + '/models_models/labels/train/'
+    valsave   = 'drive_rp_sync/projects/' + project_name + '/models_models/labels/val/'
+    testsave  = 'drive_rp_sync/projects/' + project_name + '/models_models/labels/test/'
+
+    csvData = pandas.read_csv(dirr+'befor.csv')
+
+    c=0
+    for x in csvData.index:
+        if x<7:
+            if csvData['dataset'][x]=='nan':
+            else:
+                shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x]
+                        ,labels+csvData['file_names'][x])
+
+        elif x>1407:
+            if csvData['dataset'][x]=='nan':
+                imsave(green_leb(imread(segmentations+csvData['file_names'][x]))
+                    ,testsave+csvData['file_names'][x])
+
+            else:
+                shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x]
+                        ,testsave+csvData['file_names'][x])
+
+        elif csvData['dataset'][x]=='nan':
+            if c==6:
+                imsave(green_leb(imread(segmentations+csvData['file_names'][x]))
+                    ,trainsave+csvData['file_names'][x])
+                c=0
+
+            else:
+                c=c+1
+                imsave(green_leb(imread(segmentations+csvData['file_names'][x]))
+                    ,valsave+csvData['file_names'][x])
+
+        else:
+            print(csvData['file_names'][x])
+'''
+for nex 
 
 for fname in fnames:
     #image = im_utils.load_image(datasets+os.path.splitext(fname)[0] + '.jpg')
@@ -77,4 +130,4 @@ for fname in fnames:
         imageAnn = imread(val+fname)
         imsave(valsave+fname,new_leb(imageSeg, imageAnn))
 
-#    file_exists = exists(path+fname)
+'''
