@@ -53,8 +53,6 @@ def image_and_segmentation(image, imageSeg):
 
 
 
-segmentations = 'drive_rp_sync/projects/rg_2017_ags/segmentations/'
-
 '''
 train = 'drive_rp_sync/projects/rg_2017_ags/annotations/train/'
 val = 'drive_rp_sync/projects/rg_2017_ags/annotations/val/'
@@ -64,9 +62,11 @@ datasets = 'drive_rp_sync/datasets/rg_2017_training_size_900_count_4000/'
 trainsave = 'drive_rp_sync/projects/rg_2017_ags/models_models/labels/train/'
 valsave   = 'drive_rp_sync/projects/rg_2017_ags/models_models/labels/val/'
 datasave  = 'drive_rp_sync/projects/rg_2017_ags/models_models/data/'
-'''
+
 
 fnames = ls(segmentations)
+'''
+
 
 
 def reat_cfv_seg(project_name):
@@ -85,12 +85,14 @@ def reat_cfv_seg(project_name):
     c=0
     for x in csvData.index:
         if x<7:
+            print('x<7' ,x)
             if csvData['dataset'][x]=='nan':
                 pass
             else:
-                shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x],labels+csvData['file_names'][x])
+                shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x], labels+csvData['file_names'][x])
 
         elif x>1407:
+            print('x>1407' ,x)
             if csvData['dataset'][x]=='nan':
                 imsave(green_leb(imread(segmentations+csvData['file_names'][x])),testsave+csvData['file_names'][x])
 
@@ -108,6 +110,8 @@ def reat_cfv_seg(project_name):
 
         else:
             print(csvData['file_names'][x])
+
+reat_cfv_seg('rg_2017_ags')
 '''
 for nex 
 
