@@ -17,7 +17,7 @@ pix error
 
 def make_csv(project_name):
         
-    projects_folder = 'drive_rp_sync/projects/'+project_name + '/'
+    projects = 'drive_rp_sync/projects/'+project_name + '/'
     segmentations = projects + 'segmentations/'
 
     val = projects + 'models_models/labels/val'
