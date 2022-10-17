@@ -86,6 +86,7 @@ def reat_cfv_seg(project_name):
     for x in csvData.index:
         if x<7:
             if csvData['dataset'][x]=='nan':
+                pass
             else:
                 shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x],labels+csvData['file_names'][x])
 
