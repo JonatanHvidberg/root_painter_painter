@@ -84,26 +84,26 @@ def reat_cfv_seg(project_name):
 
     c=0
     for x in csvData.index:
+        dataset=str(csvData['dataset'][x])
         if x<7:
             print('x<7' ,x)
-            if csvData['dataset'][x]=='nan':
+            if dataset =='nan':
                 pass
             else:
-                print(csvData['dataset'][x])
-                shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x]
+                shutil.move(labels+ dataset+'/'+ csvData['file_names'][x]
                     ,labels+csvData['file_names'][x])
 
         elif x>1407:
             print('x>1407' ,x)
-            if csvData['dataset'][x]=='nan':
+            if dataset=='nan':
                 imsave(green_leb(imread(segmentations+csvData['file_names'][x]))
                     ,testsave+csvData['file_names'][x])
 
             else:
-                shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x]
+                shutil.move(labels+ dataset+'/'+ csvData['file_names'][x]
                     ,testsave+csvData['file_names'][x])
 
-        elif csvData['dataset'][x]=='nan':
+        elif dataset=='nan':
             if c==6:
                 imsave(green_leb(imread(segmentations+csvData['file_names'][x]))
                     ,trainsave+csvData['file_names'][x])
