@@ -87,16 +87,7 @@ def reat_cfv_seg(project_name):
         dataset=str(csvData['dataset'][x])
         file_names=csvData['file_names'][x]
         if x<7:
-            print('x<7' ,x)
-'''
-            if dataset =='nan':
-                pass
-
-            else:
-                shutil.move(labels+ dataset+'/'+ file_names
-                    ,labels+file_names)
-'''
-
+            pass
         elif x>1407:
             print('x>1407' ,x)
             if dataset=='nan':
@@ -140,4 +131,14 @@ for fname in fnames:
         imageAnn = imread(val+fname)
         imsave(valsave+fname,new_leb(imageSeg, imageAnn))
 
+'''
+
+'''
+            print('x<7' ,x)
+            if dataset =='nan':
+                pass
+
+            else:
+                shutil.move(labels+ dataset+'/'+ file_names
+                    ,labels+file_names)
 '''
