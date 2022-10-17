@@ -20,9 +20,9 @@ def make_csv(project_name):
     projects = 'drive_rp_sync/projects/'+project_name + '/'
     segmentations = projects + 'segmentations/'
 
-    val = projects + 'models_models/labels/val'
-    train = projects + '/models_models/labels/train'
-    test = projects + '/models_models/labels/test'
+    val = projects + 'models_models/labels/val/'
+    train = projects + 'models_models/labels/train/'
+    test = projects + 'models_models/labels/test/'
 
 
     with open(projects+project_name+'.seg_proj') as user_file:
