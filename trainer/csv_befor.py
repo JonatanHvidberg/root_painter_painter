@@ -72,7 +72,7 @@ def make_csv(project_name):
 
 
 
-make_csv(rg_2017_ags)
+make_csv('rg_2017_ags')
 
 '''
 
