@@ -89,19 +89,24 @@ def reat_cfv_seg(project_name):
             if csvData['dataset'][x]=='nan':
                 pass
             else:
-                shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x], labels+csvData['file_names'][x])
+                print(csvData['dataset'][x])
+                shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x]
+                    ,labels+csvData['file_names'][x])
 
         elif x>1407:
             print('x>1407' ,x)
             if csvData['dataset'][x]=='nan':
-                imsave(green_leb(imread(segmentations+csvData['file_names'][x])),testsave+csvData['file_names'][x])
+                imsave(green_leb(imread(segmentations+csvData['file_names'][x]))
+                    ,testsave+csvData['file_names'][x])
 
             else:
-                shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x],testsave+csvData['file_names'][x])
+                shutil.move(labels+ csvData['dataset'][x]+'/'+ csvData['file_names'][x]
+                    ,testsave+csvData['file_names'][x])
 
         elif csvData['dataset'][x]=='nan':
             if c==6:
-                imsave(green_leb(imread(segmentations+csvData['file_names'][x])),trainsave+csvData['file_names'][x])
+                imsave(green_leb(imread(segmentations+csvData['file_names'][x]))
+                    ,trainsave+csvData['file_names'][x])
                 c=0
 
             else:
