@@ -99,9 +99,10 @@ def reat_cfv_seg(project_name):
                     ,testsave+file_names)
         elif dataset=='nan':
             if c==6:
+                c=0
                 imsave(trainsave+file_names,
                     green_leb(imread(segmentations+file_names)))
-                c=0
+                
             else:
                 c=c+1
                 imsave(valsave+file_names,
@@ -109,7 +110,37 @@ def reat_cfv_seg(project_name):
         else:
             print(file_names)
 
-reat_cfv_seg('rg_2017_ags')
+def f40():
+    
+    dirr='drive_rp_sync/projects/'+ project_name +'/models_models/'
+    labels='drive_rp_sync/projects/'+ project_name +'/models_models/labels/'
+
+    segmentations = 'drive_rp_sync/projects/'+ project_name +'/segmentations/'
+
+    trainsave = 'drive_rp_sync/projects/' + project_name + '/models_models/labels/train/'
+    valsave   = 'drive_rp_sync/projects/' + project_name + '/models_models/labels/val/'
+    testsave  = 'drive_rp_sync/projects/' + project_name + '/models_models/labels/test/'
+
+    csvData = pandas.read_csv(dirr+'befor.csv')
+    for x in csvData.index:
+        dataset=str(csvData['dataset'][x])
+        file_names=csvData['file_names'][x]
+        if x<7:
+            pass
+        elif x>1407:
+            pass
+        elif dataset=='nan':
+            if c==6:
+                c=0
+                shutil.move(trainsave+ file_names
+                    ,valsave+file_names)
+            else:
+                c=c+1
+                shutil.move(valsave+ file_names
+                    ,trainsave+file_names)
+
+
+f40('rg_2017_ags')
 '''
 for nex 
 
