@@ -136,11 +136,11 @@ def f40(project_name):
             if x<6:
                 pass
             elif x>1407:
-                shutil.copyfile(labels2+ dataset +'/'+ file_names
-                    ,labels+file_names)
-            else:
                 shutil.copyfile(testsave2+ file_names
                     ,testsave+file_names)
+            else:
+                shutil.copyfile(labels2+ dataset +'/'+ file_names
+                    ,labels+file_names)
 
 
 
