@@ -126,7 +126,7 @@ train = '/labels/train'
 test = '/labels/test'
 
 for x in range(1,6):
-    modelsDir='/models_models/models2'+str(x)+'/'
+    modelsDir='/models_models/models'+str(x)+'/'
     mml.create_first_model_with_random_weights(syncdir+project+modelsDir)
     train_type2(syncdir+project+modelsDir
         , syncdir+project+'/models_models'+train
