@@ -141,7 +141,7 @@ def f40(project_name):
                 print(testsave+file_names)
             else:
                 shutil.copyfile(labels2+ dataset +'/'+ file_names
-                    ,labels+file_names)
+                    ,labels+ dataset +'/'+file_names)
 
 
 
