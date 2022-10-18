@@ -138,6 +138,7 @@ def f40(project_name):
             elif x>1407:
                 shutil.copyfile(testsave2+ file_names
                     ,testsave+file_names)
+                print(testsave+file_names)
             else:
                 shutil.copyfile(labels2+ dataset +'/'+ file_names
                     ,labels+file_names)
