@@ -122,6 +122,7 @@ def f40(project_name):
     testsave  = 'drive_rp_sync/projects/' + project_name + '/models_models/labels/test/'
 
     csvData = pandas.read_csv(dirr+'befor.csv')
+    c=0
     for x in csvData.index:
         dataset=str(csvData['dataset'][x])
         file_names=csvData['file_names'][x]
