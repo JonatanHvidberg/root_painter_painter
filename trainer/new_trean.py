@@ -38,7 +38,7 @@ def train_epoch(train_set,model, optimizer, dataset_dir, type=2, fmodel='nan'):
 
     num_of_traning_no_better=0
 
-    while num_of_traning_no_better<10:
+    while num_of_traning_no_better<15:
 
         for step, (photo_tiles,
                foreground_tiles,
@@ -96,14 +96,6 @@ def validation(model,dataset_dir):
 
     return was_saved
 
-syncdir = 'drive_rp_sync'
-datasets = '/datasets/towers_750_training'
-project = '/projects/towers_a_corrective'
-
-segmentations = '/segmentations'
-val = '/labels/val'
-train = '/labels/train'
-test = '/labels/test'
 
 
 global in_w
@@ -124,19 +116,28 @@ bs = min(12, bs)
 print('Batch size', bs)
 
 
-for x in range(2,6):
-    modelsDir='/models_models/models'+str(x)+'/'
+
+syncdir = 'drive_rp_sync'
+project = '/projects/rg_2017_ags'
+
+segmentations = '/segmentations'
+val = '/labels/val'
+train = '/labels/train'
+test = '/labels/test'
+
+for x in range(1,6):
+    modelsDir='/models_models/models2'+str(x)+'/'
     mml.create_first_model_with_random_weights(syncdir+project+modelsDir)
     train_type2(syncdir+project+modelsDir
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data')
-
+'''
 project = '/projects/towers_b_corrective'
 
 for x in range(2,6):
-    modelsDir='/models_models/models'+str(x)+'/'
+    modelsDir='/models_models/models2'+str(x)+'/'
     mml.create_first_model_with_random_weights(syncdir+project+modelsDir)
     train_type2(syncdir+project+modelsDir
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data')
-        
+'''
