@@ -110,7 +110,7 @@ def reat_cfv_seg(project_name):
         else:
             print(file_names)
 
-def f40():
+def f40(project_name):
     
     dirr='drive_rp_sync/projects/'+ project_name +'/models_models/'
     labels='drive_rp_sync/projects/'+ project_name +'/models_models/labels/'
