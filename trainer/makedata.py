@@ -114,6 +114,7 @@ def f40(project_name):
     
     dirr='drive_rp_sync/projects/'+ project_name +'/models_models/'
     labels='drive_rp_sync/projects/'+ project_name +'/models_models/labels/'
+    labels2='drive_rp_sync/projects/'+ project_name +'/models_models/labels2/'
 
     segmentations = 'drive_rp_sync/projects/'+ project_name +'/segmentations/'
 
@@ -121,24 +122,26 @@ def f40(project_name):
     valsave   = 'drive_rp_sync/projects/' + project_name + '/models_models/labels/val/'
     testsave  = 'drive_rp_sync/projects/' + project_name + '/models_models/labels/test/'
 
+
+    trainsave2 = 'drive_rp_sync/projects/' + project_name + '/models_models/labels2/train/'
+    valsave2   = 'drive_rp_sync/projects/' + project_name + '/models_models/labels2/val/'
+    testsave2  = 'drive_rp_sync/projects/' + project_name + '/models_models/labels2/test/'
+
     csvData = pandas.read_csv(dirr+'befor.csv')
     c=0
     for x in csvData.index:
         dataset=str(csvData['dataset'][x])
         file_names=csvData['file_names'][x]
-        if x<7:
-            pass
-        elif x>1407:
-            pass
-        elif dataset=='nan':
-            if c==6:
-                c=0
-                shutil.move(trainsave+ file_names
-                    ,valsave+file_names)
+        if dataset!='nan':
+            if x<6:
+                pass
+            elif x>1407:
+                shutil.copyfile(labels2+ dataset +'/'+ file_names
+                    ,labels+file_names)
             else:
-                c=c+1
-                shutil.move(valsave+ file_names
-                    ,trainsave+file_names)
+                shutil.copyfile(testsave2+ file_names
+                    ,testsave+file_names)
+
 
 
 f40('rg_2017_ags')
