@@ -38,7 +38,7 @@ def train_epoch(train_set,model, optimizer, dataset_dir, type=2, fmodel='nan'):
 
     num_of_traning_no_better=0
 
-    while num_of_traning_no_better<15:
+    while num_of_traning_no_better<10:
 
         for step, (photo_tiles,
                foreground_tiles,
