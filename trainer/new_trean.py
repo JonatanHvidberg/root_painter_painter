@@ -38,7 +38,7 @@ def train_epoch(train_set,model, optimizer, dataset_dir, type=2, fmodel='nan'):
 
     num_of_traning_no_better=0
 
-    while num_of_traning_no_better<10:
+    while num_of_traning_no_better<15:
 
         for step, (photo_tiles,
                foreground_tiles,
@@ -120,6 +120,9 @@ print('Batch size', bs)
 syncdir = 'drive_rp_sync'
 project = '/projects/rg_2017_ags'
 
+
+'''
+
 segmentations = '/segmentations'
 val = '/labels/val'
 train = '/labels/train'
@@ -131,13 +134,23 @@ for x in range(1,6):
     train_type2(syncdir+project+modelsDir
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data')
-'''
-project = '/projects/towers_b_corrective'
 
-for x in range(2,6):
+
+'''
+
+
+segmentations = '/segmentations'
+val = '/labels2/val'
+train = '/labels2/train'
+test = '/labels2/test'
+
+for x in range(1,6):
+    modelsOld='/models_models/models'+str(x)+'/'
+
     modelsDir='/models_models/models2'+str(x)+'/'
-    mml.create_first_model_with_random_weights(syncdir+project+modelsDir)
+    fnames = ls(syncdir+ project +modelsOld)  
+    fnames = sorted(fnames)[-1:][0]
+    shutil.copyfile(modelsOld+fnames, modelsDir+fnames)
     train_type2(syncdir+project+modelsDir
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data')
-'''
