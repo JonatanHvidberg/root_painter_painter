@@ -152,7 +152,7 @@ for x in range(1,6):
     modelsDir='/models_models/models2'+str(x)+'/'
     fnames = ls(syncdir+ project +modelsOld)  
     fnames = sorted(fnames)[-1:][0]
-    shutil.copyfile(modelsOld+fnames, modelsDir+fnames)
+    shutil.copyfile(syncdir+project+modelsOld+fnames, syncdir+project+modelsDir+fnames)
     train_type2(syncdir+project+modelsDir
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data')
