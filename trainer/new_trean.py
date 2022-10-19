@@ -12,6 +12,7 @@ from torch.utils.data import DataLoader
 import multiprocessing
 import copy
 from file_utils import ls
+import shutil
 
 def train_type2(model_path, train_annot_dir, dataset_dir):
     train_set = TrainDataset(train_annot_dir,dataset_dir,in_w,out_w)
