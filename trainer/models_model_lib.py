@@ -249,6 +249,10 @@ def get_val_metrics(cnn, val_annot_dir, dataset_dir, in_w, out_w, bs):
         foreground = annot[:, :, 0].astype(bool).astype(int)
         background = annot[:, :, 1].astype(bool).astype(int)
         image_path_part = os.path.join(dataset_dir, os.path.splitext(fname)[0])
+        print(dataset_dir)
+        print(image_path_part)
+        print(fname)
+        print(os.path.splitext(fname)[0])
         image_path = glob.glob(image_path_part + '.*')[0]
 
         image = im_utils.imread(image_path)
