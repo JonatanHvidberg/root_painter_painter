@@ -138,7 +138,7 @@ for dataset in datasets:
 
     for x in range(1,6):
         modelsDir='/models_models/models3'+str(x)+'/'
-        os.mkdir(modelsDir)
+        os.mkdir(syncdir+project+modelsDir)
         mml.create_first_model_with_random_weights(syncdir+project+modelsDir)
         train_type2(syncdir+project+modelsDir
             , syncdir+project+'/models_models'+train
