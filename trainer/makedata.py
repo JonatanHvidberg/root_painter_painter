@@ -236,13 +236,28 @@ def lib3(project_name):
                 c=c+1
                 saveimg(labels+dataset+'/'+file_names, trainsave3+file_names,dataset,file_names,segmentations)
 
+def moredata(project_name, datasets):
 
-lib3('biopores_a_corrective')
-lib3('biopores_b_corrective')
-lib3('nodules_a_corrective')
-lib3('nodules_b_corrective')
-lib3('towers_a_corrective')
-lib3('towers_b_corrective')
+    dirr='drive_rp_sync/projects/'+ project_name +'/models_models/'
+    segmentations = 'drive_rp_sync/projects/'+ project_name +'/segmentations/'
+
+    csvData = pandas.read_csv(dirr+'befor.csv')
+    for x in csvData.index:
+        file_names=csvData['file_names'][x]
+        if dataset='nan':
+            image = im_utils.load_image(datasets+os.path.splitext(fname)[0] + '.jpg')
+            imageSeg = imread(segmentations+file_names)
+            image_and_segmentation(image,imageSeg)
+
+
+datasets1 = 'drive_rp_sync/datasets/biopores_750_training/'
+datasets2 = 'drive_rp_sync/datasets/nodules_750_training/'
+datasets3 = 'drive_rp_sync/datasets/towers_750_training/'
+moredata('biopores_b_corrective',datasets1)
+moredata('nodules_a_corrective',datasets2)
+moredata('nodules_b_corrective',datasets2)
+moredata('towers_a_corrective',datasets3)
+moredata('towers_b_corrective',datasets3)
 
 '''
 for nex 
