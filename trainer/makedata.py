@@ -144,6 +144,50 @@ def f40(project_name):
                     ,labels+ dataset +'/'+file_names)
 
 
+def lib2(project_name):
+    dirr='drive_rp_sync/projects/'+ project_name +'/models_models/'
+    labels='drive_rp_sync/projects/'+ project_name +'/models_models/labels/'
+    labels2='drive_rp_sync/projects/'+ project_name +'/models_models/labels2/'
+
+    segmentations = 'drive_rp_sync/projects/'+ project_name +'/segmentations/'
+
+
+    trainsave2 = 'drive_rp_sync/projects/' + project_name + '/models_models/labels2/train/'
+    valsave2   = 'drive_rp_sync/projects/' + project_name + '/models_models/labels2/val/'
+    testsave2  = 'drive_rp_sync/projects/' + project_name + '/models_models/labels2/test/'
+
+    csvData = pandas.read_csv(dirr+'befor.csv')
+
+    c=0
+    test_bool=0
+    for x in csvData.index:
+        dataset=str(csvData['dataset'][x])
+        file_names=csvData['file_names'][x]
+        if dataset=='test':
+            test_bool=1
+        if x<6:
+            pass
+        elif test_bool:
+            if dataset=='nan':
+                imsave(testsave2+file_names,
+                    green_leb(imread(segmentations+file_names)))
+
+            else:
+                shutil.copyfile(labels+ dataset+'/'+ file_names
+                    ,labels2+ dataset+'/'+file_names)
+        elif dataset=='nan':
+            if c==6:
+                c=0
+                imsave(valsave2+file_names,
+                    green_leb(imread(segmentations+file_names)))
+                
+            else:
+                c=c+1
+                imsave(trainsave2+file_names,
+                    green_leb(imread(segmentations+file_names)))
+        else:
+            shutil.copyfile(labels+ dataset+'/'+ file_names
+                ,labels2+ dataset+'/'+file_names)
 
 f40('rg_2017_ags')
 '''
