@@ -240,6 +240,7 @@ def moredata(project_name, datasets):
 
     dirr='drive_rp_sync/projects/'+ project_name +'/models_models/'
     segmentations = 'drive_rp_sync/projects/'+ project_name +'/segmentations/'
+    datasave  = dirr+'data/'
 
     csvData = pandas.read_csv(dirr+'befor.csv')
     for x in csvData.index:
@@ -247,7 +248,8 @@ def moredata(project_name, datasets):
         if dataset='nan':
             image = im_utils.load_image(datasets+os.path.splitext(fname)[0] + '.jpg')
             imageSeg = imread(segmentations+file_names)
-            image_and_segmentation(image,imageSeg)
+            imsave(datasave+fname,image_and_segmentation(image,imageSeg))
+
 
 
 datasets1 = 'drive_rp_sync/datasets/biopores_750_training/'
