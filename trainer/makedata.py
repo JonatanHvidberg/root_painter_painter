@@ -247,9 +247,9 @@ def moredata(project_name, datasets):
         file_names=csvData['file_names'][x]
         dataset=str(csvData['dataset'][x])
         if dataset=='nan':
-            image = im_utils.load_image(datasets+os.path.splitext(fname)[0] + '.jpg')
+            image = im_utils.load_image(datasets+os.path.splitext(file_names)[0] + '.jpg')
             imageSeg = imread(segmentations+file_names)
-            imsave(datasave+fname,image_and_segmentation(image,imageSeg))
+            imsave(datasave+file_names,image_and_segmentation(image,imageSeg))
 
 
 
