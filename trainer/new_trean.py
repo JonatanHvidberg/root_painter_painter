@@ -121,8 +121,7 @@ print('Batch size', bs)
 
 
 syncdir = 'drive_rp_sync'
-datasets=['biopores_a_corrective'
-    ,'biopores_b_corrective'
+datasets=['biopores_b_corrective'
     ,'nodules_a_corrective'
     ,'nodules_b_corrective'
     ,'towers_a_corrective'
