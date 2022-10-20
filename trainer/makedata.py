@@ -245,7 +245,7 @@ def moredata(project_name, datasets):
     csvData = pandas.read_csv(dirr+'befor.csv')
     for x in csvData.index:
         file_names=csvData['file_names'][x]
-        if dataset='nan':
+        if dataset=='nan':
             image = im_utils.load_image(datasets+os.path.splitext(fname)[0] + '.jpg')
             imageSeg = imread(segmentations+file_names)
             imsave(datasave+fname,image_and_segmentation(image,imageSeg))
