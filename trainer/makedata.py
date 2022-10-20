@@ -189,12 +189,61 @@ def lib2(project_name):
             shutil.copyfile(labels+ dataset+'/'+ file_names
                 ,labels2+ dataset+'/'+file_names)
 
-lib2('biopores_a_corrective')
-lib2('biopores_b_corrective')
-lib2('nodules_a_corrective')
-lib2('nodules_b_corrective')
-lib2('towers_a_corrective')
-lib2('towers_b_corrective')
+def saveimg(fra,til,dataset,file_names,segmentations):
+    if dataset=='nan':
+        imsave(til, green_leb(imread(segmentations+file_names)))
+    else:
+        shutil.copyfile(fra,til)
+
+def lib3(project_name):
+    
+    dirr='drive_rp_sync/projects/'+ project_name +'/models_models/'
+    labels='drive_rp_sync/projects/'+ project_name +'/models_models/labels/'
+    labels3='drive_rp_sync/projects/'+ project_name +'/models_models/labels3/'
+
+    segmentations = 'drive_rp_sync/projects/'+ project_name +'/segmentations/'
+
+
+
+    trainsave3 = 'drive_rp_sync/projects/' + project_name + '/models_models/labels3/train/'
+    valsave3   = 'drive_rp_sync/projects/' + project_name + '/models_models/labels3/val/'
+    testsave3  = 'drive_rp_sync/projects/' + project_name + '/models_models/labels3/test/'
+
+    os.mkdir(labels3)
+
+    os.mkdir(trainsave3)
+    os.mkdir(valsave3)
+    os.mkdir(testsave3)
+
+
+    csvData = pandas.read_csv(dirr+'befor.csv')
+
+    testnum=len(csvData)-30
+    c=0
+    for x in csvData.index:
+        dataset=str(csvData['dataset'][x])
+        file_names=csvData['file_names'][x]
+
+        if x<6:
+            pass
+        elif x>=testnum:
+            saveimg(labels+dataset+'/'+file_names, testsave3+file_names,dataset,file_names,segmentations)
+        else:
+            if c==6:
+                c=0
+                saveimg(labels+dataset+'/'+file_names, valsave3+file_names,dataset,file_names,segmentations)
+            else:
+                c=c+1
+                saveimg(labels+dataset+'/'+file_names, trainsave3+file_names,dataset,file_names,segmentations)
+
+
+lib3('biopores_a_corrective')
+lib3('biopores_b_corrective')
+lib3('nodules_a_corrective')
+lib3('nodules_b_corrective')
+lib3('towers_a_corrective')
+lib3('towers_b_corrective')
+
 '''
 for nex 
 
