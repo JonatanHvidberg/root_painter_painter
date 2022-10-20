@@ -129,6 +129,14 @@ datasets=['biopores_b_corrective'
 
 for dataset in datasets:
     project = '/projects/'+dataset
+    for x in range(1,6):
+        modelsDir='/models_models/models3'+str(x)+'/'
+        os.mkdir(syncdir+project+modelsDir)
+
+
+
+for dataset in datasets:
+    project = '/projects/'+dataset
 
     segmentations = '/segmentations'
     val = '/labels3/val'
