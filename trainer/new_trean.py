@@ -13,6 +13,7 @@ import multiprocessing
 import copy
 from file_utils import ls
 import shutil
+import os
 
 def train_type2(model_path, train_annot_dir, dataset_dir):
     train_set = TrainDataset(train_annot_dir,dataset_dir,in_w,out_w)
@@ -120,25 +121,33 @@ print('Batch size', bs)
 
 
 syncdir = 'drive_rp_sync'
-project = '/projects/rg_2017_ags'
+datasets=['biopores_a_corrective'
+    ,'biopores_b_corrective'
+    ,'nodules_a_corrective'
+    ,'nodules_b_corrective'
+    ,'towers_a_corrective'
+    ,'towers_b_corrective']
+
+for dataset in datasets:
+    project = '/projects/'+dataset
+
+    segmentations = '/segmentations'
+    val = '/labels3/val'
+    train = '/labels3/train'
+    test = '/labels3/test'
+
+    for x in range(1,6):
+        modelsDir='/models_models/models3'+str(x)+'/'
+        os.mkdir(modelsDir)
+        mml.create_first_model_with_random_weights(syncdir+project+modelsDir)
+        train_type2(syncdir+project+modelsDir
+            , syncdir+project+'/models_models'+train
+            , syncdir+project+'/models_models/data')
 
 
 '''
 
-segmentations = '/segmentations'
-val = '/labels/val'
-train = '/labels/train'
-test = '/labels/test'
 
-for x in range(1,6):
-    modelsDir='/models_models/models'+str(x)+'/'
-    mml.create_first_model_with_random_weights(syncdir+project+modelsDir)
-    train_type2(syncdir+project+modelsDir
-        , syncdir+project+'/models_models'+train
-        , syncdir+project+'/models_models/data')
-
-
-'''
 
 
 segmentations = '/segmentations'
@@ -156,3 +165,7 @@ for x in range(1,6):
     train_type2(syncdir+project+modelsDir
         , syncdir+project+'/models_models'+train
         , syncdir+project+'/models_models/data')
+
+'''
+
+
