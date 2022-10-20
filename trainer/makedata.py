@@ -189,7 +189,12 @@ def lib2(project_name):
             shutil.copyfile(labels+ dataset+'/'+ file_names
                 ,labels2+ dataset+'/'+file_names)
 
-f40('rg_2017_ags')
+lib2('biopores_a_corrective')
+lib2('biopores_b_corrective')
+lib2('nodules_a_corrective')
+lib2('nodules_b_corrective')
+lib2('towers_a_corrective')
+lib2('towers_b_corrective')
 '''
 for nex 
 
