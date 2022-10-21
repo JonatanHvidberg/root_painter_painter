@@ -19,7 +19,7 @@ def sum_error(o_model_name,n):
 
     omodel = model_utils.load_model(syncdir+project+'/models/' +o_model_name)
 
-    fnames = ls(syncdir+project+'/models_models/labels/test/')
+    fnames = ls(syncdir+project+'/models_models/labels3/test/')
 
     ys = np.zeros([len(fnames),4])
 
@@ -32,7 +32,7 @@ def sum_error(o_model_name,n):
 
     for fname in fnames:
         file_names.append(fname)
-        image = imread(syncdir+project+'/models_models/labels/test/'+fname)
+        image = imread(syncdir+project+'/models_models/labels3/test/'+fname)
         coreted_sum.append(np.sum((image[:,:,0]>0).astype(int)))
         totel_pix.append(image.shape[0]*image.shape[1])
         #persent_coreted =coreted_sum/totel_pix
@@ -84,7 +84,7 @@ print('Batch size', bs)
 
 syncdir='drive_rp_sync'
 
-'''
+
 om='000032_1578339309.pkl'
 project = '/projects/biopores_a_corrective'
 datasets = '/datasets/biopores_750_training'
@@ -112,7 +112,7 @@ project = '/projects/towers_a_corrective'
 datasets = '/datasets/towers_750_training'
 for x in range(1,6):
     sum_error(om,str(x))
-'''
+
 datasets = '/datasets/towers_750_training'
 om='000032_1578167455.pkl'
 project = '/projects/towers_b_corrective'
