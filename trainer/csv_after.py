@@ -89,29 +89,29 @@ om='000032_1578339309.pkl'
 project = '/projects/biopores_a_corrective'
 datasets = '/datasets/biopores_750_training'
 for x in range(1,6):
-    sum_error(om,x)
+    sum_error(om,str(x))
 
 om='000022_1578319359.pkl'
 project = '/projects/biopores_b_corrective'
 for x in range(1,6):
-    sum_error(om,x)
+    sum_error(om,str(x))
 
 om='000031_1581174019.pkl'
 project = '/projects/nodules_a_corrective'
 datasets = '/datasets/nodules_750_training'
 for x in range(1,6):
-    sum_error(om,x)
+    sum_error(om,str(x))
 
 om='000023_1581690809.pkl'
 project = '/projects/nodules_b_corrective'
 for x in range(1,6):
-    sum_error(om,x)
+    sum_error(om,str(x))
 
 om='000046_1578155544.pkl'
 project = '/projects/towers_a_corrective'
 datasets = '/datasets/towers_750_training'
 for x in range(1,6):
-    sum_error(om,x)
+    sum_error(om,str(x))
 
 om='000032_1578167455.pkl'
 project = '/projects/towers_b_corrective'
