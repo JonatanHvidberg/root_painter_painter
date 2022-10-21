@@ -10,9 +10,10 @@ import torch
 import pandas as pd
 
 
-def sum_error(o_model_name):
+def sum_error(o_model_name,n):
+
+    model_dir=syncdir+project+'/models_models/models3'+n
     
-    model_dir=syncdir+project+'/models_models/models'
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model = mml.load_model(path)
 
@@ -25,6 +26,7 @@ def sum_error(o_model_name):
     coreted_sum=[]
     predicted_sum=[]
     unsertensy_sum=[]
+    unsertensy_cl=[]
     totel_pix=[]
     file_names=[]
 
@@ -50,17 +52,17 @@ def sum_error(o_model_name):
                  out_w, threshold=None)
 
         unsertensy=mml.entorpy(o_predicted)
-        unsertensy_predicted = unsertensy
+        unsertensy_predicted = unsertensy > 0.5
 
         unsertensy_predicted = unsertensy_predicted.astype(int)
 
-
+        unsertensy_cl.append(np.sum(unsertensy))
         unsertensy_sum.append(np.sum(unsertensy_predicted))
 
-    dict = {'file_names':file_names,'coreted_sum':coreted_sum,'predicted_sum':predicted_sum,'unsertensy_sum':unsertensy_sum,'totel_pix':totel_pix}
+    dict = {'file_names':file_names,'coreted_sum':coreted_sum,'predicted_sum':predicted_sum,'unsertensy_sum':unsertensy_sum,'unsertensy_cl': unsertensy_cl,'totel_pix':totel_pix}
 
     df = pd.DataFrame(dict)
-    df.to_csv(syncdir+project+'/models_models/after.csv')
+    df.to_csv(syncdir+project+'/models_models/after3'+ n +'.csv')
     print('don')
 
 global in_w
@@ -80,8 +82,38 @@ bs = total_mem // mem_per_item
 bs = min(12, bs)
 print('Batch size', bs)
 
-om='000040_1578171692.pkl'
 syncdir='drive_rp_sync'
-project = '/projects/towers_b_corrective'
+
+
+om='000032_1578339309.pkl'
+project = '/projects/biopores_a_corrective'
+datasets = '/datasets/biopores_750_training'
+for x in range(1,6):
+    sum_error(om,x)
+
+om='000022_1578319359.pkl'
+project = '/projects/biopores_b_corrective'
+for x in range(1,6):
+    sum_error(om,x)
+
+om='000031_1581174019.pkl'
+project = '/projects/nodules_a_corrective'
+datasets = '/datasets/nodules_750_training'
+for x in range(1,6):
+    sum_error(om,x)
+
+om='000023_1581690809.pkl'
+project = '/projects/nodules_b_corrective'
+for x in range(1,6):
+    sum_error(om,x)
+
+om='000046_1578155544.pkl'
+project = '/projects/towers_a_corrective'
 datasets = '/datasets/towers_750_training'
-sum_error(om)
+for x in range(1,6):
+    sum_error(om,x)
+
+om='000032_1578167455.pkl'
+project = '/projects/towers_b_corrective'
+for x in range(1,6):
+    sum_error(om,x)
