@@ -21,22 +21,20 @@ def val_info(dataset_dir,omodel, model_dir):
                       val_annot_dir=syncdir+project+'/models_models'+test,
                       dataset_dir=dataset_dir,
                       in_w=in_w, out_w=out_w, bs=bs)
-'''
-    get_old_metrics = partial(mml.get_val_old_metrics,
-                  val_annot_dir=syncdir+project+'/models_models'+test,
-                  dataset_dir=dataset_dir,
-                  in_w=in_w, out_w=out_w, bs=bs)
-'''
-    print(model_dir)
-    print(model_utils.get_latest_model_paths(model_dir, k=1))
+    '''
+        get_old_metrics = partial(mml.get_val_old_metrics,
+                      val_annot_dir=syncdir+project+'/models_models'+test,
+                      dataset_dir=dataset_dir,
+                      in_w=in_w, out_w=out_w, bs=bs)
+    '''
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model =mml.load_model(path)
 
-#    oldmodel = model_utils.load_model(syncdir+project+ '/models/' + omodel)
+    #oldmodel = model_utils.load_model(syncdir+project+ '/models/' + omodel)
 
     val_metrics = get_val_metrics(copy.deepcopy(model))
     test_metrics = get_test_metrics(copy.deepcopy(model))
-#    old_metrics = get_old_metrics(copy.deepcopy(oldmodel))
+    #old_metrics = get_old_metrics(copy.deepcopy(oldmodel))
 
     print('val_metrics')
     print(val_metrics)
