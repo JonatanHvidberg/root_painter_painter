@@ -27,7 +27,8 @@ def val_info(dataset_dir,omodel, model_dir):
                   dataset_dir=dataset_dir,
                   in_w=in_w, out_w=out_w, bs=bs)
 '''
-
+    print(model_dir)
+    print(model_utils.get_latest_model_paths(model_dir, k=1))
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model =mml.load_model(path)
 
