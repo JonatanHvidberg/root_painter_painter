@@ -73,14 +73,14 @@ datasets = '/datasets/biopores_750_training'
 project = '/projects/biopores_a_corrective'
 om='000023_1578320581.pkl'
 for x in range(1,6):
-    model_dir=syncdir+project+'/models_models/models'+str(x)
+    model_dir=syncdir+project+'/models_models/models3'+str(x)
     val_info(syncdir+project+'/models_models/data',om, model_dir)
 
 print('biopores_b_corrective')
 project = '/projects/biopores_b_corrective'
 om='000023_1578320581.pkl'
 for x in range(1,6):
-    model_dir=syncdir+project+'/models_models/models'+str(x)
+    model_dir=syncdir+project+'/models_models/models3'+str(x)
     val_info(syncdir+project+'/models_models/data',om, model_dir)
 
 print('nodules_a_corrective')
@@ -88,14 +88,14 @@ datasets = '/datasets/nodules_750_training'
 project = '/projects/nodules_a_corrective'
 om='000028_1581172999.pkl'
 for x in range(1,6):
-    model_dir=syncdir+project+'/models_models/models'+str(x)
+    model_dir=syncdir+project+'/models_models/models3'+str(x)
     val_info(syncdir+project+'/models_models/data',om, model_dir)
 
 print('nodules_b_corrective')
 project = '/projects/nodules_b_corrective'
 om='000023_1581690809.pkl'
 for x in range(1,6):
-    model_dir=syncdir+project+'/models_models/models'+str(x)
+    model_dir=syncdir+project+'/models_models/models3'+str(x)
     val_info(syncdir+project+'/models_models/data',om, model_dir)
 
 
@@ -104,12 +104,12 @@ datasets = '/datasets/towers_750_training'
 project = '/projects/towers_a_corrective'
 om='000046_1578155544.pkl'
 for x in range(1,6):
-    model_dir=syncdir+project+'/models_models/models'+str(x)
+    model_dir=syncdir+project+'/models_models/models3'+str(x)
     val_info(syncdir+project+'/models_models/data',om, model_dir)
 
 print('towers_b_corrective')
 project = '/projects/towers_b_corrective'
 om='000040_1578171692.pkl'
 for x in range(1,6):
-    model_dir=syncdir+project+'/models_models/models'+str(x)
+    model_dir=syncdir+project+'/models_models/models3'+str(x)
     val_info(syncdir+project+'/models_models/data',om, model_dir)
