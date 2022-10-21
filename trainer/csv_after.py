@@ -84,7 +84,7 @@ print('Batch size', bs)
 
 syncdir='drive_rp_sync'
 
-
+'''
 om='000032_1578339309.pkl'
 project = '/projects/biopores_a_corrective'
 datasets = '/datasets/biopores_750_training'
@@ -112,8 +112,9 @@ project = '/projects/towers_a_corrective'
 datasets = '/datasets/towers_750_training'
 for x in range(1,6):
     sum_error(om,str(x))
-
+'''
+datasets = '/datasets/towers_750_training'
 om='000032_1578167455.pkl'
 project = '/projects/towers_b_corrective'
 for x in range(1,6):
-    sum_error(om,x)
+    sum_error(om,str(x))
