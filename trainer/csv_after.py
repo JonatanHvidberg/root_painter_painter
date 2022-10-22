@@ -19,7 +19,7 @@ def sum_error(o_model_name,n):
 
     omodel = model_utils.load_model(syncdir+project+'/models/' +o_model_name)
 
-    fnames = ls(syncdir+project+'/models_models/labels3/test/')
+    fnames = ls(syncdir+project+'/models_models/labels2/test/')
 
     ys = np.zeros([len(fnames),4])
 
@@ -32,7 +32,7 @@ def sum_error(o_model_name,n):
 
     for fname in fnames:
         file_names.append(fname)
-        image = imread(syncdir+project+'/models_models/labels3/test/'+fname)
+        image = imread(syncdir+project+'/models_models/labels2/test/'+fname)
         coreted_sum.append(np.sum((image[:,:,0]>0).astype(int)))
         totel_pix.append(image.shape[0]*image.shape[1])
         #persent_coreted =coreted_sum/totel_pix
@@ -116,5 +116,12 @@ for x in range(1,6):
 datasets = '/datasets/towers_750_training'
 om='000032_1578167455.pkl'
 project = '/projects/towers_b_corrective'
+for x in range(1,6):
+    sum_error(om,str(x))
+
+
+datasets = '/datasets/rg_2017_training_size_900_count_4000'
+om='000050_1635795772.pkl'
+project = '/projects/rg_2017_ags'
 for x in range(1,6):
     sum_error(om,str(x))
