@@ -121,24 +121,28 @@ print('Batch size', bs)
 
 
 syncdir = 'drive_rp_sync'
-datasets=['biopores_a_corrective'
-    ,'biopores_b_corrective'
+datasets=['biopores_b_corrective'
     ,'nodules_a_corrective'
     ,'nodules_b_corrective'
     ,'towers_a_corrective'
     ,'towers_b_corrective']
 
 
-val = '/labels/val'
-train = '/labels/train'
-test = '/labels/test'
+val = '/labels2/val'
+train = '/labels2/train'
+test = '/labels2/test'
 project='/projects/biopores_a_corrective'
-for x in range(2,6):
-    modelsDir='/models_models/models2'+str(x)+'/'
-    mml.create_first_model_with_random_weights(syncdir+project+modelsDir)
-    train_type2(syncdir+project+modelsDir
-        , syncdir+project+'/models_models'+train
-        , syncdir+project+'/models_models/data')
+    for x in range(2,6):
+        modelsOld='/models_models/models'+str(x)+'/'
+
+        modelsDir='/models_models/models2'+str(x)+'/'
+        fnames = ls(syncdir+ project +modelsOld)  
+        fnames = sorted(fnames)[-1:][0]
+        shutil.copyfile(syncdir+project+modelsOld+fnames, syncdir+project+modelsDir+fnames)
+
+        train_type2(syncdir+project+modelsDir
+            , syncdir+project+'/models_models'+train
+            , syncdir+project+'/models_models/data')
 
 
 for dataset in datasets:
