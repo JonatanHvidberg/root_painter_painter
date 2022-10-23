@@ -7,9 +7,9 @@ import torch
 
 
 def val_info(dataset_dir,omodel, model_dir):
-    val = '/labels3/val'
-    train = '/labels3/train'
-    test = '/labels3/test'
+    val = '/labels2/val'
+    train = '/labels2/train'
+    test = '/labels2/test'
 
 
     get_val_metrics = partial(mml.get_val_metrics,

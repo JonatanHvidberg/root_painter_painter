@@ -12,7 +12,7 @@ import pandas as pd
 
 def sum_error(o_model_name,n):
 
-    model_dir=syncdir+project+'/models_models/models3'+n
+    model_dir=syncdir+project+'/models_models/models2'+n
     
     path = model_utils.get_latest_model_paths(model_dir, k=1)[0]
     model = mml.load_model(path)
@@ -62,7 +62,7 @@ def sum_error(o_model_name,n):
     dict = {'file_names':file_names,'coreted_sum':coreted_sum,'predicted_sum':predicted_sum,'unsertensy_sum':unsertensy_sum,'unsertensy_cl': unsertensy_cl,'totel_pix':totel_pix}
 
     df = pd.DataFrame(dict)
-    df.to_csv(syncdir+project+'/models_models/after3'+ n +'.csv')
+    df.to_csv(syncdir+project+'/models_models/after2'+ n +'.csv')
     print('don')
 
 global in_w
