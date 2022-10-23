@@ -113,7 +113,6 @@ datasets = '/datasets/towers_750_training'
 for x in range(1,6):
     sum_error(om,str(x))
 
-datasets = '/datasets/towers_750_training'
 om='000032_1578167455.pkl'
 project = '/projects/towers_b_corrective'
 for x in range(1,6):
