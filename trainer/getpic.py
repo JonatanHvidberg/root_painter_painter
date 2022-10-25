@@ -46,16 +46,6 @@ def both(fname,n,om):
        
 syncdir='drive_rp_sync/projects/'
 
-max_pix('biopores_a_corrective','25')
-
-max_pix('biopores_b_corrective','23')
-max_pix('nodules_a_corrective','25')
-max_pix('nodules_b_corrective','25')
-max_pix('towers_a_corrective','21')
-max_pix('towers_b_corrective','22')
-max_pix('rg_2017_ags','24')
-
-
 n='5'
 om='000032_1578339309.pkl'
 project='biopores_a_corrective'
