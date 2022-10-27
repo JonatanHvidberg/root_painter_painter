@@ -28,7 +28,6 @@ def result(fname,n):
 
     image = imread(syncdir+project+'/models_models/data/'+fname)
     seg = mml.simbel_segment(model,image)
-    print('result', np.sum(seg))
     gradian = coler_gradian(seg)
     imsave(syncdir+project+'/models_models/'+ fname, gradian)
 
@@ -38,7 +37,8 @@ def result_unsertensu(fname,om):
 
     image = im_utils.load_image(syncdir+project+'/models_models/data/'+fname)
     seg = mml.simbel_segment_unsertensu(model,image)
-    print('unsertensu', np.sum(seg))
+    print('unsertensu', np.max(seg))
+    print('unsertensu', seg)
     gradian = coler_gradian(seg)
     imsave(syncdir+project+'/models_models/u_'+ fname, gradian)
 
