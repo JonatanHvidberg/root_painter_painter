@@ -13,7 +13,7 @@ def coler_gradian(segmented):
 
     for x in range(segmented.shape[0]):
         for y in range(segmented.shape[1]):
-            seg_alpha[x][y] = [0, segmented[x][y], 1-segmented[x][y], 0.5]
+            seg_alpha[x][y] = [0, 0.5, 0.5, segmented[x][y]]
 
             
     seg_alpha = (seg_alpha * 255).astype(np.uint8)
