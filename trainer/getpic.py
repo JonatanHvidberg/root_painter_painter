@@ -36,8 +36,8 @@ def result_unsertensu(fname,om):
 
 
     image = im_utils.load_image(syncdir+project+'/models_models/data/'+fname)
-    seg = mml.simbel_segment_unsertensu(model,image)
-    #print('unsertensu', np.max(seg))
+    seg = (mml.simbel_segment_unsertensu(model,image))*2
+    print('unsertensu', np.max(seg))
     #print('unsertensu', seg)
     gradian = coler_gradian(seg)
     imsave(syncdir+project+'/models_models/u_'+ fname, gradian)
@@ -47,6 +47,14 @@ def both(fname,n,om):
     result_unsertensu(fname,om)
        
 syncdir='drive_rp_sync/projects/'
+
+n='5'
+om='000023_1581690809.pkl'#last model
+project='nodules_b_corrective'
+both('075_000.png',n,om)
+both('074_001.png',n,om)
+
+'''
 n='5'
 om='000032_1578339309.pkl'
 project='biopores_a_corrective'
@@ -54,7 +62,7 @@ project='biopores_a_corrective'
 #both('B100-1_002.png',n,om)
 both('B1-1_000.png',n,om)
 
-'''
+
 
 n='3'
 om='000022_1578319359.pkl'
@@ -74,12 +82,14 @@ project='nodules_b_corrective'
 both('075_000.png',n,om)
 both('074_001.png',n,om)
 '''
+'''
 n='1'
 om='000046_1578155544.pkl'
 project='towers_a_corrective'
 #both('16_07_04_10E5b_P7041084_000.png',n,om)
 #both('16_07_04_10E5b_P7041084_000.png',n,om)
 both('16_07_18_12E2d_P7181771_000.png',n,om)
+'''
 
 '''
 n='2'
