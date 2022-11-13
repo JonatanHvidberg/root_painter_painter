@@ -36,7 +36,7 @@ def result_unsertensu(fname,om):
 
 
     image = im_utils.load_image(syncdir+project+'/models_models/data/'+fname)
-    seg = (mml.simbel_segment_unsertensu(model,image))*2
+    seg = (mml.simbel_segment_unsertensu(model,image))*3
     print('unsertensu', np.max(seg))
     #print('unsertensu', seg)
     gradian = coler_gradian(seg)
