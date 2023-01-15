@@ -1,69 +1,50 @@
 ## RootPainter
 
-Described in the paper "RootPainter: Deep Learning Segmentation of Biological Images with Corrective Annotation"
+Described in the paper "RootPainter: Deep Learning Segmentation of Biological Images with Corrective Annotation" (RootPainterPaper)
 
-https://www.biorxiv.org/content/10.1101/2020.04.16.044461v2
-
-RootPainter is a GUI-based software tool for the rapid training of deep neural networks for use in biological image analysis. 
-RootPainter uses a client-server architecture, allowing users with a typical laptop to utilise a GPU on a more computationally powerful server.   
-
-### Getting started quickly
-
- I suggest the [colab tutorial](https://colab.research.google.com/drive/104narYAvTBt-X4QEDrBSOZm_DRaAKHtA?usp=sharing).
-
-### Downloads
-
-See [releases](https://github.com/Abe404/root_painter/releases) 
-
-If you are not confident with the linux administration then to get started quickly I suggest the [colab tutorial](https://colab.research.google.com/drive/104narYAvTBt-X4QEDrBSOZm_DRaAKHtA?usp=sharing).
-
-#### Server setup 
-
-The following instructions are for a local server. If you do not have linux running a suitable NVIDIA GPU with at least 8GB of GPU memory then my current recommendation is to run via Google colab. A publicly available notebook is available at [Google Drive with Google Colab](https://colab.research.google.com/drive/104narYAvTBt-X4QEDrBSOZm_DRaAKHtA?usp=sharing).
-
-Other options to run the server component of RootPainter on a remote machine include the [the sshfs server setup tutorial](https://github.com/Abe404/root_painter/blob/master/docs/server_setup_sshfs.md). You can also use Dropbox instead of sshfs.
+For original sorse:
+https://github.com/Abe404/root_painter
 
 
-For the next steps I assume you have a suitable GPU and CUDA installed.
+# Evaluation of CNN Using CNN
 
-1. Clone the RootPainter code from the repository and then cd into the trainer directory (the server component).
-```
-git clone https://github.com/Abe404/root_painter.git
-cd root_painter/trainer
-```
+## Abstract from report
 
-2. To avoid alterating global packages. I suggest using a virtual environment. Create a virtual environment 
-```
-python -m venv env
-```
+In image analysis with pixel-wise segmentation U-Net is often used. Here the corrective annotation strategy can be used.
+Corrective Annotation Strategy and Active Learning both use human-in-the-loop. Therefore it will make sense to use them together. We have made a correction-model which evaluates how good a segmentation from a segmentation-model is, by guessing how many pixels are being corrected. This is done by using U-Net with the image and segmentation as input.
 
-And then activate it.
+However, this gives slightly ambiguous results, as it does not give much better statistical results than using the uncertainty as an indicator for how much is corrected.
 
-On linux:
-```
-source ./env/bin/activate
-```
+The correction model finds large areas which it believes should be corrected. This would probably make it easier for an expert to correct. It therefore does not give a clear answer to how good the method could be to use for active learning.
 
-On windows:
-```
-env\Scripts\activate.bat
-```
 
-3. Install PyTorch using pip by following the instructions at the [pytorch website](https://pytorch.org/get-started/locally/)
+## The idea
 
-4. Install the other dependencies in the virtual environment
-```
-pip install -r requirements.txt
-```
+Corrective Annotation Strategy Described in RootPainterPaper there is an expert there Corrective a model
+Using the output of the model and the picture, can a nother model (correction-model) be trained to predict what the expert would correct?
 
-5. Run root painter. This will first create the sync directory.
-```
-python main.py
-```
-You will be prompted to input a location for the sync directory. This is the folder where files are shared between the client and server. I will use ~/root_painter_sync.
-RootPainter will then create some folders inside ~/root_painter_sync.
-The server should print the automatically selected batch size, which should be greater than 0. It will then start watching for instructions from the client.
+## The code
 
-You should now be able to see the folders created by RootPainter (datasets, instructions and projects) inside ~/Desktop/root_painter_sync on your local machine 
-See [lung tutorial](docs/cxr_lung_tutorial.md) for an example of how to use RootPainter to train a model.
+There's no need to reinvent the wheel. So there is just made some changes RootPainterPaper U-net so it takes 4 channels instead of 3.
+where the 4. channel is the output from the first model.
+
+## Some of the data
+
+The model is in is in this case predicting biopors
+
+Turquoise: model prediction
+Green: expert correct to background
+Reb: expert correct to foreground
+
+![MarineGEO circle logo](/MarkdownIMG/B13-1_003_sa.jpg "expert and model")
+
+By taking the entropy of the softmax of the model can be used as uncertainty
+
+This goes from a scale blue is 100% certan to green is 0% certan
+
+![MarineGEO circle logo](/MarkdownIMG/B13-1_003_u.jpg "uncertainty")
+
+softmax of the correction-model is the percent prediction that the expert correct it
+
+![MarineGEO circle logo](/MarkdownIMG/B13-1_003_p.jpg "softmax of the correction-model")
 
